@@ -20,9 +20,6 @@ const {
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-//TODO: Deploy to Firebase Hosting by running 'firebase login' and 'firebase init' commands
-// Associate app with Firebase project: "firebase user --add"
-//Specify site in firebase.json: { "hosting": { "site": "sybersbooks" } }
 //Deploy "firebase deploy --only hosting:sybersbooks"
 //To run app locally via firebase CLI: "firebase emulators:start --only hosting"
 
