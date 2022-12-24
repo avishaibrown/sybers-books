@@ -124,3 +124,5 @@ export const CONTACT = {
 };
 
 export const COPYRIGHT = "Copyright © AB Development";
+
+export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book title";

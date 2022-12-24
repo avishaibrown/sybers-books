@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from "react";
+import { Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./containers/Home";
 import About from "./containers/About";
@@ -10,8 +10,6 @@ import { CssBaseline, Container, LinearProgress } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { MENU_ITEMS, NAME, COPYRIGHT } from "./utils/constants";
 import playfairDisplay from "typeface-playfair-display";
-import { db } from "./firebase-config";
-import { collection, getDocs } from "firebase/firestore";
 
 const theme = createTheme({
   palette: {
@@ -32,21 +30,6 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const [books, setBooks] = useState([]);
-  const booksCollectionRef = collection(db, "Books");
-
-  useEffect(() => {
-    console.log("USE EFFECT FIRED");
-    const getBooks = async () => {
-      const data = await getDocs(booksCollectionRef);
-      setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getBooks();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  console.log('books', books);
-
   let routes = (
     <Routes>
       <Route path={MENU_ITEMS[0].link} exact element={<Home />} />
