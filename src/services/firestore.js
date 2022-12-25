@@ -1,14 +1,9 @@
 import { db } from "../firebase-config";
-import { collection, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const booksCollectionRef = collection(db, "Books");
 
-const findByTitle = async (term) => {
-  return query(booksCollectionRef, where("title1", "==", term));
+export const findByCategory = async (term) => {
+  const q = query(booksCollectionRef, where("category", "==", term));
+  return await getDocs(q);
 };
-
-const FirestoreService = {
-  findByTitle,
-};
-
-export default FirestoreService;

@@ -15,6 +15,8 @@ import { searchBooks } from "../slices/books";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  //TODO: replace mock search results with actual search results
+
   const books = useSelector((state) => state.books.books);
   const loading = useSelector((state) => state.books.loading);
 
@@ -29,8 +31,6 @@ const Search = () => {
     searchTerm && searchBooksHandler(searchTerm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
-
-  console.log("books", books);
 
   return (
     <Container sx={{ p: 2 }}>

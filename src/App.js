@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Home from "./containers/Home";
 import About from "./containers/About";
 import Search from "./containers/Search";
@@ -8,7 +8,12 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CssBaseline, Container, LinearProgress } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { MENU_ITEMS, NAME, COPYRIGHT } from "./utils/constants";
+import {
+  MENU_ITEMS,
+  NAME,
+  COPYRIGHT,
+  APP_TITLE_IMAGE_FILE_NAME,
+} from "./utils/constants";
 import playfairDisplay from "typeface-playfair-display";
 
 const theme = createTheme({
@@ -40,12 +45,23 @@ const App = () => {
     </Routes>
   );
 
+  const navigate = useNavigate();
+
+  const onTitleClickHandler = () => {
+    navigate("/");
+  };
+
   return (
     <Suspense fallback={<LinearProgress color="secondary" />}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="lg">
-          <Header title={NAME} image="app-title.png" menuItems={MENU_ITEMS} />
+          <Header
+            title={NAME}
+            image={APP_TITLE_IMAGE_FILE_NAME}
+            menuItems={MENU_ITEMS}
+            onTitleClick={onTitleClickHandler}
+          />
           {routes}
           <Footer copyright={COPYRIGHT} />
         </Container>

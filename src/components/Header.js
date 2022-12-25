@@ -4,7 +4,7 @@ import { Container, Toolbar, Box, Stack, Divider, Link } from "@mui/material";
 import { mobileDetected } from "../utils/util";
 
 const Header = (props) => {
-  const { title, image, menuItems } = props;
+  const { title, image, menuItems, onTitleClick } = props;
 
   const menuToDisplay = mobileDetected() ? (
     <CollapsedMenu menuItems={menuItems} />
@@ -40,6 +40,7 @@ const Header = (props) => {
           }}
           alt={title}
           src={image}
+          onClick={onTitleClick}
         />
         {menuToDisplay}
       </Toolbar>

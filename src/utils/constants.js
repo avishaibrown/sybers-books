@@ -125,4 +125,6 @@ export const CONTACT = {
 
 export const COPYRIGHT = "Copyright © AB Development";
 
-export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book title";
+export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book category";
+
+export const APP_TITLE_IMAGE_FILE_NAME = "app-title.png";

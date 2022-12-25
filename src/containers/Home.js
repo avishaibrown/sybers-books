@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const onMainActionClick = () => {
-    navigate("/contact");
+    navigate("/search");
   };
 
   return (
