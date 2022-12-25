@@ -24,6 +24,8 @@ export const ABOUT = {
   image: "about-photo.png",
 };
 
+export const SEARCH_RESULTS_TITLE = "Search Results";
+
 export const MOCK_SEARCH_RESULTS = {
   title: "Search Results",
   books: [

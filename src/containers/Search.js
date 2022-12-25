@@ -7,7 +7,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import { MOCK_SEARCH_RESULTS } from "../utils/constants";
+import { SEARCH_RESULTS_TITLE } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { searchBooks } from "../slices/books";
@@ -15,7 +15,7 @@ import { searchBooks } from "../slices/books";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  //TODO: replace mock search results with actual search results
+  //TODO: enhance search to include filter options + search by title, author etc.
 
   const books = useSelector((state) => state.books.books);
   const loading = useSelector((state) => state.books.loading);
@@ -41,14 +41,18 @@ const Search = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <SearchBar onSearch={(value) => setSearchTerm(value)} id={"search-bar"} />
-      <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
-        {MOCK_SEARCH_RESULTS.title}
-      </Typography>
-      <Grid container spacing={4}>
-        {MOCK_SEARCH_RESULTS.books.map((book) => (
-          <FeaturedBook key={book.title} book={book} />
-        ))}
-      </Grid>
+      {books.length > 0 && (
+        <>
+          <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
+            {SEARCH_RESULTS_TITLE}
+          </Typography>
+          <Grid container spacing={4}>
+            {books.map((book) => (
+              <FeaturedBook key={book.Serial} book={book} />
+            ))}
+          </Grid>
+        </>
+      )}
     </Container>
   );
 };
