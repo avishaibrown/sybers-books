@@ -1,18 +1,22 @@
 import { Suspense } from "react";
 import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import Home from "./containers/Home";
-import About from "./containers/About";
-import Search from "./containers/Search";
-import Contact from "./containers/Contact";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Search from "./pages/Search";
+import Contact from "./pages/Contact";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
+import Cart from "./pages/Cart";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CssBaseline, Container, LinearProgress } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   MENU_ITEMS,
-  NAME,
+  APP_TITLE,
   COPYRIGHT,
   APP_TITLE_IMAGE_FILE_NAME,
+  PAYMENT_ROUTES,
 } from "./utils/constants";
 import playfairDisplay from "typeface-playfair-display";
 
@@ -41,6 +45,9 @@ const App = () => {
       <Route path={MENU_ITEMS[1].link} element={<About />} />
       <Route path={MENU_ITEMS[2].link} element={<Search />} />
       <Route path={MENU_ITEMS[3].link} element={<Contact />} />
+      <Route path={MENU_ITEMS[4].link} element={<Cart />} />
+      <Route path={PAYMENT_ROUTES[0].link} element={<Success />} />
+      <Route path={PAYMENT_ROUTES[1].link} element={<Cancel />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
@@ -57,7 +64,7 @@ const App = () => {
         <CssBaseline />
         <Container maxWidth="lg">
           <Header
-            title={NAME}
+            title={APP_TITLE}
             image={APP_TITLE_IMAGE_FILE_NAME}
             menuItems={MENU_ITEMS}
             onTitleClick={onTitleClickHandler}

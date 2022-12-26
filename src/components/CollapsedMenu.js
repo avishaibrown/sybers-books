@@ -1,4 +1,5 @@
 import { useState } from "react";
+import StyledBadge from "./StyledBadge";
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
@@ -32,7 +33,9 @@ const CollapsedMenu = (props) => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <MenuRoundedIcon fontSize="large" />
+          <StyledBadge badgeContent={2} color="secondary" tight={true}>
+            <MenuRoundedIcon fontSize="large" />
+          </StyledBadge>
         </IconButton>
       </Box>
       <Menu
@@ -64,14 +67,25 @@ const CollapsedMenu = (props) => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        {menuItems.map((item) => (
-          <MenuItem
-            key={item.title}
-            onClick={() => handleMenuItemClick(item.link)}
-          >
-            {item.title}
-          </MenuItem>
-        ))}
+        {menuItems.map((item) =>
+          item.title === "Cart" ? (
+            <MenuItem
+              key={item.title}
+              onClick={() => handleMenuItemClick(item.link)}
+            >
+              <StyledBadge badgeContent={2} color="secondary" tight={false}>
+                {item.title}
+              </StyledBadge>
+            </MenuItem>
+          ) : (
+            <MenuItem
+              key={item.title}
+              onClick={() => handleMenuItemClick(item.link)}
+            >
+              {item.title}
+            </MenuItem>
+          )
+        )}
       </Menu>
     </>
   );

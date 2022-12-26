@@ -16,6 +16,7 @@ const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   //TODO: enhance search to include filter options + search by title, author etc.
+  //NOTE: Only returning books that have a title, author and price
 
   const books = useSelector((state) => state.books.books);
   const loading = useSelector((state) => state.books.loading);
@@ -47,9 +48,12 @@ const Search = () => {
             {SEARCH_RESULTS_TITLE}
           </Typography>
           <Grid container spacing={4}>
-            {books.map((book) => (
-              <FeaturedBook key={book.Serial} book={book} />
-            ))}
+            {books.map(
+              (book) =>
+                book.title1 &&
+                book.authorSn &&
+                book.price1 && <FeaturedBook key={book.Serial} book={book} />
+            )}
           </Grid>
         </>
       )}

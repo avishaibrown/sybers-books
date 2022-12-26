@@ -1,31 +1,54 @@
 import * as React from "react";
 import CollapsedMenu from "./CollapsedMenu";
-import { Container, Toolbar, Box, Stack, Divider, Link } from "@mui/material";
+import StyledBadge from "./StyledBadge";
+import {
+  Container,
+  Toolbar,
+  Box,
+  Stack,
+  Divider,
+  Link,
+  IconButton,
+} from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { mobileDetected } from "../utils/util";
 
 const Header = (props) => {
   const { title, image, menuItems, onTitleClick } = props;
 
+  //TODO: Check mobileDetected() on each screen port size change
   const menuToDisplay = mobileDetected() ? (
     <CollapsedMenu menuItems={menuItems} />
   ) : (
     <Stack
       direction="row"
       spacing={{ xs: 1, sm: 2, md: 4 }}
-      justifyContent="flex-end"
       ml="auto"
       divider={<Divider orientation="vertical" flexItem />}
     >
-      {menuItems.map((item) => (
-        <Link
-          key={item.title}
-          href={item.link}
-          underline="hover"
-          color="inherit"
-        >
-          {item.title}
-        </Link>
-      ))}
+      {menuItems.map((item) =>
+        item.title === "Cart" ? (
+          <IconButton
+            key={item.title}
+            href={item.link}
+            aria-label="shopping cart"
+          >
+            <StyledBadge badgeContent={2} color="secondary" tight={true}>
+              <ShoppingCartIcon />
+            </StyledBadge>
+          </IconButton>
+        ) : (
+          <Link
+            key={item.title}
+            href={item.link}
+            underline="hover"
+            color="inherit"
+            p={1}
+          >
+            {item.title}
+          </Link>
+        )
+      )}
     </Stack>
   );
 

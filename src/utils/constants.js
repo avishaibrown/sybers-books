@@ -1,18 +1,24 @@
-export const NAME = "Syber's Books";
-
-export const BANNER_TITLES = ["Rare.", "Out of Print.", "Niche."];
-
-export const BANNER_DESCRIPTION = "Melbourne's #1 Bookstore";
-
-export const MAIN_ACTION_BUTTON = "Start Browsing";
-
+//HEADER
+export const APP_TITLE = "Syber's Books";
+export const APP_TITLE_IMAGE_FILE_NAME = "app-title.png";
 export const MENU_ITEMS = [
   { title: "Home", link: "/" },
   { title: "About", link: "/about" },
   { title: "Search", link: "/search" },
   { title: "Contact", link: "/contact" },
+  { title: "Cart", link: "/cart" },
+];
+export const PAYMENT_ROUTES = [
+  { title: "Success", link: "/success" },
+  { title: "Cancel", link: "/cancel" },
 ];
 
+//HOME PAGE
+export const BANNER_TITLES = ["Rare.", "Out of Print.", "Niche."];
+export const BANNER_DESCRIPTION = "Melbourne's #1 Second-Hand Bookstore";
+export const MAIN_ACTION_BUTTON = "Start Browsing";
+
+//ABOUT PAGE
 export const ABOUT = {
   title: "About",
   description:
@@ -24,32 +30,11 @@ export const ABOUT = {
   image: "about-photo.png",
 };
 
+//SEARCH PAGE
+export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book category";
 export const SEARCH_RESULTS_TITLE = "Search Results";
 
-export const MOCK_SEARCH_RESULTS = {
-  title: "Search Results",
-  books: [
-    {
-      title: "The Brothers Karamazov",
-      author: "Fyodor Dostoevsky",
-      description: "Lorem ipsum blah blah",
-      image: "https://source.unsplash.com/random",
-    },
-    {
-      title: "The Prophet",
-      author: "Kahlil Gibran",
-      description: "Lorem ipsum blah blah",
-      image: "https://source.unsplash.com/random",
-    },
-    {
-      title: "The Stranger",
-      author: "Albert Camus",
-      description: "Lorem ipsum blah blah",
-      image: "https://source.unsplash.com/random",
-    },
-  ],
-};
-
+//CONTACT PAGE
 export const CONTACT = {
   title: "Contact",
   fields: [
@@ -125,8 +110,5 @@ export const CONTACT = {
   submitButton: "Send",
 };
 
+//FOOTER
 export const COPYRIGHT = "Copyright © AB Development";
-
-export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book category";
-
-export const APP_TITLE_IMAGE_FILE_NAME = "app-title.png";

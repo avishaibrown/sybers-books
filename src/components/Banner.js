@@ -56,6 +56,7 @@ const Banner = (props) => {
             <Button
               variant="contained"
               onClick={onButtonClick}
+              color="secondary"
               sx={{ textTransform: "none" }}
             >
               {buttonText}
