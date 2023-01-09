@@ -112,3 +112,7 @@ export const CONTACT = {
 
 //FOOTER
 export const COPYRIGHT = "Copyright © AB Development";
+
+//STRIPE LIVE KEY
+export const STRIPE_KEY =
+  "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";

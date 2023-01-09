@@ -4,7 +4,7 @@ import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 
 const CollapsedMenu = (props) => {
-  const { menuItems } = props;
+  const { menuItems, cartItems } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -33,7 +33,7 @@ const CollapsedMenu = (props) => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <StyledBadge badgeContent={2} color="secondary" tight={true}>
+          <StyledBadge badgeContent={cartItems} color="secondary" tight={true}>
             <MenuRoundedIcon fontSize="large" />
           </StyledBadge>
         </IconButton>

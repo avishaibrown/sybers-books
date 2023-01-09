@@ -7,6 +7,8 @@ const initialState = {
   books: [],
 };
 
+//TODO: Add Cart Context + UI
+
 export const searchBooks = createAsyncThunk(
   "books/searchBooks",
   async (term, { getState }) => {

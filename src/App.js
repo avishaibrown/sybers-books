@@ -58,6 +58,8 @@ const App = () => {
     navigate("/");
   };
 
+  const cartItems = 2;
+
   return (
     <Suspense fallback={<LinearProgress color="secondary" />}>
       <ThemeProvider theme={theme}>
@@ -68,6 +70,7 @@ const App = () => {
             image={APP_TITLE_IMAGE_FILE_NAME}
             menuItems={MENU_ITEMS}
             onTitleClick={onTitleClickHandler}
+            cartItems={cartItems}
           />
           {routes}
           <Footer copyright={COPYRIGHT} />

@@ -14,11 +14,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { mobileDetected } from "../utils/util";
 
 const Header = (props) => {
-  const { title, image, menuItems, onTitleClick } = props;
+  const { title, image, menuItems, onTitleClick, cartItems } = props;
 
   //TODO: Check mobileDetected() on each screen port size change
   const menuToDisplay = mobileDetected() ? (
-    <CollapsedMenu menuItems={menuItems} />
+    <CollapsedMenu menuItems={menuItems} cartItems={cartItems} />
   ) : (
     <Stack
       direction="row"
@@ -33,7 +33,11 @@ const Header = (props) => {
             href={item.link}
             aria-label="shopping cart"
           >
-            <StyledBadge badgeContent={2} color="secondary" tight={true}>
+            <StyledBadge
+              badgeContent={cartItems}
+              color="secondary"
+              tight={true}
+            >
               <ShoppingCartIcon />
             </StyledBadge>
           </IconButton>
