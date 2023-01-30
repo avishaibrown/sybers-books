@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Paper, Box, Grid, Typography, Button } from "@mui/material";
+import { Paper, Box, Grid, Button } from "@mui/material";
+import Typography from "./Typography";
 
 const Banner = (props) => {
   const { title, description, image, buttonText, onButtonClick } = props;

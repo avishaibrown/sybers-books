@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
+import Typography from "../components/Typography";
 import { ABOUT } from "../utils/constants";
 import { Box } from "@mui/system";
 

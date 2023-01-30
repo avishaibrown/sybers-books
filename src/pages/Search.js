@@ -1,12 +1,7 @@
 import { useState } from "react";
 import FeaturedBook from "../components/FeaturedBook";
-import {
-  Container,
-  Typography,
-  Grid,
-  Backdrop,
-  CircularProgress,
-} from "@mui/material";
+import { Container, Grid, Backdrop, CircularProgress } from "@mui/material";
+import Typography from "../components/Typography";
 import { SEARCH_RESULTS_TITLE } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Container, Typography, Grid, TextField, Button } from "@mui/material";
+import { Container, Grid, TextField, Button } from "@mui/material";
+import Typography from "../components/Typography";
 import { CONTACT } from "../utils/constants";
 import EmailIcon from "@mui/icons-material/Email";
 

@@ -16,9 +16,14 @@ export const PAYMENT_ROUTES = [
 ];
 
 //HOME PAGE
-export const BANNER_TITLES = ["Rare.", "Out of Print.", "Niche."];
-export const BANNER_DESCRIPTION = "Melbourne's #1 Second-Hand Bookstore";
-export const MAIN_ACTION_BUTTON = "Start Browsing";
+export const HOME = {
+  hero: {
+    titles: ["Rare.", "Out of Print.", "Niche."],
+    description: "Melbourne's #1 Second-Hand Bookstore",
+    image: "./images/home-photo.jpg",
+    button: "Start Browsing",
+  },
+};
 
 //ABOUT PAGE
 export const ABOUT = {

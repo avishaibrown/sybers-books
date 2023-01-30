@@ -1,28 +1,19 @@
-import * as React from "react";
+import Hero from "../components/Hero";
+import { HOME } from "../utils/constants";
 import { Container } from "@mui/material";
-import Banner from "../components/Banner";
-import {
-  BANNER_DESCRIPTION,
-  BANNER_TITLES,
-  MAIN_ACTION_BUTTON,
-} from "../utils/constants";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const onMainActionClick = () => {
-    navigate("/search");
-  };
-
   return (
-    <Container>
-      <Banner
-        title={BANNER_TITLES}
-        description={BANNER_DESCRIPTION}
-        image="./images/home-photo.jpg"
-        buttonText={MAIN_ACTION_BUTTON}
-        onButtonClick={onMainActionClick}
+    <Container component="section" disableGutters maxWidth={false}>
+      <Hero
+        title={HOME.hero.titles}
+        description={HOME.hero.description}
+        image={HOME.hero.image}
+        onButtonClick={() => navigate("/search")}
+        buttonText={HOME.hero.button}
       />
     </Container>
   );

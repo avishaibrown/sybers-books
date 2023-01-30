@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Typography,
   Grid,
   Card,
   CardActionArea,
@@ -8,6 +7,7 @@ import {
   CardMedia,
   IconButton,
 } from "@mui/material";
+import Typography from "./Typography";
 import { truncateString } from "../utils/util";
 import CurrencyFormat from "react-currency-format";
 import { ShoppingCart } from "@mui/icons-material";
