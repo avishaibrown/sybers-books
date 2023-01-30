@@ -1,12 +1,14 @@
+import { Home, Face3, Email, Search, ShoppingCart } from "@mui/icons-material";
+
 //HEADER
 export const APP_TITLE = "Syber's Books";
-export const APP_TITLE_IMAGE_FILE_NAME = "app-title.png";
+export const APP_TITLE_IMAGE_FILE_NAME = "./images/app-title.png";
 export const MENU_ITEMS = [
-  { title: "Home", link: "/" },
-  { title: "About", link: "/about" },
-  { title: "Search", link: "/search" },
-  { title: "Contact", link: "/contact" },
-  { title: "Cart", link: "/cart" },
+  { title: "Home", link: "/", icon: <Home /> },
+  { title: "About", link: "/about", icon: <Face3 /> },
+  { title: "Search", link: "/search", icon: <Search /> },
+  { title: "Contact", link: "/contact", icon: <Email /> },
+  { title: "Cart", link: "/cart", icon: <ShoppingCart /> },
 ];
 export const PAYMENT_ROUTES = [
   { title: "Success", link: "/success" },
@@ -27,7 +29,7 @@ export const ABOUT = {
     "completed her nursing training in Queensland, and had come to the big smoke of Melbourne...",
   terms:
     "All transactions in Australian dollars (AUD). We accept Mastercard, Visa, Diners, Amex, and PayPal.",
-  image: "about-photo.png",
+  image: "./images/about-photo.png",
 };
 
 //SEARCH PAGE
@@ -111,6 +113,7 @@ export const CONTACT = {
 };
 
 //CART
+export const CART = "Cart";
 export const TRANSACTION_CANCELLED = "TRANSACTION CANCELLED";
 
 //GOOGLE PAY
@@ -134,5 +137,8 @@ export const SHIPPING_OPTIONS = [
   },
 ];
 
-//FOOTER
-export const COPYRIGHT = "Copyright © AB Development";
+export const FOOTER = {
+  imageAlt: "Syber's Books",
+  image: "./images/app-title.png",
+  copyright: "Copyright © AB Development",
+};

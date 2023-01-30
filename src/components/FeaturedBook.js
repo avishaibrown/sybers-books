@@ -48,7 +48,7 @@ const FeaturedBook = (props) => {
           <CardMedia
             component="img"
             sx={{ width: 160, display: { xs: "none", sm: "block" } }}
-            image={book?.url === "" ? "./no-image-found.jpg" : book.url}
+            image={book?.url === "" ? "./images/no-image-found.jpg" : book.url}
             alt={book.title1}
           />
         </Card>
