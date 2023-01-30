@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState } from "react";
 import FeaturedBook from "../components/FeaturedBook";
 import {
   Container,
@@ -10,28 +10,29 @@ import {
 import { SEARCH_RESULTS_TITLE } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
-import { searchBooks } from "../slices/books";
+import { searchResults } from "../slices/searchResults";
+import { addToCart } from "../slices/cart";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  //TODO: enhance search to include filter options + search by title, author etc.
   //NOTE: Only returning books that have a title, author and price
 
-  const books = useSelector((state) => state.books.books);
-  const loading = useSelector((state) => state.books.loading);
+  const results = useSelector((state) => state.searchResults.searchResults);
+  const loading = useSelector((state) => state.searchResults.loading);
+  const error = useSelector((state) => state.searchResults.error);
+  const cart = useSelector((state) => state.cart.cart);
 
   const dispatch = useDispatch();
 
-  const searchBooksHandler = useCallback(
-    (term) => dispatch(searchBooks(term)),
-    [dispatch]
-  );
+  const searchResultsHandler = (term) => {
+    setSearchTerm(term);
+    dispatch(searchResults(term));
+  };
 
-  useEffect(() => {
-    searchTerm && searchBooksHandler(searchTerm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]);
+  const addToCartHandler = (book) => {
+    dispatch(addToCart(book));
+  };
 
   return (
     <Container sx={{ p: 2 }}>
@@ -41,21 +42,37 @@ const Search = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <SearchBar onSearch={(value) => setSearchTerm(value)} id={"search-bar"} />
-      {books.length > 0 && (
+      <SearchBar
+        onSearch={(value) => searchResultsHandler(value)}
+        id={"search-bar"}
+      />
+      {results.length > 0 && (
         <>
           <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
             {SEARCH_RESULTS_TITLE}
           </Typography>
           <Grid container spacing={4}>
-            {books.map(
+            {results.map(
               (book) =>
                 book.title1 &&
                 book.authorSn &&
-                book.price1 && <FeaturedBook key={book.Serial} book={book} />
+                book.price1 &&
+                book.Serial && (
+                  <FeaturedBook
+                    key={book.Serial}
+                    book={book}
+                    onClickHandler={addToCartHandler}
+                    showCart={cart.every((obj) => obj.Serial !== book.Serial)}
+                  />
+                )
             )}
           </Grid>
         </>
+      )}
+      {error && (
+        <Container>
+          <Typography>ERROR</Typography>
+        </Container>
       )}
     </Container>
   );
