@@ -9,15 +9,16 @@ import {
   Divider,
   Link,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { mobileDetected } from "../utils/util";
 
 const Header = (props) => {
   const { title, image, menuItems, onTitleClick, cartItems } = props;
 
-  //TODO: Check mobileDetected() on each screen port size change
-  const menuToDisplay = mobileDetected() ? (
+  const menuToDisplay = useMediaQuery((theme) =>
+    theme.breakpoints.down("sm")
+  ) ? (
     <CollapsedMenu menuItems={menuItems} cartItems={cartItems} />
   ) : (
     <Stack

@@ -1,7 +1,3 @@
-export const mobileDetected = () => {
-  return window.innerWidth <= 800;
-};
-
 export const truncateString = (str, n, useWordBoundary) => {
   if (str.length <= n) {
     return str;

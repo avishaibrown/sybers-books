@@ -110,9 +110,29 @@ export const CONTACT = {
   submitButton: "Send",
 };
 
-//FOOTER
-export const COPYRIGHT = "Copyright © AB Development";
+//CART
+export const TRANSACTION_CANCELLED = "TRANSACTION CANCELLED";
 
-//STRIPE LIVE KEY
+//GOOGLE PAY
 export const STRIPE_KEY =
   "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";
+export const UNSERVICEABLE_SHIPPING_COUNTRIES = [];
+export const SHIPPING_ADDRESS_UNSERVICEABLE_REASON =
+  "We cannot deliver to the shipping address you have provided.";
+export const SHIPPING_OPTIONS = [
+  {
+    id: "free",
+    label: "Free shipping",
+    description: "Free shipping arrives in 5-7 business days",
+    price: "0.00",
+  },
+  {
+    id: "express",
+    label: "Express shipping",
+    description: "Express shipping delivered in 1-3 business days",
+    price: "5.00",
+  },
+];
+
+//FOOTER
+export const COPYRIGHT = "Copyright © AB Development";

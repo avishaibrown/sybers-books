@@ -15,6 +15,10 @@ const SearchBar = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
+  const onClickHandler = () => {
+    searchValue.length >= 3 && onSearch(searchValue);
+  };
+
   return (
     <Paper
       component="form"
@@ -38,7 +42,7 @@ const SearchBar = (props) => {
         <IconButton
           type="button"
           sx={{ p: "10px" }}
-          onClick={() => onSearch(searchValue)}
+          onClick={onClickHandler}
           id={"search-icon"}
         >
           <SearchIcon />

@@ -4,13 +4,11 @@ import { findByCategory } from "../services/firestore";
 const initialState = {
   loading: false,
   error: null,
-  books: [],
+  searchResults: [],
 };
 
-//TODO: Add Cart Context + UI
-
-export const searchBooks = createAsyncThunk(
-  "books/searchBooks",
+export const searchResults = createAsyncThunk(
+  "books/searchResults",
   async (term, { getState }) => {
     try {
       let matchingBooks = [];
@@ -28,24 +26,24 @@ export const searchBooks = createAsyncThunk(
   }
 );
 
-const booksSlice = createSlice({
+const searchResultsSlice = createSlice({
   name: "books",
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(searchBooks.pending, (state, action) => {
+      .addCase(searchResults.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(searchBooks.fulfilled, (state, action) => {
+      .addCase(searchResults.fulfilled, (state, action) => {
         state.loading = false;
-        state.books = [...action.payload];
+        state.searchResults = [...action.payload];
       })
-      .addCase(searchBooks.rejected, (state, action) => {
+      .addCase(searchResults.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-const { reducer } = booksSlice;
+const { reducer } = searchResultsSlice;
 export default reducer;

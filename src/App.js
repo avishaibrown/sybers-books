@@ -19,6 +19,7 @@ import {
   PAYMENT_ROUTES,
 } from "./utils/constants";
 import playfairDisplay from "typeface-playfair-display";
+import { useSelector } from "react-redux";
 
 const theme = createTheme({
   palette: {
@@ -37,6 +38,25 @@ const theme = createTheme({
     },
   },
 });
+
+//TODO: Add Google Pay
+//TODO: Add Cart system and build out cart page
+//TODO: Add SearchBar in NavBar
+//TODO: Add ability to search by Title, Author or ISBN
+//TODO: Make Banner wider and larger
+//TODO: Reduce fields in Contact page
+//TODO: Add pagination to Search Results page
+//TODO: Add Filter system to Search Results
+//TODO: Add modal to search results book tiles to show more detail and add to cart button
+//TODO: Wild idea! Add "album layout" component with random book selections (Lucky dip vibes)
+//TODO: Focus on UX:
+// 1) make home page banner larger and more inviting,
+// 2) contact page wider
+// 3) change background and make text larger depending on screen size
+// 4) Make search results tiles uniform in size
+// 5) Focus on a11y focusing to headings and basic text reading
+
+//TODO: Host website
 
 const App = () => {
   let routes = (
@@ -58,7 +78,7 @@ const App = () => {
     navigate("/");
   };
 
-  const cartItems = 2;
+  const cart = useSelector((state) => state.cart.cart);
 
   return (
     <Suspense fallback={<LinearProgress color="secondary" />}>
@@ -70,7 +90,7 @@ const App = () => {
             image={APP_TITLE_IMAGE_FILE_NAME}
             menuItems={MENU_ITEMS}
             onTitleClick={onTitleClickHandler}
-            cartItems={cartItems}
+            cartItems={cart.length}
           />
           {routes}
           <Footer copyright={COPYRIGHT} />

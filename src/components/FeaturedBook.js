@@ -6,14 +6,17 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  IconButton,
 } from "@mui/material";
 import { truncateString } from "../utils/util";
 import CurrencyFormat from "react-currency-format";
+import { ShoppingCart } from "@mui/icons-material";
 
 const FeaturedBook = (props) => {
-  const { book } = props;
+  const { book, onClickHandler, showCart } = props;
 
   //TODO: Add modal for onClick of card
+  //TODO: Handle no title, author, price, isbn etc.
 
   return (
     <Grid item xs={12} md={6}>
@@ -35,6 +38,12 @@ const FeaturedBook = (props) => {
                 thousandSeparator={true}
               />
             </Typography>
+            <IconButton
+              onClick={() => onClickHandler(book)}
+              disabled={!showCart}
+            >
+              <ShoppingCart />
+            </IconButton>
           </CardContent>
           <CardMedia
             component="img"
