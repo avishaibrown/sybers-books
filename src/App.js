@@ -24,7 +24,7 @@ import libreFranklin from "@fontsource/libre-franklin";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#fffb70",
+      default: "#f3f3f3",
     },
   },
   typography: {
@@ -43,15 +43,11 @@ const theme = createTheme({
 //TODO: Add Cart system and build out cart page
 //TODO: Add SearchBar in NavBar
 //TODO: Add ability to search by Title, Author or ISBN
-//TODO: Make Banner wider and larger
-//TODO: Reduce fields in Contact page
 //TODO: Add pagination to Search Results page
 //TODO: Add Filter system to Search Results
 //TODO: Add modal to search results book tiles to show more detail and add to cart button
 //TODO: Wild idea! Add "album layout" component with random book selections (Lucky dip vibes)
 //TODO: Focus on UX:
-// 1) make home page banner larger and more inviting,
-// 2) contact page wider
 // 3) change background and make text larger depending on screen size
 // 4) Make search results tiles uniform in size
 // 5) Focus on a11y focusing to headings and basic text reading

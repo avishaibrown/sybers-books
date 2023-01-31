@@ -43,7 +43,17 @@ export const SEARCH_RESULTS_TITLE = "Search Results";
 
 //CONTACT PAGE
 export const CONTACT = {
-  title: "Contact",
+  title: "Contact Us",
+  helpText:
+    "If you have any questions, comments or feedback, or you would like some assistance with your order, feel free to contact the store by phone or email (below), or just use the form.",
+  storeContactDetails: [
+    "Penny Merrit",
+    "Syber's Books",
+    "666 Glenhuntly Road",
+    "Caulfield South, VIC 3162",
+    { phone: "0419 330 240" },
+    { email: "sybersbooks@gmail.com" },
+  ],
   fields: [
     {
       id: "name",
@@ -55,48 +65,6 @@ export const CONTACT = {
       id: "email",
       name: "email",
       label: "Email",
-      required: true,
-    },
-    {
-      id: "company",
-      name: "company",
-      label: "Company",
-      required: true,
-    },
-    {
-      id: "address1",
-      name: "address1",
-      label: "Address1",
-      required: true,
-    },
-    {
-      id: "address2",
-      name: "address2",
-      label: "Address2",
-      required: true,
-    },
-    {
-      id: "city",
-      name: "city",
-      label: "City",
-      required: true,
-    },
-    {
-      id: "state",
-      name: "state",
-      label: "State",
-      required: true,
-    },
-    {
-      id: "postcode",
-      name: "postcode",
-      label: "Postcode",
-      required: true,
-    },
-    {
-      id: "country",
-      name: "country",
-      label: "Country",
       required: true,
     },
     {
@@ -115,8 +83,9 @@ export const CONTACT = {
     },
   ],
   submitButton: "Send",
+  enquirySuccessMsg: "Your enquiry has been sent. Thank you!",
   googleMapsCoordinates: { lat: -37.886479, lng: 145.017559 },
-  googleMapsZoom: 15,
+  googleMapsZoom: 16,
   googleMapsMarkerTitle: "Syber's Books",
   googleMapsMarkerDescription: "666 Glenhuntly Rd, Caulfield South, VIC 3162",
 };
