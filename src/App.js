@@ -3,7 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Search from "./pages/Search";
+import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
@@ -62,8 +62,8 @@ const App = () => {
   let routes = (
     <Routes>
       <Route path={MENU_ITEMS[0].link} exact element={<Home />} />
-      <Route path={MENU_ITEMS[1].link} element={<About />} />
-      <Route path={MENU_ITEMS[2].link} element={<Search />} />
+      <Route path={MENU_ITEMS[1].link} element={<Shop />} />
+      <Route path={MENU_ITEMS[2].link} element={<About />} />
       <Route path={MENU_ITEMS[3].link} element={<Contact />} />
       <Route path={MENU_ITEMS[4].link} element={<Cart />} />
       <Route path={PAYMENT_ROUTES[0].link} element={<Success />} />

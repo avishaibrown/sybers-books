@@ -5,8 +5,8 @@ export const APP_TITLE = "Syber's Books";
 export const APP_TITLE_IMAGE_FILE_NAME = "./images/app-title.png";
 export const MENU_ITEMS = [
   { title: "Home", link: "/", icon: <Home /> },
+  { title: "Shop", link: "/shop", icon: <Search /> },
   { title: "About", link: "/about", icon: <Face3 /> },
-  { title: "Search", link: "/search", icon: <Search /> },
   { title: "Contact", link: "/contact", icon: <Email /> },
   { title: "Cart", link: "/cart", icon: <ShoppingCart /> },
 ];
@@ -37,7 +37,7 @@ export const ABOUT = {
   image: "./images/about-photo.png",
 };
 
-//SEARCH PAGE
+//SHOP PAGE
 export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book category";
 export const SEARCH_RESULTS_TITLE = "Search Results";
 
@@ -115,6 +115,10 @@ export const CONTACT = {
     },
   ],
   submitButton: "Send",
+  googleMapsCoordinates: { lat: -37.886479, lng: 145.017559 },
+  googleMapsZoom: 15,
+  googleMapsMarkerTitle: "Syber's Books",
+  googleMapsMarkerDescription: "666 Glenhuntly Rd, Caulfield South, VIC 3162",
 };
 
 //CART

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { searchResults } from "../slices/searchResults";
 import { addToCart } from "../slices/cart";
 
-const Search = () => {
+const Shop = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   //NOTE: Only returning books that have a title, author and price
@@ -73,4 +73,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Shop;
