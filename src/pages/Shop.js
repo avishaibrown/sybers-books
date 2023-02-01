@@ -30,7 +30,16 @@ const Shop = () => {
   };
 
   return (
-    <Container sx={{ p: 2 }}>
+    <Container
+      component="section"
+      sx={{
+        mt: { xs: 20, md: 25 },
+        mb: { md: 10 },
+        alignItems: "center",
+        textAlign: "center",
+      }}
+      maxWidth={false}
+    >
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}

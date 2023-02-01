@@ -28,13 +28,16 @@ export const HOME = {
 //ABOUT PAGE
 export const ABOUT = {
   title: "About",
-  description:
-    "(As all true stories start) Once upon a time there was a bookshop called Pigs' Wings Books " +
-    "run by a young blonde-headed girl called Jean. There was another young girl called Penny who had " +
-    "completed her nursing training in Queensland, and had come to the big smoke of Melbourne...",
-  terms:
-    "All transactions in Australian dollars (AUD). We accept Mastercard, Visa, Diners, Amex, and PayPal.",
+  description: [
+    "(As all true stories start) Once upon a time there was a bookshop called Pigs' Wings Books run by a young blonde-headed girl called Jean.",
+    "There was another young girl called Penny who had completed her nursing training in Queensland, and had come to the big smoke of Melbourne...",
+  ],
+  terms: [
+    "All transactions are in Australian dollars (AUD).",
+    "We accept Mastercard, Visa, Diners, Amex, and PayPal.",
+  ],
   image: "./images/about-photo.png",
+  button: "Shop Now",
 };
 
 //SHOP PAGE
