@@ -13,8 +13,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import MapContainer from "../components/MapContainer";
 import ContactLink from "../components/ContactLink";
 import { updateObject, checkValidity } from "../utils/util";
+// import emailjs from "emailjs-com";
 
-//TODO: Connect form to email service
+//TODO: Connect form to emailjs
 
 const Contact = () => {
   const [isFormValid, setIsFormValid] = useState(false);

@@ -60,18 +60,21 @@ export const CONTACT = {
       name: "name",
       label: "Name",
       required: true,
+      error: "Please enter your name",
     },
     {
       id: "email",
       name: "email",
       label: "Email",
       required: true,
+      error: "Please enter a valid email address",
     },
     {
       id: "phone",
       name: "phone",
       label: "Phone",
       required: true,
+      error: "Please enter a valid phone number",
     },
     {
       id: "message",
@@ -80,6 +83,7 @@ export const CONTACT = {
       multiline: true,
       rows: 4, // only applies if multiline is true
       required: true,
+      error: "Please enter a message (1000 characters or less)",
     },
   ],
   submitButton: "Send",
