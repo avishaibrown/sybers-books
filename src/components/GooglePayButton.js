@@ -1,5 +1,4 @@
 import GooglePayButton from "@google-pay/button-react";
-import { STRIPE_KEY } from "../utils/constants";
 
 const GooglePay = (props) => {
   const {
@@ -33,7 +32,7 @@ const GooglePay = (props) => {
                 // TODO: Switch to Stipe when going live
                 gateway: "stripe",
                 "stripe:version": "2018-10-31",
-                "stripe:publishableKey": STRIPE_KEY,
+                "stripe:publishableKey": process.env.REACT_APP_STRIPE_API_KEY,
               },
             },
           },
