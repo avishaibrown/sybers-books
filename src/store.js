@@ -8,14 +8,14 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/lib/storage/session";
 import SearchResultsReducer from "./slices/searchResults";
 import CartReducer from "./slices/cart";
 
 const persistConfig = {
   key: "root",
-  storage,
-  whitelist: ["cart"],
+  storage: sessionStorage,
+  whitelist: ["searchResults", "cart"],
 };
 
 const reducers = combineReducers({

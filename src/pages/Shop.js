@@ -1,4 +1,3 @@
-import { useState } from "react";
 import FeaturedBook from "../components/FeaturedBook";
 import { Container, Grid, Backdrop, CircularProgress } from "@mui/material";
 import Typography from "../components/Typography";
@@ -6,27 +5,35 @@ import { SEARCH_RESULTS_TITLE } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { searchResults } from "../slices/searchResults";
-import { addToCart } from "../slices/cart";
+import { addToCart, removeFromCart } from "../slices/cart";
 
 const Shop = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   //NOTE: Only returning books that have a title, author and price
+  //NOTE: Search only works for exact matches - can integrate a third-party library
+  //      that can query substrings from Firebase, but might cost
+
+  //TODO: Add filter to search results (Sort price high to low, low to high etc.)
+  //TODO: Add modal to show more detail of book
+  //TODO: Add pagination
 
   const results = useSelector((state) => state.searchResults.searchResults);
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);
   const cart = useSelector((state) => state.cart.cart);
+  const searchTerm = useSelector((state) => state.searchResults.searchTerm);
 
   const dispatch = useDispatch();
 
   const searchResultsHandler = (term) => {
-    setSearchTerm(term);
     dispatch(searchResults(term));
   };
 
-  const addToCartHandler = (book) => {
-    dispatch(addToCart(book));
+  const onClickHandler = (book, action) => {
+    if (action === "add") {
+      dispatch(addToCart(book));
+    } else if (action === "remove") {
+      dispatch(removeFromCart(book));
+    }
   };
 
   return (
@@ -34,9 +41,8 @@ const Shop = () => {
       component="section"
       sx={{
         mt: { xs: 20, md: 25 },
-        mb: { md: 10 },
+        mb: 10,
         alignItems: "center",
-        textAlign: "center",
       }}
       maxWidth={false}
     >
@@ -48,6 +54,7 @@ const Shop = () => {
       </Backdrop>
       <SearchBar
         onSearch={(value) => searchResultsHandler(value)}
+        value={searchTerm}
         id={"search-bar"}
       />
       {results.length > 0 && (
@@ -65,7 +72,7 @@ const Shop = () => {
                   <FeaturedBook
                     key={book.Serial}
                     book={book}
-                    onClickHandler={addToCartHandler}
+                    onClickHandler={onClickHandler}
                     showCart={cart.every((obj) => obj.Serial !== book.Serial)}
                   />
                 )

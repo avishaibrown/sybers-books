@@ -13,8 +13,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 let persistor = persistStore(store);
 
-//PersistGate delays rendering of UI until persisted data is available in the Redux store
-
 root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>

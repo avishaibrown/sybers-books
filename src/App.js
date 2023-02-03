@@ -24,7 +24,7 @@ import libreFranklin from "@fontsource/libre-franklin";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#f3f3f3",
+      default: "#ffffff",
     },
   },
   typography: {
@@ -42,14 +42,9 @@ const theme = createTheme({
 //TODO: Add Google Pay
 //TODO: Add Cart system and build out cart page
 //TODO: Add SearchBar in NavBar
-//TODO: Add ability to search by Title, Author or ISBN
-//TODO: Add pagination to Search Results page
-//TODO: Add Filter system to Search Results
-//TODO: Add modal to search results book tiles to show more detail and add to cart button
 //TODO: Wild idea! Add "album layout" component with random book selections (Lucky dip vibes)
 //TODO: Focus on UX:
 // 3) change background and make text larger depending on screen size
-// 4) Make search results tiles uniform in size
 // 5) Focus on a11y focusing to headings and basic text reading
 
 //TODO: Host website

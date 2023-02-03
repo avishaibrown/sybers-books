@@ -41,7 +41,8 @@ export const ABOUT = {
 };
 
 //SHOP PAGE
-export const SEARCH_BAR_PLACEHOLDER = "Type to search for a book category";
+export const SEARCH_BAR_PLACEHOLDER =
+  "Type to search for a book by title, author or ISBN";
 export const SEARCH_RESULTS_TITLE = "Search Results";
 
 //CONTACT PAGE
@@ -102,8 +103,6 @@ export const CART = "Cart";
 export const TRANSACTION_CANCELLED = "TRANSACTION CANCELLED";
 
 //GOOGLE PAY
-export const STRIPE_KEY =
-  "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";
 export const UNSERVICEABLE_SHIPPING_COUNTRIES = [];
 export const SHIPPING_ADDRESS_UNSERVICEABLE_REASON =
   "We cannot deliver to the shipping address you have provided.";

@@ -11,7 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { SEARCH_BAR_PLACEHOLDER } from "../utils/constants";
 
 const SearchBar = (props) => {
-  const { onSearch } = props;
+  const { onSearch, value } = props;
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
@@ -30,7 +30,7 @@ const SearchBar = (props) => {
         onChange={(e) => setSearchValue(e.target.value)}
         autoFocus={true}
         fullWidth={true}
-        value={searchValue}
+        value={value ?? ""}
         disabled={loading}
         id={"search-bar"}
       />
