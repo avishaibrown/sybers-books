@@ -12,7 +12,7 @@ const Home = () => {
         title={HOME.hero.titles}
         description={HOME.hero.description}
         image={HOME.hero.image}
-        onButtonClick={() => navigate("/search")}
+        onButtonClick={() => navigate("/shop")}
         buttonText={HOME.hero.button}
       />
     </Container>
