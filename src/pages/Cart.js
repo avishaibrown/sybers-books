@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Alert, List, ListItem, ListItemText, IconButton } from "@mui/material";
+import {
+  Alert,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Container,
+} from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import GooglePay from "../components/GooglePayButton";
 import {
@@ -27,7 +34,15 @@ const Cart = () => {
   };
 
   return (
-    <>
+    <Container
+      component="section"
+      sx={{
+        mt: { xs: 20, md: 25 },
+        mb: 10,
+        alignItems: "center",
+      }}
+      maxWidth={false}
+    >
       {cancelled && (
         <Alert
           onClose={() => setCancelled(false)}
@@ -64,7 +79,7 @@ const Cart = () => {
         unserviceableCountries={UNSERVICEABLE_SHIPPING_COUNTRIES}
         unserviceableReason={SHIPPING_ADDRESS_UNSERVICEABLE_REASON}
       ></GooglePay>
-    </>
+    </Container>
   );
 };
 
