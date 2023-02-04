@@ -1,5 +1,13 @@
+import { useState } from "react";
 import BookCard from "../components/BookCard";
-import { Container, Grid, Backdrop, CircularProgress } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Backdrop,
+  CircularProgress,
+  Pagination,
+  Box,
+} from "@mui/material";
 import Typography from "../components/Typography";
 import { SHOP } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
@@ -13,14 +21,20 @@ const Shop = () => {
   //      that can query substrings from Firebase, but might cost
 
   //TODO: Add filter to search results (Sort price high to low, low to high etc.)
-  //TODO: Add modal to show more detail of book
-  //TODO: Add pagination
+  //TODO: Add styling to Shop component
 
   const results = useSelector((state) => state.searchResults.searchResults);
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);
   const cart = useSelector((state) => state.cart.cart);
   const searchTerm = useSelector((state) => state.searchResults.searchTerm);
+
+  const [page, setPage] = useState(0);
+  const [booksPerPage, setBooksPerPage] = useState(12);
+
+  const onChangePage = (page) => {
+    setPage(page);
+  };
 
   const dispatch = useDispatch();
 
@@ -62,24 +76,46 @@ const Shop = () => {
           <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
             {SHOP.searchResultsTitle}
           </Typography>
+          <Box sx={{ display: "flex", my: 5, justifyContent: "center" }}>
+            <Pagination
+              count={Math.ceil(results.length / booksPerPage)}
+              page={page + 1}
+              onChange={(event, value) => onChangePage(value - 1)}
+              size="large"
+              color="secondary"
+            />
+          </Box>
           <Grid container spacing={4}>
-            {results.map(
-              (book) =>
-                book.title1 &&
-                book.authorSn &&
-                book.price1 &&
-                book.Serial && (
-                  <BookCard
-                    key={book.Serial}
-                    book={book}
-                    onClickHandler={onClickHandler}
-                    addToCart={cart.every((obj) => obj.Serial !== book.Serial)}
-                    missingValuesText={SHOP.missingValuesText}
-                    modalTabs={SHOP.modalTabs}
-                  />
-                )
-            )}
+            {results
+              .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
+              .map(
+                (book) =>
+                  book.title1 &&
+                  book.authorSn &&
+                  book.price1 &&
+                  book.Serial && (
+                    <BookCard
+                      key={book.Serial}
+                      book={book}
+                      onClickHandler={onClickHandler}
+                      addToCart={cart.every(
+                        (obj) => obj.Serial !== book.Serial
+                      )}
+                      missingValuesText={SHOP.missingValuesText}
+                      modalTabs={SHOP.modalTabs}
+                    />
+                  )
+              )}
           </Grid>
+          <Box sx={{ display: "flex", my: 5, justifyContent: "center" }}>
+            <Pagination
+              count={Math.ceil(results.length / booksPerPage)}
+              page={page + 1}
+              onChange={(event, value) => onChangePage(value - 1)}
+              size="large"
+              color="secondary"
+            />
+          </Box>
         </>
       )}
       {error && (
