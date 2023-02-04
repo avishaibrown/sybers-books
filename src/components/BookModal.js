@@ -73,20 +73,9 @@ const BookModal = (props) => {
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
     );
-  };
-
-  const a11yProps = (index) => {
-    return {
-      id: `tab-${index}`,
-      "aria-controls": `tabpanel-${index}`,
-    };
   };
 
   return (
@@ -179,42 +168,44 @@ const BookModal = (props) => {
                     onChange={handleTabChange}
                     aria-label="book modal tabs"
                   >
-                    <Tab label={modalTabs[0]} {...a11yProps(0)} />
-                    <Tab label={modalTabs[1]} {...a11yProps(1)} />
+                    <Tab
+                      label={modalTabs[0]}
+                      id={"tab-0"}
+                      aria-controls={"tabpanel-0"}
+                    />
+                    <Tab
+                      label={modalTabs[1]}
+                      id={"tab-1"}
+                      aria-controls={"tabpanel-1"}
+                    />
                   </Tabs>
                 </Box>
                 <TabPanel value={tabIndex} index={0}>
-                  <DialogContentText
-                    id="book-modal-description-tab0"
-                    ref={descriptionElementRef}
-                    tabIndex={-1}
-                  >
-                    <TableContainer component={Paper}>
-                      <Table size="small" aria-label="book details table">
-                        <TableBody>
-                          {getBookDetailsData(book).map((row) => (
-                            <TableRow
-                              key={row.name}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
+                  <TableContainer component={Paper}>
+                    <Table size="small" aria-label="book details table">
+                      <TableBody>
+                        {getBookDetailsData(book).map((row, index) => (
+                          <TableRow
+                            key={index}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              sx={{ fontWeight: 700 }}
                             >
-                              <TableCell
-                                component="th"
-                                scope="row"
-                                sx={{ fontWeight: 700 }}
-                              >
-                                {row.attribute}
-                              </TableCell>
-                              <TableCell align="right">{row.value}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </DialogContentText>
+                              {row.attribute}
+                            </TableCell>
+                            <TableCell align="right">{row.value}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 </TabPanel>
                 <TabPanel value={tabIndex} index={1}>
                   <DialogContentText
