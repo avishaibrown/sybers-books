@@ -37,15 +37,22 @@ const BookCard = (props) => {
           <CardMedia
             component="img"
             sx={{
-              width: 160,
+              width: 200,
               display: { xs: "none", sm: "block" },
-              marginLeft: "auto",
+              float: "left",
             }}
             image={book?.url === "" ? "./images/no-image-found.jpg" : book.url}
             alt={book.title1}
           />
         ) : null}
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+          }}
+        >
           <CardActionArea onClick={() => setOpenModal(true)}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
@@ -64,7 +71,7 @@ const BookCard = (props) => {
               </Typography>
             </CardContent>
           </CardActionArea>
-          <CardActions sx={{ display: "flex", p: 2 }}>
+          <CardActions sx={{ display: "flex", p: 2, marginTop: "auto" }}>
             <Box
               sx={{
                 fontWeight: "bold",
