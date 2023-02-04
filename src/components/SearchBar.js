@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Paper,
@@ -15,6 +15,10 @@ const SearchBar = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
+  useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
+
   const onClickHandler = () => {
     searchValue.length >= 3 && onSearch(searchValue);
   };
@@ -30,7 +34,7 @@ const SearchBar = (props) => {
         onChange={(e) => setSearchValue(e.target.value)}
         autoFocus={true}
         fullWidth={true}
-        value={value ?? ""}
+        value={searchValue}
         disabled={loading}
         id={"search-bar"}
       />
