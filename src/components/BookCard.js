@@ -20,10 +20,6 @@ const BookCard = (props) => {
 
   const [openModal, setOpenModal] = useState(false);
 
-  //TODO: Add modal for onClick of card
-  //TODO: Handle no isbn
-  //TODO: Make fixed width for books that have different length titles
-
   return (
     <Grid item xs={12} md={6} xl={4}>
       <Card

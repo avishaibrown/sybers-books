@@ -48,6 +48,8 @@ const createData = (attribute, value) => {
 
 export const getBookDetailsData = (book) => {
   let rowData = [];
+  book.price1 !== "" &&
+    rowData.push(createData("Price", "$" + book.price1 + "AUD"));
   book.binding1 !== "" && rowData.push(createData("Format", book.binding1));
   book.edition1 !== "" && rowData.push(createData("Edition", book.edition1));
   book.signed !== "" && rowData.push(createData("Signed", book.signed));

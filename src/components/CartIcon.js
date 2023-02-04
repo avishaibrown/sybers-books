@@ -4,7 +4,7 @@ import Button from "./Button";
 import { SHOP } from "../utils/constants";
 
 const CartIcon = (props) => {
-  const { addToCart, onClickHandler, book, isIcon } = props;
+  const { addToCart, onClickHandler, book, isIcon, price } = props;
 
   const buttonToRender =
     addToCart && isIcon ? (
@@ -22,7 +22,7 @@ const CartIcon = (props) => {
         variant="contained"
         endIcon={<ShoppingCart />}
       >
-        {SHOP.modalButtons.add}
+        {SHOP.modalButtons.add} {price && `( $${price} AUD )`}
       </Button>
     ) : !addToCart && isIcon ? (
       <IconButton
@@ -40,7 +40,7 @@ const CartIcon = (props) => {
         color="error"
         endIcon={<RemoveShoppingCart />}
       >
-        {SHOP.modalButtons.remove}
+        {SHOP.modalButtons.remove} {price && `( $${price} AUD )`}
       </Button>
     );
 

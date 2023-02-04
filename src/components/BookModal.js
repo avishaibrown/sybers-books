@@ -25,9 +25,6 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "./Typography";
 import { truncateString, getBookDetailsData } from "../utils/util";
 
-//TODO: Add PRICE to MODAL
-//TODO: Look into search bug
-
 const BookModal = (props) => {
   const {
     open,
@@ -220,12 +217,13 @@ const BookModal = (props) => {
             </Grid>
           </Grid>
         </DialogContent>
-        <DialogActions sx={{ margin: "auto" }}>
+        <DialogActions sx={{ mx: "auto", my: 1 }}>
           <CartIcon
             addToCart={addToCart}
             onClickHandler={onClickHandler}
             book={book}
             isIcon={false}
+            price={book.price1}
           />
         </DialogActions>
       </Dialog>
