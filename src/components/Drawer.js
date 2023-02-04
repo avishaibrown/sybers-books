@@ -9,7 +9,7 @@ import { CART } from "../utils/constants";
 import StyledBadge from "./StyledBadge";
 
 const Drawer = (props) => {
-  const { menuItems, open, setOpen } = props;
+  const { menuItems, open, setOpen, cartItems } = props;
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -51,7 +51,11 @@ const Drawer = (props) => {
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
               {item.title === CART ? (
-                <StyledBadge badgeContent={2} color="secondary" tight={false}>
+                <StyledBadge
+                  badgeContent={cartItems}
+                  color="secondary"
+                  tight={false}
+                >
                   {item.title}
                 </StyledBadge>
               ) : (

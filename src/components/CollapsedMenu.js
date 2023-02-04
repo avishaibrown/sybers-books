@@ -30,7 +30,12 @@ const CollapsedMenu = (props) => {
           </StyledBadge>
         </IconButton>
       </Box>
-      <Drawer menuItems={menuItems} open={open} setOpen={setOpen} />
+      <Drawer
+        menuItems={menuItems}
+        open={open}
+        setOpen={setOpen}
+        cartItems={cartItems}
+      />
     </>
   );
 };
