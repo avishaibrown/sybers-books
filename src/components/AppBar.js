@@ -37,7 +37,7 @@ const AppBar = (props) => {
             <StyledBadge
               badgeContent={cartItems}
               color="secondary"
-              tight={true}
+              tight={"true"}
             >
               <ShoppingCartIcon />
             </StyledBadge>

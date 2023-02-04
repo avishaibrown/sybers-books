@@ -54,7 +54,7 @@ const Drawer = (props) => {
                 <StyledBadge
                   badgeContent={cartItems}
                   color="secondary"
-                  tight={false}
+                  tight={"false"}
                 >
                   {item.title}
                 </StyledBadge>

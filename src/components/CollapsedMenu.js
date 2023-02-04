@@ -25,7 +25,11 @@ const CollapsedMenu = (props) => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <StyledBadge badgeContent={cartItems} color="secondary" tight={true}>
+          <StyledBadge
+            badgeContent={cartItems}
+            color="secondary"
+            tight={"true"}
+          >
             <MenuRoundedIcon fontSize="large" />
           </StyledBadge>
         </IconButton>
