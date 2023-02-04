@@ -1,7 +1,7 @@
-import FeaturedBook from "../components/FeaturedBook";
+import BookCard from "../components/BookCard";
 import { Container, Grid, Backdrop, CircularProgress } from "@mui/material";
 import Typography from "../components/Typography";
-import { SEARCH_RESULTS_TITLE } from "../utils/constants";
+import { SHOP } from "../utils/constants";
 import SearchBar from "../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { searchResults } from "../slices/searchResults";
@@ -60,7 +60,7 @@ const Shop = () => {
       {results.length > 0 && (
         <>
           <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
-            {SEARCH_RESULTS_TITLE}
+            {SHOP.searchResultsTitle}
           </Typography>
           <Grid container spacing={4}>
             {results.map(
@@ -69,11 +69,13 @@ const Shop = () => {
                 book.authorSn &&
                 book.price1 &&
                 book.Serial && (
-                  <FeaturedBook
+                  <BookCard
                     key={book.Serial}
                     book={book}
                     onClickHandler={onClickHandler}
-                    showCart={cart.every((obj) => obj.Serial !== book.Serial)}
+                    addToCart={cart.every((obj) => obj.Serial !== book.Serial)}
+                    missingValuesText={SHOP.missingValuesText}
+                    modalTabs={SHOP.modalTabs}
                   />
                 )
             )}
@@ -82,7 +84,7 @@ const Shop = () => {
       )}
       {error && (
         <Container>
-          <Typography>ERROR</Typography>
+          <Typography>{SHOP.searchResultsError}</Typography>
         </Container>
       )}
     </Container>

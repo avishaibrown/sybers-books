@@ -40,10 +40,30 @@ export const ABOUT = {
   button: "Shop Now",
 };
 
-//SHOP PAGE
+//SEARCH BAR
 export const SEARCH_BAR_PLACEHOLDER =
   "Type to search for a book by title, author or ISBN";
-export const SEARCH_RESULTS_TITLE = "Search Results";
+
+//SHOP PAGE
+export const SHOP = {
+  searchResultsTitle: "Search Results",
+  missingValuesText: {
+    title: "Untitled",
+    author: "Unknown author",
+    price: "No price found",
+    isbn: "ISBN not available",
+  },
+  searchResultsError:
+    "Error encountered while attempting to search the database. Please try again later.",
+  modalTabs: {
+    0: "Details",
+    1: "Description",
+  },
+  modalButtons: {
+    add: "Add To Cart",
+    remove: "Remove From Cart",
+  },
+};
 
 //CONTACT PAGE
 export const CONTACT = {

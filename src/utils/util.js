@@ -41,3 +41,29 @@ export const checkValidity = (value, rules) => {
 
   return isValid;
 };
+
+const createData = (attribute, value) => {
+  return { attribute, value };
+};
+
+export const getBookDetailsData = (book) => {
+  let rowData = [];
+  book.binding1 !== "" && rowData.push(createData("Format", book.binding1));
+  book.edition1 !== "" && rowData.push(createData("Edition", book.edition1));
+  book.signed !== "" && rowData.push(createData("Signed", book.signed));
+  if (book.condition1 !== "") {
+    rowData.push(createData("Condition", book.condition1));
+  } else if (book.djCondition !== "") {
+    rowData.push(createData("Condition", book.djCondition));
+  }
+  book.yop !== "" && rowData.push(createData("Year Published", book.yop));
+  book.pop !== "" && rowData.push(createData("Place Published", book.pop));
+  book.publisher1 !== "" &&
+    rowData.push(createData("Publisher", book.publisher1));
+  book.language !== "" && rowData.push(createData("Language", book.language));
+  book.country !== "" && rowData.push(createData("Country", book.country));
+  book.category5 !== "" && rowData.push(createData("Genre", book.category5));
+  book.isbn !== "" && rowData.push(createData("ISBN", book.isbn));
+
+  return rowData;
+};
