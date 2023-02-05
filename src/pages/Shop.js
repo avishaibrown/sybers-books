@@ -70,28 +70,36 @@ const Shop = () => {
   };
 
   return (
-    <Container
-      component="section"
-      sx={{
-        mt: { xs: 20, md: 25 },
-        mb: 10,
-        alignItems: "center",
-      }}
-      maxWidth={false}
-    >
+    <Container component="section" maxWidth={false} disableGutters>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <SearchBar
-        onSearch={(value) => onSearch(value)}
-        value={searchTerm}
-        id={"search-bar"}
-      />
+      <Box
+        sx={(theme) => ({
+          mt: 20,
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          [theme.breakpoints.up("xs")]: {
+            height: "80vh",
+            minHeight: 50,
+            maxHeight: 200,
+          },
+          backgroundColor: "#D2F7FE",
+        })}
+      >
+        <SearchBar
+          onSearch={(value) => onSearch(value)}
+          value={searchTerm}
+          id={"search-bar"}
+        />
+      </Box>
       {results.length > 0 && (
-        <>
+        <Container maxWidth={false}>
           <Stack
             direction={{ xs: "column", md: "row" }}
             sx={{ py: 5, px: 1 }}
@@ -149,7 +157,7 @@ const Shop = () => {
               color="secondary"
             />
           </Box>
-        </>
+        </Container>
       )}
       {error && (
         <Container>

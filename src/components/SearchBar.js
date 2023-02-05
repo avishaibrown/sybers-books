@@ -26,10 +26,19 @@ const SearchBar = (props) => {
   return (
     <Paper
       component="form"
-      sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}
+      sx={{
+        py: { xs: 1, lg: 2 },
+        px: 2,
+        display: "flex",
+      }}
     >
       <InputBase
-        sx={{ ml: 1, flex: 1 }}
+        sx={{
+          ml: 1,
+          flex: 1,
+          fontSize: { xs: "1rem", md: "1.5rem", lg: "2rem" },
+          minWidth: { xs: 300, sm: 450, md: 600, lg: 800 },
+        }}
         placeholder={SEARCH_BAR_PLACEHOLDER}
         onChange={(e) => setSearchValue(e.target.value)}
         autoFocus={true}
@@ -39,13 +48,17 @@ const SearchBar = (props) => {
         id={"search-bar"}
       />
       {loading ? (
-        <Box sx={{ display: "flex", p: "10px" }}>
+        <Box sx={{ display: "flex", p: 1 }}>
           <CircularProgress size={25} />
         </Box>
       ) : (
         <IconButton
           type="button"
-          sx={{ p: "10px" }}
+          sx={{
+            p: 1,
+            transform: { xs: "scale(1)", md: "scale(2)" },
+            display: "flex",
+          }}
           onClick={onClickHandler}
           id={"search-icon"}
         >
