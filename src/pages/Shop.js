@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { searchResults } from "../slices/searchResults";
+import { addToCart, removeFromCart } from "../slices/cart";
 import BookCard from "../components/BookCard";
 import {
   Container,
@@ -7,20 +10,19 @@ import {
   CircularProgress,
   Pagination,
   Box,
+  Stack,
 } from "@mui/material";
 import Typography from "../components/Typography";
 import { SHOP } from "../utils/constants";
+import { searchResultsCounter } from "../utils/util";
 import SearchBar from "../components/SearchBar";
-import { useDispatch, useSelector } from "react-redux";
-import { searchResults } from "../slices/searchResults";
-import { addToCart, removeFromCart } from "../slices/cart";
+import SearchResultsSelect from "../components/SearchResultsSelect";
 
 const Shop = () => {
   //NOTE: Only returning books that have a title, author and price
   //NOTE: Search only works for exact matches - can integrate a third-party library
   //      that can query substrings from Firebase, but might cost
 
-  //TODO: Add filter to search results (Sort price high to low, low to high etc.)
   //TODO: Add styling to Shop component
 
   const results = useSelector((state) => state.searchResults.searchResults);
@@ -29,25 +31,42 @@ const Shop = () => {
   const cart = useSelector((state) => state.cart.cart);
   const searchTerm = useSelector((state) => state.searchResults.searchTerm);
 
-  const [page, setPage] = useState(0);
-  const [booksPerPage, setBooksPerPage] = useState(12);
-
-  const onChangePage = (page) => {
-    setPage(page);
-  };
-
   const dispatch = useDispatch();
 
-  const searchResultsHandler = (term) => {
+  const [page, setPage] = useState(0);
+  const [booksPerPage, setBooksPerPage] = useState(
+    SHOP.booksPerPageMenuItems[0].label
+  );
+  const [sortBy, setSortBy] = useState(SHOP.sortByMenuItems[0].value);
+
+  const onSearch = (term) => {
     dispatch(searchResults(term));
   };
 
-  const onClickHandler = (book, action) => {
+  const onChangeSortBy = (event) => {
+    setSortBy(event.target.value);
+  };
+
+  const sortedResults = results.sort((a, b) => {
+    return sortBy === SHOP.sortByMenuItems[1].value
+      ? b.price1 - a.price1
+      : a.price1 - b.price1;
+  });
+
+  const onChangeBooksPerPage = (event) => {
+    setBooksPerPage(event.target.value);
+  };
+
+  const onCartClick = (book, action) => {
     if (action === "add") {
       dispatch(addToCart(book));
     } else if (action === "remove") {
       dispatch(removeFromCart(book));
     }
+  };
+
+  const onChangePage = (page) => {
+    setPage(page);
   };
 
   return (
@@ -67,26 +86,40 @@ const Shop = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       <SearchBar
-        onSearch={(value) => searchResultsHandler(value)}
+        onSearch={(value) => onSearch(value)}
         value={searchTerm}
         id={"search-bar"}
       />
       {results.length > 0 && (
         <>
-          <Typography variant="h4" gutterBottom sx={{ pt: 5 }}>
-            {SHOP.searchResultsTitle}
-          </Typography>
-          <Box sx={{ display: "flex", my: 5, justifyContent: "center" }}>
-            <Pagination
-              count={Math.ceil(results.length / booksPerPage)}
-              page={page + 1}
-              onChange={(event, value) => onChangePage(value - 1)}
-              size="large"
-              color="secondary"
-            />
-          </Box>
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            sx={{ py: 5, px: 1 }}
+            alignItems={{ xs: "flex-start", md: "center" }}
+            justifyContent="space-between"
+            spacing={{ xs: 2, md: 0 }}
+          >
+            <Typography variant="h4">{SHOP.searchResultsTitle}</Typography>
+            <Typography variant="body1">
+              {searchResultsCounter(booksPerPage, results.length, page)}
+            </Typography>
+            <Box>
+              <SearchResultsSelect
+                label={SHOP.sortByLabel}
+                value={sortBy}
+                onChange={onChangeSortBy}
+                menuItems={SHOP.sortByMenuItems}
+              />
+              <SearchResultsSelect
+                label={SHOP.booksPerPageLabel}
+                value={booksPerPage}
+                onChange={onChangeBooksPerPage}
+                menuItems={SHOP.booksPerPageMenuItems}
+              />
+            </Box>
+          </Stack>
           <Grid container spacing={4}>
-            {results
+            {sortedResults
               .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
               .map(
                 (book) =>
@@ -97,7 +130,7 @@ const Shop = () => {
                     <BookCard
                       key={book.Serial}
                       book={book}
-                      onClickHandler={onClickHandler}
+                      onClickHandler={onCartClick}
                       addToCart={cart.every(
                         (obj) => obj.Serial !== book.Serial
                       )}

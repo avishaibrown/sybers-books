@@ -69,3 +69,18 @@ export const getBookDetailsData = (book) => {
 
   return rowData;
 };
+
+export const searchResultsCounter = (itemsPerPage, totalItems, currentPage) => {
+  const startIndex = currentPage * itemsPerPage + 1;
+  const endIndex = Math.min((currentPage + 1) * itemsPerPage, totalItems);
+
+  return `Showing ${startIndex}-${endIndex} of ${totalItems} items`;
+};
+
+export const stringToSlug = (str) => {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
+};

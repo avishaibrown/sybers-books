@@ -47,6 +47,17 @@ export const SEARCH_BAR_PLACEHOLDER =
 //SHOP PAGE
 export const SHOP = {
   searchResultsTitle: "Search Results",
+  sortByMenuItems: [
+    { label: "Price: Low to High", value: "asc" },
+    { label: "Price: High to Low", value: "desc" },
+  ],
+  booksPerPageMenuItems: [
+    { label: "12", value: 12 },
+    { label: "24", value: 24 },
+    { label: "48", value: 48 },
+  ],
+  booksPerPageLabel: "Books Per Page",
+  sortByLabel: "Sort By",
   missingValuesText: {
     title: "Untitled",
     author: "Unknown author",
