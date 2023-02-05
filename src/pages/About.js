@@ -66,7 +66,7 @@ const About = () => {
               }}
               mb={{ xs: 3, sm: 5 }}
               mt={{ xs: 5, sm: 5, lg: 0 }}
-              key={index}
+              key={"about-description-paragraph-" + index}
             >
               {paragraph}
             </Typography>
@@ -99,7 +99,7 @@ const About = () => {
                 typography: { xs: "body1", sm: "h6", lg: "h6", xl: "h5" },
               }}
               m={{ xs: 1, lg: 3 }}
-              key={index}
+              key={"about-terms-paragraph-" + index}
             >
               {paragraph}
             </Typography>

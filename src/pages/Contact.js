@@ -144,12 +144,16 @@ const Contact = () => {
             {CONTACT.storeContactDetails.map((item, index) =>
               item.phone || item.email ? (
                 <ContactLink
-                  key={index}
+                  key={"contact-link-" + index}
                   linkType={item.phone ? "tel:" : "mailto:"}
                   linkText={item.phone ? item.phone : item.email}
                 />
               ) : (
-                <Typography key={index} variant="body1" gutterBottom>
+                <Typography
+                  key={"contact-details-" + index}
+                  variant="body1"
+                  gutterBottom
+                >
                   {item}
                 </Typography>
               )

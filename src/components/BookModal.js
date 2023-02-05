@@ -146,7 +146,7 @@ const BookModal = (props) => {
                   component="img"
                   sx={{
                     width: 300,
-                    border: `2px solid ${theme.palette.primary.main}`,
+                    border: `1px solid ${theme.palette.primary.main}`,
                     borderRadius: "0.25rem",
                     overflow: "hidden",
                   }}
@@ -183,7 +183,7 @@ const BookModal = (props) => {
                       <TableBody>
                         {getBookDetailsData(book).map((row, index) => (
                           <TableRow
-                            key={index}
+                            key={"modal-book-attribute-" + index}
                             sx={{
                               "&:last-child td, &:last-child th": {
                                 border: 0,

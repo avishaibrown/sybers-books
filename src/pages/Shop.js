@@ -23,8 +23,6 @@ const Shop = () => {
   //NOTE: Search only works for exact matches - can integrate a third-party library
   //      that can query substrings from Firebase, but might cost
 
-  //TODO: Add styling to Shop component
-
   const results = useSelector((state) => state.searchResults.searchResults);
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);

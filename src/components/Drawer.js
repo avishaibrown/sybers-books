@@ -41,7 +41,7 @@ const Drawer = (props) => {
         >
           {menuItems.map((item, index) => (
             <ListItemButton
-              key={index}
+              key={"drawer-list-item-" + index}
               sx={{
                 "&:hover": {
                   backgroundColor: "#D2F7FE",

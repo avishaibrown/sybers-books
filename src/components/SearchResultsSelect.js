@@ -16,7 +16,7 @@ const SearchResultsSelect = (props) => {
         label={label}
       >
         {menuItems.map((item, index) => (
-          <MenuItem key={index} value={item.value}>
+          <MenuItem key={"select-menu-item-" + index} value={item.value}>
             {item.label}
           </MenuItem>
         ))}

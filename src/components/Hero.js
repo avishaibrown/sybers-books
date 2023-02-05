@@ -26,7 +26,7 @@ const Hero = (props) => {
       >
         {title.map((line, index) => (
           <Typography
-            key={index}
+            key={"hero-header-text-" + index}
             color="inherit"
             align="center"
             marked={index === title.length - 1 ? "center" : "none"}
