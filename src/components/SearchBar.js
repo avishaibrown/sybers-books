@@ -23,6 +23,13 @@ const SearchBar = (props) => {
     searchValue.length >= 3 && onSearch(searchValue);
   };
 
+  const onKeyPressHandler = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onClickHandler();
+    }
+  };
+
   return (
     <Paper
       component="form"
@@ -36,13 +43,14 @@ const SearchBar = (props) => {
         sx={{
           ml: 1,
           flex: 1,
-          fontSize: { xs: "1rem", md: "1.5rem", lg: "2rem" },
+          fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
           minWidth: { xs: 300, sm: 450, md: 600, lg: 800 },
         }}
         placeholder={SEARCH_BAR_PLACEHOLDER}
-        onChange={(e) => setSearchValue(e.target.value)}
-        autoFocus={true}
-        fullWidth={true}
+        onChange={(event) => setSearchValue(event.target.value)}
+        onKeyDown={onKeyPressHandler}
+        autoFocus
+        fullWidth
         value={searchValue}
         disabled={loading}
         id={"search-bar"}

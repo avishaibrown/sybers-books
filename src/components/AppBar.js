@@ -49,7 +49,7 @@ const AppBar = (props) => {
             p={1}
             underline="hover"
             color="#2c292c"
-            sx={{ fontSize: "24px" }}
+            sx={{ fontSize: 24 }}
           >
             {item.title}
           </Link>

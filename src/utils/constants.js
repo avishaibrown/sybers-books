@@ -64,6 +64,7 @@ export const SHOP = {
     price: "No price found",
     isbn: "ISBN not available",
   },
+  noResults: "No results found. Try alter your search term.",
   searchResultsError:
     "Error encountered while attempting to search the database. Please try again later.",
   modalTabs: {
@@ -130,8 +131,14 @@ export const CONTACT = {
 };
 
 //CART
-export const CART = "Cart";
-export const TRANSACTION_CANCELLED = "TRANSACTION CANCELLED";
+export const CART = {
+  title: "Cart",
+  columnHeaders: ["", "Book Title", "Price"],
+  subtotal: "Subtotal",
+  shipping: "Shipping",
+  total: "Total",
+  transactionCancelled: "TRANSACTION CANCELLED",
+};
 
 //GOOGLE PAY
 export const UNSERVICEABLE_SHIPPING_COUNTRIES = [];

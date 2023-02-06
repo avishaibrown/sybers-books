@@ -11,7 +11,6 @@ const SearchResultsSelect = (props) => {
         labelId={stringToSlug(label) + "select-label"}
         id={stringToSlug(label) + "select"}
         value={value}
-        defaultValue={menuItems[0].value}
         onChange={onChange}
         label={label}
       >

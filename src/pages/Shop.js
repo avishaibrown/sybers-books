@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { searchResults } from "../slices/searchResults";
+import { sortResults, searchResults } from "../slices/searchResults";
 import { addToCart, removeFromCart } from "../slices/cart";
 import BookCard from "../components/BookCard";
 import {
@@ -24,6 +24,9 @@ const Shop = () => {
   //      that can query substrings from Firebase, but might cost
 
   const results = useSelector((state) => state.searchResults.searchResults);
+  const sortedResults = useSelector(
+    (state) => state.searchResults.sortedResults
+  );
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);
   const cart = useSelector((state) => state.cart.cart);
@@ -35,21 +38,17 @@ const Shop = () => {
   const [booksPerPage, setBooksPerPage] = useState(
     SHOP.booksPerPageMenuItems[0].label
   );
-  const [sortBy, setSortBy] = useState(SHOP.sortByMenuItems[0].value);
+  const [sortBy, setSortBy] = useState("");
 
   const onSearch = (term) => {
     dispatch(searchResults(term));
+    setSortBy("");
   };
 
   const onChangeSortBy = (event) => {
     setSortBy(event.target.value);
+    dispatch(sortResults(event.target.value));
   };
-
-  const sortedResults = results.sort((a, b) => {
-    return sortBy === SHOP.sortByMenuItems[1].value
-      ? b.price1 - a.price1
-      : a.price1 - b.price1;
-  });
 
   const onChangeBooksPerPage = (event) => {
     setBooksPerPage(event.target.value);
@@ -96,7 +95,7 @@ const Shop = () => {
           id={"search-bar"}
         />
       </Box>
-      {results.length > 0 && (
+      {sortedResults?.length > 0 ? (
         <Container maxWidth={false}>
           <Stack
             direction={{ xs: "column", md: "row" }}
@@ -156,6 +155,17 @@ const Shop = () => {
             />
           </Box>
         </Container>
+      ) : (
+        <Box my={10} display="flex" sx={{ justifyContent: "center" }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
+            }}
+          >
+            {SHOP.noResults}
+          </Typography>
+        </Box>
       )}
       {error && (
         <Container>

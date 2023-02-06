@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { findByAuthor, findByTitle, findByIsbn } from "../services/firestore";
+import { SHOP } from "../utils/constants";
 
 const initialState = {
   loading: false,
   error: null,
   searchTerm: "",
   searchResults: [],
+  sortedResults: [],
 };
 
 export const searchResults = createAsyncThunk(
@@ -43,6 +45,15 @@ export const searchResults = createAsyncThunk(
 const searchResultsSlice = createSlice({
   name: "books",
   initialState,
+  reducers: {
+    sortResults: (state, action) => {
+      state.sortedResults = state.searchResults.sort((a, b) =>
+        action.payload === SHOP.sortByMenuItems[1].value
+          ? b.price1 - a.price1
+          : a.price1 - b.price1
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(searchResults.pending, (state) => {
@@ -51,6 +62,7 @@ const searchResultsSlice = createSlice({
       .addCase(searchResults.fulfilled, (state, action) => {
         state.loading = false;
         state.searchResults = [...action.payload.searchResults];
+        state.sortedResults = [...action.payload.searchResults];
         state.searchTerm = action.payload.searchTerm;
       })
       .addCase(searchResults.rejected, (state, action) => {
@@ -59,6 +71,8 @@ const searchResultsSlice = createSlice({
       });
   },
 });
+
+export const { sortResults } = searchResultsSlice.actions;
 
 const { reducer } = searchResultsSlice;
 export default reducer;
