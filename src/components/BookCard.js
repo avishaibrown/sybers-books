@@ -85,6 +85,7 @@ const BookCard = (props) => {
                     prefix={"$"}
                     suffix={" AUD"}
                     thousandSeparator={true}
+                    decimalScale={2}
                   />
                 ) : (
                   missingValuesText.price

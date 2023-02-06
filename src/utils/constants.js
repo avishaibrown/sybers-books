@@ -133,9 +133,14 @@ export const CONTACT = {
 //CART
 export const CART = {
   title: "Cart",
+  cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
   shipping: "Shipping",
+  shippingCostOptions: [
+    { label: "Standard Shipping ($14.99 AUD)", value: 14.99 },
+    { label: "Express Shipping ($29.99 AUD)", value: 29.99 },
+  ],
   total: "Total",
   transactionCancelled: "TRANSACTION CANCELLED",
 };
