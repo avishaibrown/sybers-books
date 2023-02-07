@@ -39,10 +39,10 @@ const theme = createTheme({
   },
 });
 
-//TODO: Add Google Pay
-//TODO: Add Cart system and build out cart page
+//TODO: Integrate Google Pay
 //TODO: Add SearchBar in NavBar
 //TODO: Wild idea! Add "album layout" component with random book selections (Lucky dip vibes)
+//TODO: Add Categories section to search by all available categories
 //TODO: Focus on UX:
 // 3) change background and make text larger depending on screen size
 // 5) Focus on a11y focusing to headings and basic text reading

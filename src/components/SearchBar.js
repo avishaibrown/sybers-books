@@ -34,6 +34,7 @@ const SearchBar = (props) => {
     <Paper
       component="form"
       sx={{
+        mt: 20,
         py: { xs: 1, lg: 2 },
         px: 2,
         display: "flex",

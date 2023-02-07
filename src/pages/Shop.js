@@ -76,7 +76,6 @@ const Shop = () => {
       </Backdrop>
       <Box
         sx={(theme) => ({
-          mt: 20,
           position: "relative",
           display: "flex",
           alignItems: "center",
@@ -84,7 +83,7 @@ const Shop = () => {
           [theme.breakpoints.up("xs")]: {
             height: "80vh",
             minHeight: 50,
-            maxHeight: 200,
+            maxHeight: 350,
           },
           backgroundColor: "#D2F7FE",
         })}
