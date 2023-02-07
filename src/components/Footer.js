@@ -4,7 +4,7 @@ import Typography from "./Typography";
 import { Facebook } from "@mui/icons-material";
 
 const Footer = (props) => {
-  const { image, imageAlt, copyright } = props;
+  const { image, imageAlt, copyright, link } = props;
 
   return (
     <Box component="footer" sx={{ py: 4, textAlign: "center" }}>
@@ -24,11 +24,7 @@ const Footer = (props) => {
             my: 1,
           }}
         />
-        <IconButton
-          href="https://www.facebook.com/SybersBooks/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <IconButton href={link} target="_blank" rel="noopener noreferrer">
           <Facebook />
         </IconButton>
       </Stack>

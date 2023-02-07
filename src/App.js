@@ -45,7 +45,10 @@ const theme = createTheme({
 //TODO: Add Categories section to search by all available categories
 //TODO: Focus on UX:
 // 3) change background and make text larger depending on screen size
+// Work out colour palette, layout consistency
 // 5) Focus on a11y focusing to headings and basic text reading
+// (try use with keyboard only, remove sticky components, add label and help text to search bar
+// , add focus on page loading, anything interactive should be tabbable)
 
 //TODO: Host website
 
@@ -82,6 +85,7 @@ const App = () => {
             image={FOOTER.image}
             imageAlt={FOOTER.imageAlt}
             copyright={FOOTER.copyright}
+            link={FOOTER.link}
           />
         </Container>
       </ThemeProvider>

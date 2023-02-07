@@ -168,4 +168,5 @@ export const FOOTER = {
   imageAlt: "Syber's Books",
   image: "./images/app-title.png",
   copyright: "Copyright © AB Development",
+  link: "https://www.facebook.com/SybersBooks/",
 };
