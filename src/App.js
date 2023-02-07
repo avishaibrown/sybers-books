@@ -39,18 +39,17 @@ const theme = createTheme({
   },
 });
 
+//TODO: Notification that book has been added/removed from cart
+//TODO: Fix styledBadge bug
 //TODO: Integrate Google Pay
-//TODO: Add SearchBar in NavBar
-//TODO: Wild idea! Add "album layout" component with random book selections (Lucky dip vibes)
-//TODO: Add Categories section to search by all available categories
-//TODO: Focus on UX:
-// 3) change background and make text larger depending on screen size
-// Work out colour palette, layout consistency
-// 5) Focus on a11y focusing to headings and basic text reading
-// (try use with keyboard only, remove sticky components, add label and help text to search bar
-// , add focus on page loading, anything interactive should be tabbable)
-
-//TODO: Host website
+//TODO: Add ability to search for rough matches, not exact matches
+//TODO: Add ability to write to database that item is no longer available
+//TODO: If item is no longer available, do not return it in search results
+//TODO: Add Categories component with list of all available categories (visible in Home and Shop pages)
+//TODO: Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
+//TODO: Remove sticky components (AppBar, ModalHeader, ModalFooter)
+//TODO: Work out colour palette and background
+//TODO: Finally, host website
 
 const App = () => {
   let routes = (

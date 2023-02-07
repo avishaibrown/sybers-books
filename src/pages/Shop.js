@@ -89,6 +89,7 @@ const Shop = () => {
         })}
       >
         <SearchBar
+          label={SHOP.searchTitle}
           onSearch={(value) => onSearch(value)}
           value={searchTerm}
           id={"search-bar"}

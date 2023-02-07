@@ -46,6 +46,7 @@ export const SEARCH_BAR_PLACEHOLDER =
 
 //SHOP PAGE
 export const SHOP = {
+  searchTitle: "Search from our collection of over 100,000 books:",
   searchResultsTitle: "Search Results",
   sortByMenuItems: [
     { label: "Price: Low to High", value: "asc" },
