@@ -76,6 +76,8 @@ export const SHOP = {
     add: "Add To Cart",
     remove: "Remove From Cart",
   },
+  addedToCartMessage: " added to cart",
+  removedFromCartMessage: " removed from cart",
 };
 
 //CONTACT PAGE

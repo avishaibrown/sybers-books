@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { sortResults, searchResults } from "../slices/searchResults";
-import { addToCart, removeFromCart } from "../slices/cart";
-import BookCard from "../components/BookCard";
+import {
+  addToCart,
+  removeFromCart,
+  cartActionStart,
+  cartActionSuccess,
+  cartActionFailure,
+} from "../slices/cart";
 import {
   Container,
   Grid,
@@ -11,26 +16,30 @@ import {
   Pagination,
   Box,
   Stack,
+  Snackbar,
+  IconButton,
 } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import Typography from "../components/Typography";
 import { SHOP } from "../utils/constants";
 import { searchResultsCounter } from "../utils/util";
 import SearchBar from "../components/SearchBar";
+import BookCard from "../components/BookCard";
 import SearchResultsSelect from "../components/SearchResultsSelect";
 
 const Shop = () => {
-  //NOTE: Only returning books that have a title, author and price
-  //NOTE: Search only works for exact matches - can integrate a third-party library
-  //      that can query substrings from Firebase, but might cost
-
   const results = useSelector((state) => state.searchResults.searchResults);
   const sortedResults = useSelector(
     (state) => state.searchResults.sortedResults
   );
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);
-  const cart = useSelector((state) => state.cart.cart);
   const searchTerm = useSelector((state) => state.searchResults.searchTerm);
+  const cart = useSelector((state) => state.cart.cart);
+  const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
+  const bookRemovedFromCart = useSelector(
+    (state) => state.cart.bookRemovedFromCart
+  );
 
   const dispatch = useDispatch();
 
@@ -39,6 +48,18 @@ const Shop = () => {
     SHOP.booksPerPageMenuItems[0].label
   );
   const [sortBy, setSortBy] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [cartActionMessage, setCartActionMessage] = useState("");
+
+  useEffect(() => {
+    if (!!bookAddedToCart) {
+      setCartActionMessage(bookAddedToCart + SHOP.addedToCartMessage);
+      setOpenSnackbar(true);
+    } else if (bookRemovedFromCart) {
+      setCartActionMessage(bookRemovedFromCart + SHOP.removedFromCartMessage);
+      setOpenSnackbar(true);
+    }
+  }, [bookAddedToCart, bookRemovedFromCart]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSearch = (term) => {
     dispatch(searchResults(term));
@@ -55,15 +76,26 @@ const Shop = () => {
   };
 
   const onCartClick = (book, action) => {
-    if (action === "add") {
-      dispatch(addToCart(book));
-    } else if (action === "remove") {
-      dispatch(removeFromCart(book));
+    setOpenSnackbar(false);
+    dispatch(cartActionStart());
+    try {
+      if (action === "add") {
+        dispatch(addToCart(book));
+      } else if (action === "remove") {
+        dispatch(removeFromCart(book));
+      }
+      dispatch(cartActionSuccess({ book, action }));
+    } catch (error) {
+      dispatch(cartActionFailure(error.message));
     }
   };
 
   const onChangePage = (page) => {
     setPage(page);
+  };
+
+  const onCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -172,6 +204,24 @@ const Shop = () => {
           <Typography>{SHOP.searchResultsError}</Typography>
         </Container>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={openSnackbar}
+        onClose={onCloseSnackbar}
+        autoHideDuration={6000}
+        sx={{ height: 100 }}
+        message={cartActionMessage}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={onCloseSnackbar}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        }
+      />
     </Container>
   );
 };

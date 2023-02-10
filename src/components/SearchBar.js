@@ -48,10 +48,11 @@ const SearchBar = (props) => {
             sx={{
               fontSize: { xs: 20, sm: 24 },
               marginTop: { xs: -3, sm: -4, lg: -5 },
-              marginLeft: { xs: -3 },
+              marginLeft: { xs: -2, sm: -1, md: 0 },
               minWidth: 800,
               whiteSpace: "normal",
             }}
+            shrink={true}
           >
             {label}
           </InputLabel>

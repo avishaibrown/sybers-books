@@ -39,6 +39,8 @@ const theme = createTheme({
   },
 });
 
+//TODO: Deal with adding and removing books from cart and showing the snackbar
+//TODO: Handle loading and error states for adding to/removing from cart
 //TODO: Notification that book has been added/removed from cart
 //TODO: Fix styledBadge bug
 //TODO: Integrate Google Pay
@@ -50,6 +52,8 @@ const theme = createTheme({
 //TODO: Remove sticky components (AppBar, ModalHeader, ModalFooter)
 //TODO: Work out colour palette and background
 //TODO: Finally, host website
+
+//NOTE: Only returning books that have a title, author and price
 
 const App = () => {
   let routes = (
