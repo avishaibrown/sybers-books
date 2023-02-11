@@ -18,6 +18,8 @@ import {
   Stack,
   Snackbar,
   IconButton,
+  List,
+  ListItem,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import Typography from "../components/Typography";
@@ -188,7 +190,15 @@ const Shop = () => {
           </Box>
         </Container>
       ) : (
-        <Box my={10} display="flex" sx={{ justifyContent: "center" }}>
+        <Box
+          m={10}
+          display="flex"
+          sx={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Typography
             variant="h5"
             sx={{
@@ -196,6 +206,19 @@ const Shop = () => {
             }}
           >
             {SHOP.noResults}
+            <List
+              sx={{
+                listStyleType: "disc",
+                pl: 4,
+                "& .MuiListItem-root": {
+                  display: "list-item",
+                },
+              }}
+            >
+              {SHOP.noResultsSuggestions.map((item, index) => (
+                <ListItem key={index}>{item}</ListItem>
+              ))}
+            </List>
           </Typography>
         </Box>
       )}

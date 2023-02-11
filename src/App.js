@@ -39,15 +39,13 @@ const theme = createTheme({
   },
 });
 
-//TODO: Deal with adding and removing books from cart and showing the snackbar
+//TODO: Snackbar bugs (1. rendering on refresh + not showing second quickfire action)
+//TODO: Add Snackbar to other areas where Add/Remove to Cart can get triggered
 //TODO: Handle loading and error states for adding to/removing from cart
-//TODO: Notification that book has been added/removed from cart
-//TODO: Fix styledBadge bug
+//TODO: Add Categories component with list of all available categories (visible in Home and Shop pages)
 //TODO: Integrate Google Pay
-//TODO: Add ability to search for rough matches, not exact matches
 //TODO: Add ability to write to database that item is no longer available
 //TODO: If item is no longer available, do not return it in search results
-//TODO: Add Categories component with list of all available categories (visible in Home and Shop pages)
 //TODO: Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
 //TODO: Remove sticky components (AppBar, ModalHeader, ModalFooter)
 //TODO: Work out colour palette and background

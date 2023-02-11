@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 // const {
 //   initializeAppCheck,
 //   ReCaptchaV3Provider,
@@ -21,20 +21,19 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 // Get all unique categories in the Books collection
-async function getUniqueCategories(db) {
-  let uniqueCategoryArr = [];
-  const booksRef = collection(db, "Books");
-  const categoriesSnapshot = await getDocs(booksRef);
-  uniqueCategoryArr = categoriesSnapshot.forEach((doc) => {
-    const category = doc.data().category5;
-    if (!uniqueCategoryArr.includes(category)) {
-      uniqueCategoryArr.push(category);
-    }
-  });
-  return uniqueCategoryArr;
-}
+// async function getUniqueCategories(db) {
+//   let uniqueCategoryArr = new Set();
+//   const booksRef = collection(db, "Books");
+//   console.log("booksRef", booksRef);
+//   const categoriesSnapshot = await getDocs(booksRef);
+//   categoriesSnapshot.forEach((doc) => {
+//     uniqueCategoryArr.add(doc.data().category);
+//     uniqueCategoryArr.add(doc.data().category5);
+//   });
+//   return [...uniqueCategoryArr];
+// }
 
-console.log(getUniqueCategories(db));
+// console.log(getUniqueCategories(db));
 
 // const appCheck = initializeAppCheck(app, {
 //   provider: new ReCaptchaV3Provider("6LdMOJcjAAAAANU2m3jcWbDF_DNmZbLK8OgIwswB"),

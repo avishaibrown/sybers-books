@@ -6,8 +6,8 @@ const booksCollectionRef = collection(db, "Books");
 export const findByCategory = async (term) => {
   const q = query(
     booksCollectionRef,
-    where("category", "==", term),
-    limit(200)
+    where("category", ">=", term),
+    where("category", "<=", term + "\uf8ff")
   );
   return await getDocs(q);
 };
@@ -15,14 +15,20 @@ export const findByCategory = async (term) => {
 export const findByAuthor = async (term) => {
   const q = query(
     booksCollectionRef,
-    where("authorSn", "==", term),
+    where("authorSn", ">=", term),
+    where("authorSn", "<=", term + "\uf8ff"),
     limit(200)
   );
   return await getDocs(q);
 };
 
 export const findByTitle = async (term) => {
-  const q = query(booksCollectionRef, where("title1", "==", term), limit(200));
+  const q = query(
+    booksCollectionRef,
+    where("title1", ">=", term),
+    where("title1", "<=", term + "\uf8ff"),
+    limit(200)
+  );
   return await getDocs(q);
 };
 
