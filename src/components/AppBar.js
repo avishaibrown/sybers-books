@@ -32,7 +32,7 @@ const AppBar = (props) => {
       divider={<Divider orientation="vertical" flexItem />}
     >
       {menuItems.map((item) =>
-        item.title === CART ? (
+        item.title === CART.title ? (
           <IconButton key={item.title} href={item.link} aria-label={CART}>
             <StyledBadge
               badgeContent={cartItems}
