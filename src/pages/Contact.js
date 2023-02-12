@@ -120,12 +120,7 @@ const Contact = () => {
   };
 
   return (
-    <Container
-      component="section"
-      disableGutters
-      maxWidth={false}
-      sx={{ mt: { xs: 8, md: 10 } }}
-    >
+    <Container component="section" disableGutters maxWidth={false}>
       <MapContainer
         center={CONTACT.googleMapsCoordinates}
         zoom={CONTACT.googleMapsZoom}

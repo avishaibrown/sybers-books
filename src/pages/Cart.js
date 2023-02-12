@@ -106,7 +106,7 @@ const Cart = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 15, md: 20 },
+        mt: { xs: 5, md: 10 },
         mb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
@@ -143,7 +143,7 @@ const Cart = () => {
             <TableContainer component={Paper}>
               <Table
                 sx={{
-                  width: { xs: 500, sm: 600, md: 800, lg: 1000, xl: 1400 },
+                  width: { xs: 450, sm: 600, md: 800, lg: 1000, xl: 1400 },
                 }}
                 aria-label="shopping cart books table"
               >
@@ -154,7 +154,7 @@ const Cart = () => {
                         key={"cart-table-header-" + index}
                         sx={{
                           fontWeight: "bold",
-                          fontSize: { xs: "1.25rem", md: "1.5rem" },
+                          fontSize: { xs: "1.125rem", md: "1.5rem" },
                         }}
                       >
                         {item}
@@ -179,7 +179,13 @@ const Cart = () => {
                             variant="h5"
                             href="#"
                             onClick={() => onBookClick(book)}
-                            sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }}
+                            sx={{
+                              fontSize: { xs: "1.125rem", md: "1.5rem" },
+                              textDecoration: "none",
+                              "&:hover": {
+                                textDecoration: "underline",
+                              },
+                            }}
                           >
                             {book.title1
                               ? truncateString(book.title1, 80, true)
@@ -188,9 +194,8 @@ const Cart = () => {
                           <Typography
                             variant="body1"
                             color="text.secondary"
-                            sx={{ fontSize: { xs: "1rem", md: "1.25rem" } }}
+                            sx={{ fontSize: { xs: "0.9rem", md: "1.25rem" } }}
                           >
-                            {" "}
                             {book.authorSn
                               ? truncateString(book.authorSn, 50, true)
                               : SHOP.missingValuesText.author}
@@ -215,24 +220,22 @@ const Cart = () => {
                           value={book.price1}
                           displayType={"text"}
                           prefix={"$"}
-                          suffix={" AUD"}
                           thousandSeparator={true}
                           decimalScale={2}
                         />
                       </TableCell>
                     </TableRow>
                   ))}
-                  <TableRow>
+                  <TableRow sx={{ backgroundColor: "#F6F6F6" }}>
                     <TableCell rowSpan={1} />
                     <TableCell align="right" sx={{ fontWeight: "bold" }}>
                       {CART.subtotal}
                     </TableCell>
                     <TableCell align="left">
                       <CurrencyFormat
-                        value={subtotal}
+                        value={subtotal.toFixed(2)}
                         displayType={"text"}
                         prefix={"$"}
-                        suffix={" AUD"}
                         thousandSeparator={true}
                         decimalScale={2}
                       />
@@ -248,7 +251,7 @@ const Cart = () => {
                 sx={{ minWidth: { xs: 300, sm: 500 } }}
                 aria-label="shopping cart totals table"
               >
-                <TableHead>
+                <TableHead sx={{ backgroundColor: "#F6F6F6" }}>
                   <TableRow>
                     <TableCell
                       colSpan={2}
@@ -266,7 +269,7 @@ const Cart = () => {
                     </TableCell>
                     <TableCell>
                       <CurrencyFormat
-                        value={subtotal}
+                        value={subtotal.toFixed(2)}
                         displayType={"text"}
                         prefix={"$"}
                         suffix={" AUD"}
@@ -307,7 +310,7 @@ const Cart = () => {
                       sx={{ fontWeight: "bold", fontSize: "1.125rem" }}
                     >
                       <CurrencyFormat
-                        value={total}
+                        value={total.toFixed(2)}
                         displayType={"text"}
                         prefix={"$"}
                         suffix={" AUD"}
