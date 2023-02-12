@@ -19,7 +19,10 @@ export const PAYMENT_ROUTES = [
 export const HOME = {
   hero: {
     titles: ["Rare.", "Out of Print.", "Niche."],
-    description: "Melbourne's #1 Second-Hand Bookstore",
+    description: [
+      "Discover the hidden gems of literature at Syber's Books:",
+      "Where rare finds meet passionate book lovers.",
+    ],
     image: "./images/home-photo.jpg",
     button: "Start Browsing",
   },
@@ -29,11 +32,10 @@ export const HOME = {
 export const ABOUT = {
   title: "About",
   description: [
-    "Welcome to Syber's Books, your one-stop-shop for all your reading needs!",
-    "At Syber's Books, we believe that books are a powerful tool for enriching people's lives and spreading knowledge. That's why we've created an online bookstore that makes it easy for you to access and purchase a wide range of books, no matter where you are.",
-    "We offer a comprehensive selection of books, including bestsellers, classics, and the latest releases, in genres ranging from fiction, non-fiction, and children's books, to cooking, travel, and self-help. Our easy-to-use website allows you to browse and purchase books with just a few clicks, and our secure payment system ensures that your transactions are always safe and secure.",
-    "Our mission at Syber's Books is to provide an accessible and convenient platform for people to discover and purchase the books they love. We are passionate about books, and we want to share that passion with you. That's why we are dedicated to offering exceptional customer service, with friendly and knowledgeable staff always available to answer your questions and help you find the perfect book for you.",
-    "So whether you're looking for your next favorite novel, a cookbook for your next big dinner party, or a guide to help you grow as a person, Syber's Books has got you covered. Start browsing our selection today and discover the joy of reading!",
+    "Welcome to Syber's Books, your destination for all things rare and unique!",
+    "At Syber's Books, we are dedicated to bringing you the best in second-hand books, with a focus on those hard-to-find titles covering topics from ornithology to the occult. As a woman-owned bookstore, we have a personal touch and a passion for books that sets us apart. With over 200,000 books in our collection, you're sure to find something that piques your interest.",
+    "In addition to our diverse selection of books, we also offer a one-of-a-kind shopping experience. Our physical bookstore is home to three feline residents who are always eager to meet new visitors. And of course, our owner, Penny, is always on hand to answer questions and help you find the perfect book.",
+    "At Syber's Books, we believe that books have the power to inspire, educate, and entertain, and we are committed to making sure you have access to the books you love. So come and explore our shelves today, and discover why Syber's Books is the ultimate destination for book lovers everywhere!",
   ],
   terms: [
     "All transactions are in Australian dollars (AUD).",

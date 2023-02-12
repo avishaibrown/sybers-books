@@ -2,6 +2,7 @@ import Button from "../components/Button";
 import Typography from "./Typography";
 import HeroLayout from "./HeroLayout";
 import MovingText from "react-moving-text";
+import { Box } from "@mui/material";
 
 const Hero = (props) => {
   const { title, description, image, buttonText, onButtonClick } = props;
@@ -39,28 +40,36 @@ const Hero = (props) => {
           </Typography>
         ))}
       </MovingText>
-
-      <MovingText
-        type="fadeIn"
-        duration="5000ms"
-        delay="0s"
-        direction="normal"
-        timing="ease"
-        iteration="1"
-        fillMode="none"
+      <Box
+        sx={{
+          mb: 4,
+          mt: { xs: 4, sm: 6, md: 8, lg: 10 },
+        }}
       >
-        <Typography
-          color="inherit"
-          align="center"
-          sx={{
-            typography: { xs: "h6", md: "h5", lg: "h4" },
-            mb: 4,
-            mt: { xs: 4, sm: 6, md: 8, lg: 10 },
-          }}
+        <MovingText
+          type="fadeIn"
+          duration="5000ms"
+          delay="0s"
+          direction="normal"
+          timing="ease"
+          iteration="1"
+          fillMode="none"
         >
-          {description}
-        </Typography>
-      </MovingText>
+          {description.map((item, index) => (
+            <Typography
+              key={"hero-description-text-" + index}
+              color="inherit"
+              align="center"
+              sx={{
+                typography: { xs: "body1", md: "h5", lg: "h4" },
+                mx: 2,
+              }}
+            >
+              {item}
+            </Typography>
+          ))}
+        </MovingText>
+      </Box>
       <Button
         color="secondary"
         variant="contained"

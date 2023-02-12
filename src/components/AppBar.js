@@ -59,7 +59,7 @@ const AppBar = (props) => {
   );
 
   return (
-    <MuiAppBar position="fixed" sx={{ backgroundColor: "#D2F7FE" }}>
+    <MuiAppBar position="static" sx={{ backgroundColor: "#D2F7FE" }}>
       <Toolbar sx={{ mx: { xs: 2, md: 3, lg: 5, xl: 10 } }}>
         <Box
           component="img"
