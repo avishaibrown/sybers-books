@@ -1,11 +1,22 @@
-import { Home, Face3, Email, Search, ShoppingCart } from "@mui/icons-material";
+import {
+  Home,
+  Face3,
+  Email,
+  ShoppingCart,
+  Storefront,
+} from "@mui/icons-material";
 
 //HEADER
 export const APP_TITLE = "Syber's Books";
 export const APP_TITLE_IMAGE_FILE_NAME = "./images/app-title.png";
 export const MENU_ITEMS = [
   { title: "Home", link: "/", icon: <Home /> },
-  { title: "Shop", link: "/shop", icon: <Search /> },
+  {
+    title: "Shop",
+    link: "/shop",
+    icon: <Storefront />,
+    showIconInAppBar: true,
+  },
   { title: "About", link: "/about", icon: <Face3 /> },
   { title: "Contact", link: "/contact", icon: <Email /> },
   { title: "Cart", link: "/cart", icon: <ShoppingCart /> },

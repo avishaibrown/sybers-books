@@ -46,12 +46,15 @@ const AppBar = (props) => {
           <Link
             key={item.title}
             href={item.link}
-            p={1}
+            p={{ lg: 0, xl: 1 }}
             underline="hover"
             color="#2c292c"
-            sx={{ fontSize: 24 }}
+            sx={{ fontSize: 24, alignSelf: "center" }}
           >
             {item.title}
+            {item.showIconInAppBar && (
+              <IconButton edge="end">{item.icon}</IconButton>
+            )}
           </Link>
         )
       )}
