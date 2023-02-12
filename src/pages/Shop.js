@@ -123,7 +123,7 @@ const Shop = () => {
         })}
       >
         <SearchBar
-          label={SHOP.searchTitle}
+          label={SHOP.searchBarLabel}
           onSearch={(value) => onSearch(value)}
           value={searchTerm}
           id={"search-bar"}

@@ -22,22 +22,26 @@ export const searchResults = createAsyncThunk(
       let matchingAuthors = [];
       let matchingTitles = [];
       let matchingIsbns = [];
+      let matchingCategories = [];
 
       //get all book objects that match search term from server
       const authorRes = await findByAuthor(term);
       const titleRes = await findByTitle(term);
       const isbnRes = await findByIsbn(term);
+      const categoryRes = await findByCategory(term);
 
       //grab all matching books
       matchingAuthors = authorRes.docs.map((doc) => doc.data());
       matchingTitles = titleRes.docs.map((doc) => doc.data());
       matchingIsbns = isbnRes.docs.map((doc) => doc.data());
+      matchingCategories = categoryRes.docs.map((doc) => doc.data());
 
       return {
         searchResults: [
           ...matchingAuthors,
           ...matchingTitles,
           ...matchingIsbns,
+          ...matchingCategories,
         ],
         searchTerm: term,
       };

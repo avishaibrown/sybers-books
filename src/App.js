@@ -56,6 +56,7 @@ const theme = createTheme({
 //TODO: Remove sticky components (AppBar, ModalHeader, ModalFooter)
 //TODO: Work out colour palette and background
 //TODO: Finally, host website
+//TODO: Get Penny to review shipping information
 
 //NOTE: Only returning books that have a title, author and price
 
@@ -94,6 +95,7 @@ const App = () => {
           <Footer
             image={FOOTER.image}
             imageAlt={FOOTER.imageAlt}
+            navigateTo={MENU_ITEMS[0].link}
             copyright={FOOTER.copyright}
             menuItems={MENU_ITEMS}
             socialLink={FOOTER.link}

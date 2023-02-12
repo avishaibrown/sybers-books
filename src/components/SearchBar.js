@@ -10,7 +10,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { SEARCH_BAR_PLACEHOLDER } from "../utils/constants";
+import { SHOP } from "../utils/constants";
 
 const SearchBar = (props) => {
   const { label, onSearch, value } = props;
@@ -64,7 +64,7 @@ const SearchBar = (props) => {
             fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
             minWidth: { xs: 300, sm: 450, md: 600, lg: 800 },
           }}
-          placeholder={SEARCH_BAR_PLACEHOLDER}
+          placeholder={SHOP.searchBarPlaceholder}
           onChange={(event) => setSearchValue(event.target.value)}
           onKeyDown={onKeyPressHandler}
           autoFocus

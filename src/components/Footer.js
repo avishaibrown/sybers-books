@@ -2,10 +2,21 @@ import * as React from "react";
 import { Box, Stack, IconButton, Link, Divider } from "@mui/material";
 import Typography from "./Typography";
 import { Facebook } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Footer = (props) => {
-  const { image, imageAlt, copyright, socialLink, privacy, terms, shipping } =
-    props;
+  const {
+    image,
+    imageAlt,
+    navigateTo,
+    copyright,
+    socialLink,
+    privacy,
+    terms,
+    shipping,
+  } = props;
+
+  const navigate = useNavigate();
 
   return (
     <Box component="footer" sx={{ py: 4, textAlign: "center" }}>
@@ -39,8 +50,10 @@ const Footer = (props) => {
           sx={{
             maxHeight: { xs: 240, md: 360 },
             maxWidth: { xs: 200, md: 220 },
+            "&:hover": { cursor: "pointer" },
             my: 1,
           }}
+          onClick={() => navigate(navigateTo)}
         />
         <IconButton href={socialLink} target="_blank" rel="noopener noreferrer">
           <Facebook />

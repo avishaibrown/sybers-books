@@ -29,8 +29,11 @@ export const HOME = {
 export const ABOUT = {
   title: "About",
   description: [
-    "(As all true stories start) Once upon a time there was a bookshop called Pigs' Wings Books run by a young blonde-headed girl called Jean.",
-    "There was another young girl called Penny who had completed her nursing training in Queensland, and had come to the big smoke of Melbourne...",
+    "Welcome to Syber's Books, your one-stop-shop for all your reading needs!",
+    "At Syber's Books, we believe that books are a powerful tool for enriching people's lives and spreading knowledge. That's why we've created an online bookstore that makes it easy for you to access and purchase a wide range of books, no matter where you are.",
+    "We offer a comprehensive selection of books, including bestsellers, classics, and the latest releases, in genres ranging from fiction, non-fiction, and children's books, to cooking, travel, and self-help. Our easy-to-use website allows you to browse and purchase books with just a few clicks, and our secure payment system ensures that your transactions are always safe and secure.",
+    "Our mission at Syber's Books is to provide an accessible and convenient platform for people to discover and purchase the books they love. We are passionate about books, and we want to share that passion with you. That's why we are dedicated to offering exceptional customer service, with friendly and knowledgeable staff always available to answer your questions and help you find the perfect book for you.",
+    "So whether you're looking for your next favorite novel, a cookbook for your next big dinner party, or a guide to help you grow as a person, Syber's Books has got you covered. Start browsing our selection today and discover the joy of reading!",
   ],
   terms: [
     "All transactions are in Australian dollars (AUD).",
@@ -40,13 +43,11 @@ export const ABOUT = {
   button: "Shop Now",
 };
 
-//SEARCH BAR
-export const SEARCH_BAR_PLACEHOLDER =
-  "Type to search for a book by title, author or ISBN";
-
 //SHOP PAGE
 export const SHOP = {
-  searchTitle: "Search from our collection of over 100,000 books:",
+  searchBarLabel: "Search from our collection of over 100,000 books:",
+  searchBarPlaceholder:
+    "Type to search for a book by title, author, genre, or ISBN",
   searchResultsTitle: "Search Results",
   sortByMenuItems: [
     { label: "Price: Low to High", value: "asc" },
