@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Alert,
   IconButton,
@@ -58,6 +58,7 @@ const Cart = () => {
   const [bookToDisplay, setBookToDisplay] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [cartActionMessage, setCartActionMessage] = useState("");
+  const cancelledAlertRef = useRef(null);
 
   useEffect(() => {
     if (!!bookAddedToCart) {
@@ -71,6 +72,8 @@ const Cart = () => {
 
   const onCancelTransaction = () => {
     setCancelled(true);
+    window.scrollTo(0, 0);
+    cancelledAlertRef.current && cancelledAlertRef.current.focus();
   };
 
   const onClickHandler = (book, action) => {
@@ -106,7 +109,7 @@ const Cart = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 5, md: 10 },
+        mt: cancelled ? 0 : { xs: 5, md: 10 },
         mb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
@@ -114,6 +117,20 @@ const Cart = () => {
       disableGutters
       maxWidth={false}
     >
+      {cancelled && (
+        <Box m={3}>
+          <Alert
+            onClose={() => setCancelled(false)}
+            severity="info"
+            variant="filled"
+            autoHideDuration={6000}
+            ref={cancelledAlertRef}
+            m={5}
+          >
+            {CART.transactionCancelled}
+          </Alert>
+        </Box>
+      )}
       <Typography
         variant="h2"
         gutterBottom
@@ -122,15 +139,6 @@ const Cart = () => {
       >
         {CART.title}
       </Typography>
-      {cancelled && (
-        <Alert
-          onClose={() => setCancelled(false)}
-          severity="info"
-          variant="filled"
-        >
-          {CART.transactionCancelled}
-        </Alert>
-      )}
       {cart.length > 0 && (
         <Grid
           container
