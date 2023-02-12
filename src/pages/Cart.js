@@ -332,7 +332,7 @@ const Cart = () => {
             </TableContainer>
             <Box m={5}>
               <GooglePay
-                amount={total}
+                amount={total.toString()}
                 onCancelHandler={onCancelTransaction}
                 shippingOptions={SHIPPING_OPTIONS}
                 unserviceableCountries={UNSERVICEABLE_SHIPPING_COUNTRIES}

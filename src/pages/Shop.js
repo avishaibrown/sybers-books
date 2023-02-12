@@ -205,27 +205,27 @@ const Shop = () => {
               fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
             }}
           >
-            {SHOP.noResults}
+            {error ? SHOP.searchResultsErrorLine1 : SHOP.noResults}
             <List
               sx={{
                 listStyleType: "disc",
-                pl: 4,
+                pl: { xs: 4, md: 8 },
                 "& .MuiListItem-root": {
                   display: "list-item",
                 },
               }}
             >
-              {SHOP.noResultsSuggestions.map((item, index) => (
-                <ListItem key={index}>{item}</ListItem>
-              ))}
+              {error ? (
+                <ListItem>{error}</ListItem>
+              ) : (
+                SHOP.noResultsSuggestions.map((item, index) => (
+                  <ListItem key={index}>{item}</ListItem>
+                ))
+              )}
             </List>
+            {error && SHOP.searchResultsErrorLine2}
           </Typography>
         </Box>
-      )}
-      {error && (
-        <Container>
-          <Typography>{SHOP.searchResultsError}</Typography>
-        </Container>
       )}
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

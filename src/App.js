@@ -45,6 +45,7 @@ const theme = createTheme({
   },
 });
 
+//TODO: Add no items in cart screen with shop now button
 //TODO: Set subtotal, shipping and total to be 2 decimal places in Redux store
 //TODO: Snackbar bugs (1. rendering on refresh + not showing second quickfire action)
 //TODO: Handle loading and error states for adding to/removing from cart

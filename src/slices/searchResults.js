@@ -18,36 +18,40 @@ const initialState = {
 export const searchResults = createAsyncThunk(
   "books/searchResults",
   async (term, { getState }) => {
-    try {
-      let matchingAuthors = [];
-      let matchingTitles = [];
-      let matchingIsbns = [];
-      let matchingCategories = [];
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          let matchingAuthors = [];
+          let matchingTitles = [];
+          let matchingIsbns = [];
+          let matchingCategories = [];
 
-      //get all book objects that match search term from server
-      const authorRes = await findByAuthor(term);
-      const titleRes = await findByTitle(term);
-      const isbnRes = await findByIsbn(term);
-      const categoryRes = await findByCategory(term);
+          //get all book objects that match search term from server
+          const authorRes = await findByAuthor(term);
+          const titleRes = await findByTitle(term);
+          const isbnRes = await findByIsbn(term);
+          const categoryRes = await findByCategory(term);
 
-      //grab all matching books
-      matchingAuthors = authorRes.docs.map((doc) => doc.data());
-      matchingTitles = titleRes.docs.map((doc) => doc.data());
-      matchingIsbns = isbnRes.docs.map((doc) => doc.data());
-      matchingCategories = categoryRes.docs.map((doc) => doc.data());
+          //grab all matching books
+          matchingAuthors = authorRes.docs.map((doc) => doc.data());
+          matchingTitles = titleRes.docs.map((doc) => doc.data());
+          matchingIsbns = isbnRes.docs.map((doc) => doc.data());
+          matchingCategories = categoryRes.docs.map((doc) => doc.data());
 
-      return {
-        searchResults: [
-          ...matchingAuthors,
-          ...matchingTitles,
-          ...matchingIsbns,
-          ...matchingCategories,
-        ],
-        searchTerm: term,
-      };
-    } catch (error) {
-      return error.message;
-    }
+          resolve({
+            searchResults: [
+              ...matchingAuthors,
+              ...matchingTitles,
+              ...matchingIsbns,
+              ...matchingCategories,
+            ],
+            searchTerm: term,
+          });
+        } catch (error) {
+          reject(error.message);
+        }
+      }, SHOP.searchTimeout);
+    });
   }
 );
 
@@ -91,6 +95,7 @@ const searchResultsSlice = createSlice({
         state.loading = true;
       })
       .addCase(searchResults.fulfilled, (state, action) => {
+        console.log("state", state, "action", action);
         state.loading = false;
         state.searchResults = [...action.payload.searchResults];
         state.sortedResults = [...action.payload.searchResults];

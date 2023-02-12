@@ -1,4 +1,4 @@
-import { Container, Box, List, ListItem } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import Typography from "../components/Typography";
 import { SHIPPING_AND_RETURNS } from "../utils/constants";
 

@@ -62,6 +62,7 @@ export const SHOP = {
   searchBarPlaceholder:
     "Type to search for a book by title, author, genre, or ISBN",
   searchResultsTitle: "Search Results",
+  searchTimeout: 1000,
   sortByMenuItems: [
     { label: "Price: Low to High", value: "asc" },
     { label: "Price: High to Low", value: "desc" },
@@ -84,8 +85,9 @@ export const SHOP = {
     "Capitalise search terms to get better matches",
     "Authors are typically listed in 'Last Name, First Name' format",
   ],
-  searchResultsError:
-    "Error encountered while attempting to search the database. Please try again later.",
+  searchResultsErrorLine1:
+    "The following error was encountered while attempting to search the database:",
+  searchResultsErrorLine2: "Please try again later.",
   modalTabs: {
     0: "Details",
     1: "Description",

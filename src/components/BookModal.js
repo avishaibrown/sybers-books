@@ -23,7 +23,7 @@ import {
 import { Close } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Typography from "./Typography";
-import { truncateString, getBookDetailsData } from "../utils/util";
+import { getBookDetailsData } from "../utils/util";
 
 const BookModal = (props) => {
   const {
