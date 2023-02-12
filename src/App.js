@@ -18,8 +18,14 @@ import {
   FOOTER,
   APP_TITLE_IMAGE_FILE_NAME,
   PAYMENT_ROUTES,
+  PRIVACY_POLICY,
+  TERMS_AND_CONDITIONS,
+  SHIPPING_AND_RETURNS,
 } from "./utils/constants";
 import libreFranklin from "@fontsource/libre-franklin";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import ShippingReturns from "./pages/ShippingReturns";
 
 const theme = createTheme({
   palette: {
@@ -61,6 +67,9 @@ const App = () => {
       <Route path={MENU_ITEMS[2].link} element={<About />} />
       <Route path={MENU_ITEMS[3].link} element={<Contact />} />
       <Route path={MENU_ITEMS[4].link} element={<Cart />} />
+      <Route path={PRIVACY_POLICY.link} element={<PrivacyPolicy />} />
+      <Route path={TERMS_AND_CONDITIONS.link} element={<TermsConditions />} />
+      <Route path={SHIPPING_AND_RETURNS.link} element={<ShippingReturns />} />
       <Route path={PAYMENT_ROUTES[0].link} element={<Success />} />
       <Route path={PAYMENT_ROUTES[1].link} element={<Cancel />} />
       <Route path="*" element={<Navigate to="/" />} />
@@ -86,7 +95,11 @@ const App = () => {
             image={FOOTER.image}
             imageAlt={FOOTER.imageAlt}
             copyright={FOOTER.copyright}
-            link={FOOTER.link}
+            menuItems={MENU_ITEMS}
+            socialLink={FOOTER.link}
+            privacy={PRIVACY_POLICY}
+            terms={TERMS_AND_CONDITIONS}
+            shipping={SHIPPING_AND_RETURNS}
           />
         </Container>
       </ThemeProvider>

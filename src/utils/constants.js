@@ -259,3 +259,23 @@ export const CATEGORIES_FROM_DB = [
   "Travel & Places",
   "Women & Feminism",
 ];
+
+export const PRIVACY_POLICY = {
+  title: "Privacy Policy",
+  link: "/privacy-policy",
+  lastUpdatedDate: "12/02/2023",
+  email: "sybersbooks@gmail.com",
+};
+
+export const TERMS_AND_CONDITIONS = {
+  title: "Terms & Conditions",
+  link: "/terms-and-conditions",
+  lastUpdatedDate: "12/02/2023",
+  email: "sybersbooks@gmail.com",
+};
+
+export const SHIPPING_AND_RETURNS = {
+  title: "Shipping & Returns",
+  link: "/shipping-and-returns",
+  email: "sybersbooks@gmail.com",
+};
