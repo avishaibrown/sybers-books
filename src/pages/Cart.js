@@ -21,15 +21,19 @@ import {
 } from "@mui/material";
 import { Delete, Close } from "@mui/icons-material";
 import Typography from "../components/Typography";
+import Button from "../components/Button";
 import GooglePay from "../components/GooglePayButton";
+import BookModal from "../components/BookModal";
 import {
   SHIPPING_ADDRESS_UNSERVICEABLE_REASON,
   SHIPPING_OPTIONS,
   CART,
   UNSERVICEABLE_SHIPPING_COUNTRIES,
   SHOP,
+  ABOUT,
 } from "../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import {
   removeFromCart,
   addToCart,
@@ -40,10 +44,10 @@ import {
 } from "../slices/cart";
 import CurrencyFormat from "react-currency-format";
 import { truncateString } from "../utils/util";
-import BookModal from "../components/BookModal";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart.cart);
   const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
@@ -139,7 +143,7 @@ const Cart = () => {
       >
         {CART.title}
       </Typography>
-      {cart.length > 0 && (
+      {cart.length > 0 ? (
         <Grid
           container
           direction="column"
@@ -341,6 +345,46 @@ const Cart = () => {
             </Box>
           </Grid>
         </Grid>
+      ) : (
+        <Box
+          component="section"
+          sx={{ display: "flex", bgcolor: "#F6F6F6", overflow: "hidden" }}
+        >
+          <Container
+            sx={{
+              my: { xs: 5, md: 10 },
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <Box
+              component="img"
+              src="./images/wallpaper-curvy-lines.png"
+              alt="curvy lines"
+              sx={{ pointerEvents: "none", position: "absolute", top: -180 }}
+            />
+            <Typography
+              sx={{
+                typography: { xs: "h6", xl: "h5" },
+              }}
+              m={{ xs: 1, lg: 3 }}
+            >
+              {CART.emptyCartMessage}
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="large"
+              onClick={() => navigate("/shop")}
+              sx={{ textTransform: "none", mt: 5 }}
+            >
+              {ABOUT.button}
+            </Button>
+          </Container>
+        </Box>
       )}
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

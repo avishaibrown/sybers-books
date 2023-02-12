@@ -52,7 +52,11 @@ export const ABOUT = {
     "All transactions are in Australian dollars (AUD).",
     "We accept Mastercard, Visa, Diners, Amex, and PayPal.",
   ],
-  image: "./images/about-photo.png",
+  images: [
+    "./images/about-store-front.png",
+    "./images/about-penny.png",
+    "./images/about-cat-in-store.jpg",
+  ],
   button: "Shop Now",
 };
 
@@ -156,6 +160,7 @@ export const CONTACT = {
 //CART
 export const CART = {
   title: "Cart",
+  emptyCartMessage: "Your cart is empty.",
   cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",

@@ -37,19 +37,23 @@ const About = () => {
         <Grid item xs={12} lg={5}>
           <Box
             sx={{
-              display: "flex",
+              display: "block",
               justifyContent: { xs: "center", lg: "right" },
             }}
           >
-            <Box
-              component="img"
-              alt={ABOUT.title}
-              src={ABOUT.image}
-              sx={{
-                maxWidth: { xs: 400, sm: 450, xl: 600 },
-                borderRadius: "3%",
-              }}
-            />
+            {ABOUT.images.map((image, index) => (
+              <Box
+                component="img"
+                key={"about-image-" + index}
+                alt={ABOUT.title}
+                src={image}
+                sx={{
+                  maxWidth: { xs: 400, sm: 450, xl: 600 },
+                  borderRadius: "3%",
+                  mb: 2,
+                }}
+              />
+            ))}
           </Box>
         </Grid>
         <Grid
