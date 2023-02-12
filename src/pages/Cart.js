@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Alert,
   IconButton,
@@ -17,8 +17,9 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
+  Snackbar,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Delete, Close } from "@mui/icons-material";
 import Typography from "../components/Typography";
 import GooglePay from "../components/GooglePayButton";
 import {
@@ -29,37 +30,76 @@ import {
   SHOP,
 } from "../utils/constants";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart, addToCart, updateShippingCost } from "../slices/cart";
+import {
+  removeFromCart,
+  addToCart,
+  cartActionStart,
+  cartActionSuccess,
+  cartActionFailure,
+  updateShippingCost,
+} from "../slices/cart";
 import CurrencyFormat from "react-currency-format";
 import { truncateString } from "../utils/util";
 import BookModal from "../components/BookModal";
-
-//TODO: Subtotal format to be with 2 decimal places
 
 const Cart = () => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart.cart);
+  const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
+  const bookRemovedFromCart = useSelector(
+    (state) => state.cart.bookRemovedFromCart
+  );
   const subtotal = useSelector((state) => state.cart.subtotal);
   const shipping = useSelector((state) => state.cart.shipping);
   const total = useSelector((state) => state.cart.total);
   const [cancelled, setCancelled] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [bookToDisplay, setBookToDisplay] = useState({});
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [cartActionMessage, setCartActionMessage] = useState("");
+
+  useEffect(() => {
+    if (!!bookAddedToCart) {
+      setCartActionMessage(bookAddedToCart + SHOP.addedToCartMessage);
+      setOpenSnackbar(true);
+    } else if (bookRemovedFromCart) {
+      setCartActionMessage(bookRemovedFromCart + SHOP.removedFromCartMessage);
+      setOpenSnackbar(true);
+    }
+  }, [bookAddedToCart, bookRemovedFromCart]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onCancelTransaction = () => {
     setCancelled(true);
   };
 
   const onClickHandler = (book, action) => {
-    if (action === "add") {
-      dispatch(addToCart(book));
-    } else if (action === "remove") {
-      dispatch(removeFromCart(book));
+    setOpenModal(false);
+    setOpenSnackbar(false);
+    dispatch(cartActionStart());
+    try {
+      if (action === "add") {
+        dispatch(addToCart(book));
+      } else if (action === "remove") {
+        dispatch(removeFromCart(book));
+      }
+      dispatch(cartActionSuccess({ book, action }));
+    } catch (error) {
+      dispatch(cartActionFailure(error.message));
     }
   };
 
   const onShippingChange = (event) => {
     dispatch(updateShippingCost(Number(event.target.value)));
+  };
+
+  const onBookClick = (book) => {
+    setBookToDisplay(book);
+    setOpenModal(true);
+  };
+
+  const onCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -102,7 +142,9 @@ const Cart = () => {
           <Grid item xs={12} md={10}>
             <TableContainer component={Paper}>
               <Table
-                sx={{ minWidth: { xs: 300, sm: 500, md: 800, lg: 1000 } }}
+                sx={{
+                  width: { xs: 500, sm: 600, md: 800, lg: 1000, xl: 1400 },
+                }}
                 aria-label="shopping cart books table"
               >
                 <TableHead>
@@ -136,11 +178,11 @@ const Cart = () => {
                           <Link
                             variant="h5"
                             href="#"
-                            onClick={() => setOpenModal(true)}
+                            onClick={() => onBookClick(book)}
                             sx={{ fontSize: { xs: "1.25rem", md: "1.5rem" } }}
                           >
                             {book.title1
-                              ? truncateString(book.title1, 100, true)
+                              ? truncateString(book.title1, 80, true)
                               : SHOP.missingValuesText.title}
                           </Link>
                           <Typography
@@ -158,7 +200,7 @@ const Cart = () => {
                           <BookModal
                             open={openModal}
                             setOpen={setOpenModal}
-                            book={book}
+                            book={bookToDisplay}
                             onClickHandler={onClickHandler}
                             addToCart={cart.every(
                               (obj) => obj.Serial !== book.Serial
@@ -289,6 +331,24 @@ const Cart = () => {
           </Grid>
         </Grid>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={openSnackbar}
+        onClose={onCloseSnackbar}
+        autoHideDuration={6000}
+        sx={{ height: 100 }}
+        message={cartActionMessage}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={onCloseSnackbar}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        }
+      />
     </Container>
   );
 };

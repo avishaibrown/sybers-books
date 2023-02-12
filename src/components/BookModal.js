@@ -96,15 +96,11 @@ const BookModal = (props) => {
           >
             <Box maxWidth={{ xs: 400, sm: 600, md: "none" }}>
               <Typography variant="h5" gutterBottom>
-                {book.title1
-                  ? truncateString(book.title1, 100, true)
-                  : missingValuesText.title}
+                {book.title1 ? book.title1 : missingValuesText.title}
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 {" "}
-                {book.authorSn
-                  ? truncateString(book.authorSn, 50, true)
-                  : missingValuesText.author}
+                {book.authorSn ? book.authorSn : missingValuesText.author}
               </Typography>
             </Box>
             <IconButton
@@ -141,21 +137,23 @@ const BookModal = (props) => {
                 justifyContent: "center",
               }}
             >
-              {book?.url && (
-                <Box
-                  component="img"
-                  sx={{
-                    width: 300,
-                    border: `1px solid ${theme.palette.primary.main}`,
-                    borderRadius: "0.25rem",
-                    overflow: "hidden",
-                  }}
-                  src={
-                    book?.url === "" ? "./images/no-image-found.jpg" : book.url
-                  }
-                  alt={book.title1}
-                />
-              )}
+              <Box
+                component="img"
+                sx={{
+                  width: 300,
+                  border: `1px solid ${theme.palette.primary.main}`,
+                  borderRadius: "0.25rem",
+                  overflow: "hidden",
+                }}
+                src={
+                  book?.url === "" ? "./images/no-image-found.jpg" : book.url
+                }
+                alt={book.title1}
+                onError={(event) => {
+                  event.target.onerror = null;
+                  event.target.src = "./images/no-image-found.jpg";
+                }}
+              />
             </Grid>
             <Grid item xs={12} md={8}>
               <Box sx={{ width: "100%" }}>

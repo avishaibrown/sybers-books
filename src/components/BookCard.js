@@ -29,18 +29,20 @@ const BookCard = (props) => {
           background: "linear-gradient(to bottom, #D2F7FE 0%, #FFFFFF 100%)",
         }}
       >
-        {book?.url ? (
-          <CardMedia
-            component="img"
-            sx={{
-              width: 200,
-              display: { xs: "none", sm: "block" },
-              float: "left",
-            }}
-            image={book?.url === "" ? "./images/no-image-found.jpg" : book.url}
-            alt={book.title1}
-          />
-        ) : null}
+        <CardMedia
+          component="img"
+          sx={{
+            width: 200,
+            display: { xs: "none", sm: "block" },
+            float: "left",
+          }}
+          image={book?.url === "" ? "./images/no-image-found.jpg" : book.url}
+          alt={book.title1}
+          onError={(event) => {
+            event.target.onerror = null;
+            event.target.src = "./images/no-image-found.jpg";
+          }}
+        />
         <Box
           sx={{
             display: "flex",
@@ -53,7 +55,7 @@ const BookCard = (props) => {
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
                 {book.title1
-                  ? truncateString(book.title1, 50, true)
+                  ? truncateString(book.title1, 40, true)
                   : missingValuesText.title}
               </Typography>
               <Typography
@@ -62,7 +64,7 @@ const BookCard = (props) => {
                 color="text.secondary"
               >
                 {book.authorSn
-                  ? truncateString(book.authorSn, 50, true)
+                  ? truncateString(book.authorSn, 25, true)
                   : missingValuesText.author}
               </Typography>
             </CardContent>

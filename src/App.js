@@ -45,10 +45,9 @@ const theme = createTheme({
   },
 });
 
+//TODO: Set subtotal to 2 decimal places in Cart
 //TODO: Snackbar bugs (1. rendering on refresh + not showing second quickfire action)
-//TODO: Add Snackbar to other areas where Add/Remove to Cart can get triggered
 //TODO: Handle loading and error states for adding to/removing from cart
-//TODO: Add Categories component with list of all available categories (visible in Home and Shop pages)
 //TODO: Integrate Google Pay
 //TODO: Add ability to write to database that item is no longer available
 //TODO: If item is no longer available, do not return it in search results

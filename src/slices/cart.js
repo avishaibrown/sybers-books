@@ -46,6 +46,7 @@ const cartSlice = createSlice({
       state.cartError = action.payload;
     },
     updateShippingCost: (state, action) => {
+      //remove the previous shipping cost if present
       state.total -= state.shipping;
       state.shipping = action.payload;
       state.total += state.shipping;
