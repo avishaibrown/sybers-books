@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Container, Box, Grid } from "@mui/material";
+import { Container, Box, Grid, Stack } from "@mui/material";
 import Typography from "../components/Typography";
 import Button from "../components/Button";
 import { ABOUT } from "../utils/constants";
@@ -35,11 +35,11 @@ const About = () => {
       </Typography>
       <Grid container mb={{ xs: 2, lg: 10 }}>
         <Grid item xs={12} lg={5}>
-          <Box
-            sx={{
-              display: "block",
-              justifyContent: { xs: "center", lg: "right" },
-            }}
+          <Stack
+            direction="column"
+            alignItems={{ xs: "center", lg: "right" }}
+            justifyContent="space-between"
+            spacing={2}
           >
             {ABOUT.images.map((image, index) => (
               <Box
@@ -50,11 +50,10 @@ const About = () => {
                 sx={{
                   maxWidth: { xs: 400, sm: 450, xl: 600 },
                   borderRadius: "3%",
-                  mb: 2,
                 }}
               />
             ))}
-          </Box>
+          </Stack>
         </Grid>
         <Grid
           item
@@ -83,7 +82,7 @@ const About = () => {
       >
         <Container
           sx={{
-            my: { xs: 2, sm: 5, md: 10 },
+            my: { xs: 5, md: 10 },
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -113,7 +112,7 @@ const About = () => {
             color="secondary"
             size="large"
             onClick={() => navigate("/shop")}
-            sx={{ textTransform: "none", my: 5 }}
+            sx={{ textTransform: "none", mt: 5 }}
           >
             {ABOUT.button}
           </Button>
