@@ -45,6 +45,12 @@ const cartSlice = createSlice({
       state.cartLoading = false;
       state.cartError = action.payload;
     },
+    cartActionReset: (state) => {
+      state.cartLoading = false;
+      state.cartError = false;
+      state.bookAddedToCart = "";
+      state.bookRemovedFromCart = "";
+    },
     updateShippingCost: (state, action) => {
       //remove the previous shipping cost if present
       state.total -= state.shipping;
@@ -60,6 +66,7 @@ export const {
   cartActionStart,
   cartActionSuccess,
   cartActionFailure,
+  cartActionReset,
   updateShippingCost,
 } = cartSlice.actions;
 

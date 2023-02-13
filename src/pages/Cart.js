@@ -1,4 +1,16 @@
 import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import CurrencyFormat from "react-currency-format";
+import {
+  removeFromCart,
+  addToCart,
+  cartActionStart,
+  cartActionSuccess,
+  cartActionFailure,
+  cartActionReset,
+  updateShippingCost,
+} from "../slices/cart";
 import {
   Alert,
   IconButton,
@@ -17,15 +29,15 @@ import {
   FormControlLabel,
   RadioGroup,
   Radio,
-  Snackbar,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import { Delete, Close } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import Typography from "../components/Typography";
 import Button from "../components/Button";
 import GooglePay from "../components/GooglePayButton";
 import BookModal from "../components/BookModal";
+import MessageSnackbar from "../components/MessageSnackbar";
 import {
   SHIPPING_ADDRESS_UNSERVICEABLE_REASON,
   SHIPPING_OPTIONS,
@@ -34,17 +46,6 @@ import {
   SHOP,
   ABOUT,
 } from "../utils/constants";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
-import {
-  removeFromCart,
-  addToCart,
-  cartActionStart,
-  cartActionSuccess,
-  cartActionFailure,
-  updateShippingCost,
-} from "../slices/cart";
-import CurrencyFormat from "react-currency-format";
 import { truncateString } from "../utils/util";
 
 const Cart = () => {
@@ -88,9 +89,9 @@ const Cart = () => {
   };
 
   const onClickHandler = (book, action) => {
+    dispatch(cartActionReset());
     dispatch(cartActionStart());
     setOpenModal(false);
-    setOpenSnackbar(false);
     try {
       if (action === "add") {
         dispatch(addToCart(book));
@@ -398,23 +399,11 @@ const Cart = () => {
           </Container>
         </Box>
       )}
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      <MessageSnackbar
         open={openSnackbar}
         onClose={onCloseSnackbar}
-        autoHideDuration={6000}
-        sx={{ height: 100 }}
+        onBlur={() => dispatch(cartActionReset())}
         message={cartActionMessage}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={onCloseSnackbar}
-          >
-            <Close fontSize="small" />
-          </IconButton>
-        }
       />
     </Container>
   );

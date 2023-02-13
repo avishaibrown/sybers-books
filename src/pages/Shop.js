@@ -7,6 +7,7 @@ import {
   cartActionStart,
   cartActionSuccess,
   cartActionFailure,
+  cartActionReset,
 } from "../slices/cart";
 import {
   Container,
@@ -16,18 +17,16 @@ import {
   Pagination,
   Box,
   Stack,
-  Snackbar,
-  IconButton,
   List,
   ListItem,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import MessageSnackbar from "../components/MessageSnackbar";
 import Typography from "../components/Typography";
-import { SHOP } from "../utils/constants";
-import { searchResultsCounter } from "../utils/util";
 import SearchBar from "../components/SearchBar";
 import BookCard from "../components/BookCard";
 import SearchResultsSelect from "../components/SearchResultsSelect";
+import { SHOP } from "../utils/constants";
+import { searchResultsCounter } from "../utils/util";
 
 const Shop = () => {
   const results = useSelector((state) => state.searchResults.searchResults);
@@ -83,8 +82,8 @@ const Shop = () => {
   };
 
   const onCartClick = (book, action) => {
+    dispatch(cartActionReset());
     dispatch(cartActionStart());
-    setOpenSnackbar(false);
     try {
       if (action === "add") {
         dispatch(addToCart(book));
@@ -233,23 +232,11 @@ const Shop = () => {
           </Typography>
         </Box>
       )}
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      <MessageSnackbar
         open={openSnackbar}
         onClose={onCloseSnackbar}
-        autoHideDuration={6000}
-        sx={{ height: 100 }}
+        onBlur={() => dispatch(cartActionReset())}
         message={cartActionMessage}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={onCloseSnackbar}
-          >
-            <Close fontSize="small" />
-          </IconButton>
-        }
       />
     </Container>
   );
