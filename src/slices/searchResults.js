@@ -95,7 +95,6 @@ const searchResultsSlice = createSlice({
         state.loading = true;
       })
       .addCase(searchResults.fulfilled, (state, action) => {
-        console.log("state", state, "action", action);
         state.loading = false;
         state.searchResults = [...action.payload.searchResults];
         state.sortedResults = [...action.payload.searchResults];

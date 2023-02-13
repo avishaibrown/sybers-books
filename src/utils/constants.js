@@ -22,8 +22,8 @@ export const MENU_ITEMS = [
   { title: "Cart", link: "/cart", icon: <ShoppingCart /> },
 ];
 export const PAYMENT_ROUTES = [
-  { title: "Success", link: "/success" },
-  { title: "Cancel", link: "/cancel" },
+  { title: "Transaction Success", link: "/success" },
+  { title: "Transaction Error", link: "/error" },
 ];
 
 //HOME PAGE
@@ -165,10 +165,7 @@ export const CART = {
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
   shipping: "Shipping",
-  shippingCostOptions: [
-    { label: "Standard Shipping ($14.99 AUD)", value: 14.99 },
-    { label: "Express Shipping ($29.99 AUD)", value: 29.99 },
-  ],
+  shippingErrorText: "Please select one of the shipping options.",
   total: "Total",
   transactionCancelled: "TRANSACTION CANCELLED",
 };
@@ -179,16 +176,16 @@ export const SHIPPING_ADDRESS_UNSERVICEABLE_REASON =
   "We cannot deliver to the shipping address you have provided.";
 export const SHIPPING_OPTIONS = [
   {
-    id: "free",
-    label: "Free shipping",
-    description: "Free shipping arrives in 5-7 business days",
-    price: "0.00",
+    id: "standard",
+    label: "Standard Shipping ($14.99 AUD)",
+    description: "Standard shipping arrives in 5-7 business days",
+    price: "14.99",
   },
   {
     id: "express",
-    label: "Express shipping",
+    label: "Express Shipping ($29.99 AUD)",
     description: "Express shipping delivered in 1-3 business days",
-    price: "5.00",
+    price: "29.99",
   },
 ];
 
@@ -299,4 +296,18 @@ export const SHIPPING_AND_RETURNS = {
   title: "Shipping & Returns",
   link: "/shipping-and-returns",
   email: "sybersbooks@gmail.com",
+};
+
+export const SUCCESS = {
+  title: "Congratulations!",
+  message: "Your order has been placed successfully.",
+  link: "/",
+  linkText: "Return to Home",
+};
+
+export const ERROR = {
+  title: "Uh Oh!",
+  message: "There was an error processing your order.",
+  link: "/",
+  linkText: "Return to Home",
 };

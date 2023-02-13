@@ -5,8 +5,8 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
-import Success from "./pages/Success";
-import Cancel from "./pages/Cancel";
+import TransactionSuccess from "./pages/TransactionSuccess";
+import TransactionError from "./pages/TransactionError";
 import Cart from "./pages/Cart";
 import AppBar from "./components/AppBar";
 import Footer from "./components/Footer";
@@ -45,9 +45,13 @@ const theme = createTheme({
   },
 });
 
-//TODO: Set subtotal, shipping and total to be 2 decimal places in Redux store
-//TODO: Integrate Google Pay
 //TODO: Add ability to write to database that item is no longer available
+// ------- batch update is not working atm, perhaps try individual updates?
+//TODO: Use Zapier to upload CSV from MS Excel and get it migrated to Stripe
+//TODO: Add PSP to Google Pay
+//TODO: Research how to send order confirmation email + store orders somewhere? Stripe?
+
+//TODO: Combine Success/Error pages into one Outcome page
 //TODO: If item is no longer available, do not return it in search results
 //TODO: Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
 //TODO: Fix all bugs when viewport height changes (e.g. Hero)
@@ -68,8 +72,8 @@ const App = () => {
       <Route path={PRIVACY_POLICY.link} element={<PrivacyPolicy />} />
       <Route path={TERMS_AND_CONDITIONS.link} element={<TermsConditions />} />
       <Route path={SHIPPING_AND_RETURNS.link} element={<ShippingReturns />} />
-      <Route path={PAYMENT_ROUTES[0].link} element={<Success />} />
-      <Route path={PAYMENT_ROUTES[1].link} element={<Cancel />} />
+      <Route path={PAYMENT_ROUTES[0].link} element={<TransactionSuccess />} />
+      <Route path={PAYMENT_ROUTES[1].link} element={<TransactionError />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

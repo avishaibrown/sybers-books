@@ -7,6 +7,10 @@ const GooglePay = (props) => {
     shippingOptions,
     unserviceableCountries,
     unserviceableReason,
+    shipping,
+    shippingType,
+    subtotal,
+    onTransactionSuccess,
   } = props;
 
   return (
@@ -27,12 +31,12 @@ const GooglePay = (props) => {
             tokenizationSpecification: {
               type: "PAYMENT_GATEWAY",
               parameters: {
-                // gateway: "example",
-                // gatewayMerchantId: "exampleGatewayMerchantId",
+                gateway: "example",
+                gatewayMerchantId: "exampleGatewayMerchantId",
                 // TODO: Switch to Stipe when going live
-                gateway: "stripe",
-                "stripe:version": "2018-10-31",
-                "stripe:publishableKey": process.env.REACT_APP_STRIPE_API_KEY,
+                // gateway: "stripe",
+                // "stripe:version": "2018-10-31",
+                // "stripe:publishableKey": process.env.REACT_APP_STRIPE_API_KEY,
               },
             },
           },
@@ -52,18 +56,12 @@ const GooglePay = (props) => {
             {
               label: "Subtotal",
               type: "SUBTOTAL",
-              price: "11.00",
-            },
-            {
-              label: "Tax",
-              type: "TAX",
-              price: "1.00",
+              price: subtotal,
             },
             {
               label: "Shipping",
-              type: "LINE_ITEM",
-              price: "0",
-              status: "PENDING",
+              type: "TAX",
+              price: shipping,
             },
           ],
         },
@@ -79,7 +77,7 @@ const GooglePay = (props) => {
           phoneNumberRequired: true,
         },
         shippingOptionParameters: {
-          defaultSelectedOptionId: "free",
+          defaultSelectedOptionId: shippingType,
           shippingOptions: shippingOptions.map((o) => ({
             id: o.id,
             label: o.label,
@@ -96,9 +94,13 @@ const GooglePay = (props) => {
       }}
       //Invoked when a user chooses a payment method
       //This callback should be used to validate whether or not the payment method can be used to complete a payment
-      onPaymentAuthorized={(paymentData) => ({
-        transactionState: "SUCCESS",
-      })}
+      onPaymentAuthorized={(paymentData) => {
+        console.log("payment authorized", paymentData);
+        onTransactionSuccess();
+        return {
+          transactionState: "SUCCESS",
+        };
+      }}
       //Invoked when payment the user changes payment data options including payment method, shipping details, and contact details
       //transactionInfo is updated
       onPaymentDataChanged={(paymentData) => {

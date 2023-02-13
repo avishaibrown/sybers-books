@@ -10,6 +10,8 @@ import {
   cartActionFailure,
   cartActionReset,
   updateShippingCost,
+  markBooksAsSold,
+  clearCart,
 } from "../slices/cart";
 import {
   Alert,
@@ -27,6 +29,7 @@ import {
   Link,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   RadioGroup,
   Radio,
   Backdrop,
@@ -45,6 +48,7 @@ import {
   UNSERVICEABLE_SHIPPING_COUNTRIES,
   SHOP,
   ABOUT,
+  PAYMENT_ROUTES,
 } from "../utils/constants";
 import { truncateString } from "../utils/util";
 
@@ -61,13 +65,22 @@ const Cart = () => {
   );
   const subtotal = useSelector((state) => state.cart.subtotal);
   const shipping = useSelector((state) => state.cart.shipping);
+  const shippingType = useSelector((state) => state.cart.shippingType);
   const total = useSelector((state) => state.cart.total);
+  const transactionComplete = useSelector(
+    (state) => state.cart.transactionComplete
+  );
   const [cancelled, setCancelled] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [bookToDisplay, setBookToDisplay] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [cartActionMessage, setCartActionMessage] = useState("");
+  const [shippingError, setShippingError] = useState(false);
   const cancelledAlertRef = useRef(null);
+
+  useEffect(() => {
+    shipping === "0.00" ? setShippingError(true) : setShippingError(false);
+  }, [shipping]);
 
   useEffect(() => {
     if (!!bookAddedToCart) {
@@ -80,7 +93,15 @@ const Cart = () => {
       setCartActionMessage(cartError);
       setOpenSnackbar(true);
     }
-  }, [bookAddedToCart, bookRemovedFromCart, cartError]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [bookAddedToCart, bookRemovedFromCart, cartError]);
+
+  useEffect(() => {
+    if (transactionComplete) {
+      dispatch(clearCart());
+      //TODO: Add logic to navigate to Success/Error based on outcome
+      navigate(PAYMENT_ROUTES[1].link);
+    }
+  }, [transactionComplete, navigate, dispatch]);
 
   const onCancelTransaction = () => {
     setCancelled(true);
@@ -117,6 +138,16 @@ const Cart = () => {
     setOpenSnackbar(false);
   };
 
+  const onTransactionSuccess = async () => {
+    try {
+      const cartBookIds = cart.map((book) => book.Serial);
+      await dispatch(markBooksAsSold(cartBookIds));
+    } catch (error) {
+      console.error(error);
+      navigate(PAYMENT_ROUTES[1].link);
+    }
+  };
+
   return (
     <Container
       component="section"
@@ -141,7 +172,6 @@ const Cart = () => {
             onClose={() => setCancelled(false)}
             severity="info"
             variant="filled"
-            autoHideDuration={6000}
             ref={cancelledAlertRef}
             m={5}
           >
@@ -258,11 +288,10 @@ const Cart = () => {
                     </TableCell>
                     <TableCell align="left">
                       <CurrencyFormat
-                        value={subtotal.toFixed(2)}
+                        value={subtotal}
                         displayType={"text"}
                         prefix={"$"}
                         thousandSeparator={true}
-                        decimalScale={2}
                       />
                     </TableCell>
                   </TableRow>
@@ -294,12 +323,11 @@ const Cart = () => {
                     </TableCell>
                     <TableCell>
                       <CurrencyFormat
-                        value={subtotal.toFixed(2)}
+                        value={subtotal}
                         displayType={"text"}
                         prefix={"$"}
                         suffix={" AUD"}
                         thousandSeparator={true}
-                        decimalScale={2}
                       />
                     </TableCell>
                   </TableRow>
@@ -308,22 +336,27 @@ const Cart = () => {
                       {CART.shipping}
                     </TableCell>
                     <TableCell>
-                      <FormControl>
+                      <FormControl error={shippingError}>
                         <RadioGroup
                           aria-labelledby="shipping-cost-radio-group"
                           name="shipping-cost-radio-group"
                           value={shipping}
                           onChange={onShippingChange}
                         >
-                          {CART.shippingCostOptions.map((item, index) => (
+                          {SHIPPING_OPTIONS.map((item, index) => (
                             <FormControlLabel
-                              key={"shipping-cost-radio-button-" + index}
-                              value={item.value}
+                              key={`shipping-cost-radio-button-${index}`}
+                              value={item.price}
                               control={<Radio />}
                               label={item.label}
                             />
                           ))}
                         </RadioGroup>
+                        {shippingError && (
+                          <FormHelperText>
+                            {CART.shippingErrorText}
+                          </FormHelperText>
+                        )}
                       </FormControl>
                     </TableCell>
                   </TableRow>
@@ -335,27 +368,32 @@ const Cart = () => {
                       sx={{ fontWeight: "bold", fontSize: "1.125rem" }}
                     >
                       <CurrencyFormat
-                        value={total.toFixed(2)}
+                        value={total}
                         displayType={"text"}
                         prefix={"$"}
                         suffix={" AUD"}
                         thousandSeparator={true}
-                        decimalScale={2}
                       />
                     </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
-            <Box m={5}>
-              <GooglePay
-                amount={total.toString()}
-                onCancelHandler={onCancelTransaction}
-                shippingOptions={SHIPPING_OPTIONS}
-                unserviceableCountries={UNSERVICEABLE_SHIPPING_COUNTRIES}
-                unserviceableReason={SHIPPING_ADDRESS_UNSERVICEABLE_REASON}
-              ></GooglePay>
-            </Box>
+            {!shippingError && (
+              <Box m={5}>
+                <GooglePay
+                  amount={total}
+                  onCancelHandler={onCancelTransaction}
+                  shippingOptions={SHIPPING_OPTIONS}
+                  unserviceableCountries={UNSERVICEABLE_SHIPPING_COUNTRIES}
+                  unserviceableReason={SHIPPING_ADDRESS_UNSERVICEABLE_REASON}
+                  shipping={shipping}
+                  shippingType={shippingType}
+                  subtotal={subtotal}
+                  onTransactionSuccess={onTransactionSuccess}
+                />
+              </Box>
+            )}
           </Grid>
         </Grid>
       ) : (
