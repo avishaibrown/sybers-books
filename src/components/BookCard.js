@@ -15,8 +15,14 @@ import BookModal from "./BookModal";
 import CartIcon from "./CartIcon";
 
 const BookCard = (props) => {
-  const { book, onClickHandler, addToCart, missingValuesText, modalTabs } =
-    props;
+  const {
+    book,
+    onClickHandler,
+    loading,
+    addToCart,
+    missingValuesText,
+    modalTabs,
+  } = props;
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -102,17 +108,16 @@ const BookCard = (props) => {
             />
           </CardActions>
         </Box>
-        {openModal && (
-          <BookModal
-            open={openModal}
-            setOpen={setOpenModal}
-            book={book}
-            onClickHandler={onClickHandler}
-            addToCart={addToCart}
-            missingValuesText={missingValuesText}
-            modalTabs={modalTabs}
-          />
-        )}
+        <BookModal
+          open={openModal}
+          setOpen={setOpenModal}
+          book={book}
+          onClickHandler={onClickHandler}
+          loading={loading}
+          addToCart={addToCart}
+          missingValuesText={missingValuesText}
+          modalTabs={modalTabs}
+        />
       </Card>
     </Grid>
   );

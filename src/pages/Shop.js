@@ -38,6 +38,8 @@ const Shop = () => {
   const error = useSelector((state) => state.searchResults.error);
   const searchTerm = useSelector((state) => state.searchResults.searchTerm);
   const cart = useSelector((state) => state.cart.cart);
+  const cartLoading = useSelector((state) => state.cart.cartLoading);
+  const cartError = useSelector((state) => state.cart.cartError);
   const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
   const bookRemovedFromCart = useSelector(
     (state) => state.cart.bookRemovedFromCart
@@ -60,8 +62,11 @@ const Shop = () => {
     } else if (bookRemovedFromCart) {
       setCartActionMessage(bookRemovedFromCart + SHOP.removedFromCartMessage);
       setOpenSnackbar(true);
+    } else if (cartError) {
+      setCartActionMessage(cartError);
+      setOpenSnackbar(true);
     }
-  }, [bookAddedToCart, bookRemovedFromCart]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [bookAddedToCart, bookRemovedFromCart, cartError]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSearch = (term) => {
     dispatch(searchResults(term));
@@ -78,8 +83,8 @@ const Shop = () => {
   };
 
   const onCartClick = (book, action) => {
-    setOpenSnackbar(false);
     dispatch(cartActionStart());
+    setOpenSnackbar(false);
     try {
       if (action === "add") {
         dispatch(addToCart(book));
@@ -104,7 +109,7 @@ const Shop = () => {
     <Container component="section" maxWidth={false} disableGutters>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
+        open={loading || cartLoading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -161,15 +166,16 @@ const Shop = () => {
             {sortedResults
               .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
               .map(
-                (book) =>
+                (book, index) =>
                   book.title1 &&
                   book.authorSn &&
                   book.price1 &&
                   book.Serial && (
                     <BookCard
-                      key={book.Serial}
+                      key={"book-card-" + index}
                       book={book}
                       onClickHandler={onCartClick}
+                      loading={cartLoading}
                       addToCart={cart.every(
                         (obj) => obj.Serial !== book.Serial
                       )}

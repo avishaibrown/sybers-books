@@ -19,6 +19,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  CircularProgress,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
@@ -31,6 +32,7 @@ const BookModal = (props) => {
     setOpen,
     book,
     onClickHandler,
+    loading,
     addToCart,
     missingValuesText,
     modalTabs,
@@ -43,7 +45,7 @@ const BookModal = (props) => {
   const descriptionElementRef = useRef(null);
 
   const handleClose = () => {
-    setOpen(false);
+    !loading && setOpen(false);
   };
 
   const handleTabChange = (event, newIndex) => {
@@ -216,13 +218,25 @@ const BookModal = (props) => {
           </Grid>
         </DialogContent>
         <DialogActions sx={{ mx: "auto", my: 1 }}>
-          <CartIcon
-            addToCart={addToCart}
-            onClickHandler={onClickHandler}
-            book={book}
-            isIcon={false}
-            price={book.price1}
-          />
+          {loading ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress size={30} />
+            </Box>
+          ) : (
+            <CartIcon
+              addToCart={addToCart}
+              onClickHandler={onClickHandler}
+              book={book}
+              isIcon={false}
+              price={book.price1}
+            />
+          )}
         </DialogActions>
       </Dialog>
     </div>

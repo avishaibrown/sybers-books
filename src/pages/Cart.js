@@ -18,6 +18,8 @@ import {
   RadioGroup,
   Radio,
   Snackbar,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { Delete, Close } from "@mui/icons-material";
 import Typography from "../components/Typography";
@@ -50,6 +52,8 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart.cart);
+  const cartLoading = useSelector((state) => state.cart.cartLoading);
+  const cartError = useSelector((state) => state.cart.cartError);
   const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
   const bookRemovedFromCart = useSelector(
     (state) => state.cart.bookRemovedFromCart
@@ -71,8 +75,11 @@ const Cart = () => {
     } else if (bookRemovedFromCart) {
       setCartActionMessage(bookRemovedFromCart + SHOP.removedFromCartMessage);
       setOpenSnackbar(true);
+    } else if (cartError) {
+      setCartActionMessage(cartError);
+      setOpenSnackbar(true);
     }
-  }, [bookAddedToCart, bookRemovedFromCart]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [bookAddedToCart, bookRemovedFromCart, cartError]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onCancelTransaction = () => {
     setCancelled(true);
@@ -81,9 +88,9 @@ const Cart = () => {
   };
 
   const onClickHandler = (book, action) => {
+    dispatch(cartActionStart());
     setOpenModal(false);
     setOpenSnackbar(false);
-    dispatch(cartActionStart());
     try {
       if (action === "add") {
         dispatch(addToCart(book));
@@ -121,6 +128,12 @@ const Cart = () => {
       disableGutters
       maxWidth={false}
     >
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={cartLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {cancelled && (
         <Box m={3}>
           <Alert
@@ -213,19 +226,18 @@ const Cart = () => {
                               : SHOP.missingValuesText.author}
                           </Typography>
                         </Box>
-                        {openModal && (
-                          <BookModal
-                            open={openModal}
-                            setOpen={setOpenModal}
-                            book={bookToDisplay}
-                            onClickHandler={onClickHandler}
-                            addToCart={cart.every(
-                              (obj) => obj.Serial !== book.Serial
-                            )}
-                            missingValuesText={SHOP.missingValuesText}
-                            modalTabs={SHOP.modalTabs}
-                          />
-                        )}
+                        <BookModal
+                          open={openModal}
+                          setOpen={setOpenModal}
+                          book={bookToDisplay}
+                          onClickHandler={onClickHandler}
+                          loading={cartLoading}
+                          addToCart={cart.every(
+                            (obj) => obj.Serial !== book.Serial
+                          )}
+                          missingValuesText={SHOP.missingValuesText}
+                          modalTabs={SHOP.modalTabs}
+                        />
                       </TableCell>
                       <TableCell>
                         <CurrencyFormat
