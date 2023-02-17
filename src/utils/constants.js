@@ -160,7 +160,7 @@ export const CONTACT = {
 //CART
 export const CART = {
   title: "Cart",
-  emptyCartMessage: "Your cart is empty.",
+  emptyCartMessage: ["Your cart is empty."],
   cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
@@ -300,14 +300,14 @@ export const SHIPPING_AND_RETURNS = {
 
 export const SUCCESS = {
   title: "Congratulations!",
-  message: "Your order has been placed successfully.",
+  message: ["Your order has been placed successfully."],
   link: "/",
   linkText: "Return to Home",
 };
 
 export const ERROR = {
   title: "Uh Oh!",
-  message: "There was an error processing your order.",
+  message: ["There was an error processing your order."],
   link: "/",
   linkText: "Return to Home",
 };

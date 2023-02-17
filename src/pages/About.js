@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { Container, Box, Grid, Stack } from "@mui/material";
 import Typography from "../components/Typography";
-import Button from "../components/Button";
+import InfoActionBox from "../components/InfoActionBox";
 import { ABOUT } from "../utils/constants";
-import { useNavigate } from "react-router";
 
 const About = () => {
-  const navigate = useNavigate();
-
   //scroll to top when page is navigated to
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -76,48 +73,11 @@ const About = () => {
           ))}
         </Grid>
       </Grid>
-      <Box
-        component="section"
-        sx={{ display: "flex", bgcolor: "#F6F6F6", overflow: "hidden" }}
-      >
-        <Container
-          sx={{
-            my: { xs: 5, md: 10 },
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src="./images/wallpaper-curvy-lines.png"
-            alt="curvy lines"
-            sx={{ pointerEvents: "none", position: "absolute", top: -180 }}
-          />
-          {ABOUT.terms.map((paragraph, index) => (
-            <Typography
-              sx={{
-                typography: { xs: "body1", sm: "h6", lg: "h6", xl: "h5" },
-              }}
-              m={{ xs: 1, lg: 3 }}
-              key={"about-terms-paragraph-" + index}
-            >
-              {paragraph}
-            </Typography>
-          ))}
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            onClick={() => navigate("/shop")}
-            sx={{ textTransform: "none", mt: 5 }}
-          >
-            {ABOUT.button}
-          </Button>
-        </Container>
-      </Box>
+      <InfoActionBox
+        infoText={ABOUT.terms}
+        buttonText={ABOUT.button}
+        navigateTo={"/shop"}
+      />
     </Container>
   );
 };

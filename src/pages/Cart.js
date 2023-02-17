@@ -37,9 +37,9 @@ import {
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import Typography from "../components/Typography";
-import Button from "../components/Button";
 import GooglePay from "../components/GooglePayButton";
 import BookModal from "../components/BookModal";
+import InfoActionBox from "../components/InfoActionBox";
 import MessageSnackbar from "../components/MessageSnackbar";
 import {
   SHIPPING_ADDRESS_UNSERVICEABLE_REASON,
@@ -397,45 +397,11 @@ const Cart = () => {
           </Grid>
         </Grid>
       ) : (
-        <Box
-          component="section"
-          sx={{ display: "flex", bgcolor: "#F6F6F6", overflow: "hidden" }}
-        >
-          <Container
-            sx={{
-              my: { xs: 5, md: 10 },
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            <Box
-              component="img"
-              src="./images/wallpaper-curvy-lines.png"
-              alt="curvy lines"
-              sx={{ pointerEvents: "none", position: "absolute", top: -180 }}
-            />
-            <Typography
-              sx={{
-                typography: { xs: "h6", xl: "h5" },
-              }}
-              m={{ xs: 1, lg: 3 }}
-            >
-              {CART.emptyCartMessage}
-            </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              onClick={() => navigate("/shop")}
-              sx={{ textTransform: "none", mt: 5 }}
-            >
-              {ABOUT.button}
-            </Button>
-          </Container>
-        </Box>
+        <InfoActionBox
+          infoText={CART.emptyCartMessage}
+          buttonText={ABOUT.button}
+          navigateTo={"/shop"}
+        />
       )}
       <MessageSnackbar
         open={openSnackbar}
