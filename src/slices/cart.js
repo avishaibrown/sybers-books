@@ -34,25 +34,25 @@ const cartSlice = createSlice({
   },
   reducers: {
     addToCart: (state, action) => {
-      if (state.cart.every((book) => book.Serial !== action.payload.Serial)) {
+      if (state.cart.every((book) => book.SERIAL !== action.payload.SERIAL)) {
         state.cart.push(action.payload);
         state.subtotal = (
-          Number(state.subtotal) + Number(action.payload.price1)
+          Number(state.subtotal) + Number(action.payload.PRICE)
         ).toFixed(2);
         state.total = (
-          Number(state.total) + Number(action.payload.price1)
+          Number(state.total) + Number(action.payload.PRICE)
         ).toFixed(2);
       }
     },
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter(
-        (item) => item.Serial !== action.payload.Serial
+        (item) => item.SERIAL !== action.payload.SERIAL
       );
       state.subtotal = (
-        Number(state.subtotal) - Number(action.payload.price1)
+        Number(state.subtotal) - Number(action.payload.PRICE)
       ).toFixed(2);
       state.total = (
-        Number(state.total) - Number(action.payload.price1)
+        Number(state.total) - Number(action.payload.PRICE)
       ).toFixed(2);
     },
     cartActionStart: (state) => {
@@ -64,9 +64,9 @@ const cartSlice = createSlice({
     cartActionSuccess: (state, action) => {
       state.cartLoading = false;
       if (action.payload.action === "add") {
-        state.bookAddedToCart = action.payload.book.title1;
+        state.bookAddedToCart = action.payload.book.TITLE;
       } else if (action.payload.action === "remove") {
-        state.bookRemovedFromCart = action.payload.book.title1;
+        state.bookRemovedFromCart = action.payload.book.TITLE;
       }
     },
     cartActionFailure: (state, action) => {

@@ -2,6 +2,7 @@ import { IconButton } from "@mui/material";
 import { ShoppingCart, RemoveShoppingCart } from "@mui/icons-material";
 import Button from "./Button";
 import { SHOP } from "../utils/constants";
+import { formatAsCurrency } from "../utils/util";
 
 const CartIcon = (props) => {
   const { addToCart, onClickHandler, book, isIcon, price } = props;
@@ -22,7 +23,10 @@ const CartIcon = (props) => {
         variant="contained"
         endIcon={<ShoppingCart />}
       >
-        {SHOP.modalButtons.add} {price && `( $${price} AUD )`}
+        {SHOP.modalButtons.add}
+        {" ("}
+        {price && formatAsCurrency(price)}
+        {") "}
       </Button>
     ) : !addToCart && isIcon ? (
       <IconButton
@@ -40,7 +44,10 @@ const CartIcon = (props) => {
         color="error"
         endIcon={<RemoveShoppingCart />}
       >
-        {SHOP.modalButtons.remove} {price && `( $${price} AUD )`}
+        {SHOP.modalButtons.remove}
+        {" ("}
+        {price && formatAsCurrency(price)}
+        {") "}
       </Button>
     );
 

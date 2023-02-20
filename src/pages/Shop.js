@@ -166,17 +166,17 @@ const Shop = () => {
               .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
               .map(
                 (book, index) =>
-                  book.title1 &&
-                  book.authorSn &&
-                  book.price1 &&
-                  book.Serial && (
+                  book.TITLE &&
+                  book.AUTHOR &&
+                  book.PRICE &&
+                  book.SERIAL && (
                     <BookCard
                       key={"book-card-" + index}
                       book={book}
                       onClickHandler={onCartClick}
                       loading={cartLoading}
                       addToCart={cart.every(
-                        (obj) => obj.Serial !== book.Serial
+                        (obj) => obj.SERIAL !== book.SERIAL
                       )}
                       missingValuesText={SHOP.missingValuesText}
                       modalTabs={SHOP.modalTabs}

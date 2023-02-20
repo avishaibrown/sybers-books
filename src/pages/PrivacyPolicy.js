@@ -34,70 +34,71 @@ const PrivacyPolicy = () => {
           use, store, and disclose your personal information.
         </Typography>
         <Typography paragraph>
-          <b>Information Collection:</b> We collect information from you when
+          <b>INFORMATION COLLECTION:</b> We collect information from you when
           you register on our website, place an order, subscribe to our
           newsletter, or fill out a form. The information we collect may include
           your name, mailing address, email address, phone number, and payment
           information.
         </Typography>
-        <Typography paragraph>
-          <b>Information Use:</b> We use the information we collect from you for
+        <Typography>
+          <b>INFORMATION USE:</b> We use the information we collect from you for
           the following purposes:
-          <List
-            sx={{
-              listStyleType: "disc",
-              pl: 4,
-              "& .MuiListItem-root": {
-                display: "list-item",
-              },
-            }}
-          >
-            <ListItem>To process and fulfill your orders</ListItem>
-            <ListItem>
-              To send you information about your account and order
-            </ListItem>
-            <ListItem>
-              To send you promotional emails about new products, special offers,
-              and other updates
-            </ListItem>
-            <ListItem>To improve our website and customer service</ListItem>
-            <ListItem>
-              To administer a contest, promotion, survey, or other site feature
-            </ListItem>
-          </List>
         </Typography>
+        <List
+          sx={{
+            listStyleType: "disc",
+            pl: 4,
+            "& .MuiListItem-root": {
+              display: "list-item",
+            },
+          }}
+        >
+          <ListItem>To process and fulfill your orders</ListItem>
+          <ListItem>
+            To send you information about your account and order
+          </ListItem>
+          <ListItem>
+            To send you promotional emails about new products, special offers,
+            and other updates
+          </ListItem>
+          <ListItem>To improve our website and customer service</ListItem>
+          <ListItem>
+            To administer a contest, promotion, survey, or other site feature
+          </ListItem>
+        </List>
+
         <Typography paragraph>
-          <b>Information Storage and Security:</b> We take appropriate measures
+          <b>INFORMATION STORAGE AND SECURITY:</b> We take appropriate measures
           to protect the security of your personal information, including the
           use of encryption technology. We store your information in a secure
           database and only authorized personnel have access to it.
         </Typography>
         <Typography paragraph>
-          <b>Information Disclosure:</b> We do not sell, trade, or rent your
+          <b>INFORMATION DISCLOSURE:</b> We do not sell, trade, or rent your
           personal information to third parties. We may disclose your
           information to our service providers, such as shipping companies and
           payment processors, to the extent necessary to provide our services to
           you.
         </Typography>
         <Typography paragraph>
-          <b>Cookies:</b> A cookie is a small data file that is stored on your
+          <b>COOKIES:</b> A cookie is a small data file that is stored on your
           device when you visit our website. We use cookies to remember your
           preferences and to track your usage of our website. You can choose to
           disable cookies in your browser, but this may affect your ability to
           use certain features of our website.
         </Typography>
         <Typography paragraph>
-          <b>Third-Party Links:</b> Our website may contain links to other
+          <b>THIRD-PARTY LINKS:</b> Our website may contain links to other
           sites. We are not responsible for the privacy practices of other sites
           and encourage you to read their privacy policies.
         </Typography>
         <Typography paragraph>
-          <b>Changes to This Privacy Policy:</b> We reserve the right to make
+          <b>CHANGES TO THIS PRIVACY POLICY:</b> We reserve the right to make
           changes to this Privacy Policy at any time. Any changes will be posted
           on this page and will become effective immediately.
         </Typography>
         <Typography paragraph>
-          <b>Contact Us:</b> If you have any questions or concerns about our
+          <b>CONTACT US:</b> If you have any questions or concerns about our
           Privacy Policy, please contact us at {PRIVACY_POLICY.email}. This
           Privacy Policy was last updated on {PRIVACY_POLICY.lastUpdatedDate}.
         </Typography>

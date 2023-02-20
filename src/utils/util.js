@@ -1,3 +1,5 @@
+import CurrencyFormat from "react-currency-format";
+
 export const truncateString = (str, n, useWordBoundary) => {
   if (str.length <= n) {
     return str;
@@ -7,6 +9,20 @@ export const truncateString = (str, n, useWordBoundary) => {
     (useWordBoundary
       ? subString.slice(0, subString.lastIndexOf(" "))
       : subString) + "..."
+  );
+};
+
+export const formatAsCurrency = (value) => {
+  return (
+    <CurrencyFormat
+      value={value}
+      displayType={"text"}
+      prefix={"$"}
+      suffix={" AUD"}
+      thousandSeparator={true}
+      decimalScale={2}
+      fixedDecimalScale
+    />
   );
 };
 
@@ -48,24 +64,26 @@ const createData = (attribute, value) => {
 
 export const getBookDetailsData = (book) => {
   let rowData = [];
-  book.price1 !== "" &&
-    rowData.push(createData("Price", "$" + book.price1 + "AUD"));
-  book.binding1 !== "" && rowData.push(createData("Format", book.binding1));
-  book.edition1 !== "" && rowData.push(createData("Edition", book.edition1));
-  book.signed !== "" && rowData.push(createData("Signed", book.signed));
-  if (book.condition1 !== "") {
-    rowData.push(createData("Condition", book.condition1));
-  } else if (book.djCondition !== "") {
-    rowData.push(createData("Condition", book.djCondition));
+  book.PRICE !== "" &&
+    rowData.push(createData("Price", formatAsCurrency(book.PRICE)));
+  book.BINDING !== "" && rowData.push(createData("Format", book.BINDING));
+  book.EDITION !== "" && rowData.push(createData("Edition", book.EDITION));
+  book.SIGNED !== "" && rowData.push(createData("Signed", book.SIGNED));
+  if (book.CONDITION !== "") {
+    rowData.push(createData("Condition", book.CONDITION));
+  } else if (book["DJ CONDITION"] !== "") {
+    rowData.push(createData("Condition", book["DJ CONDITION"]));
   }
-  book.yop !== "" && rowData.push(createData("Year Published", book.yop));
-  book.pop !== "" && rowData.push(createData("Place Published", book.pop));
-  book.publisher1 !== "" &&
-    rowData.push(createData("Publisher", book.publisher1));
-  book.language !== "" && rowData.push(createData("Language", book.language));
-  book.country !== "" && rowData.push(createData("Country", book.country));
-  book.category5 !== "" && rowData.push(createData("Genre", book.category5));
-  book.isbn !== "" && rowData.push(createData("ISBN", book.isbn));
+  book["YEAR PUBLISHED"] !== "" &&
+    rowData.push(createData("Year Published", book["YEAR PUBLISHED"]));
+  book["PLACE PUBLISHED"] !== "" &&
+    rowData.push(createData("Place Published", book["PLACE PUBLISHED"]));
+  book.PUBLISHER !== "" &&
+    rowData.push(createData("Publisher", book.PUBLISHER));
+  book.LANGUAGE !== "" && rowData.push(createData("Language", book.LANGUAGE));
+  book.COUNTRY !== "" && rowData.push(createData("Country", book.COUNTRY));
+  book.CATEGORY !== "" && rowData.push(createData("Genre", book.CATEGORY));
+  book.ISBN !== "" && rowData.push(createData("ISBN", book.ISBN));
 
   return rowData;
 };

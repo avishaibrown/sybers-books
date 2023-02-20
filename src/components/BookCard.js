@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Grid,
   Card,
@@ -8,11 +9,9 @@ import {
   Box,
 } from "@mui/material";
 import Typography from "./Typography";
-import { truncateString } from "../utils/util";
-import CurrencyFormat from "react-currency-format";
-import { useState } from "react";
 import BookModal from "./BookModal";
 import CartIcon from "./CartIcon";
+import { truncateString, formatAsCurrency } from "../utils/util";
 
 const BookCard = (props) => {
   const {
@@ -42,8 +41,12 @@ const BookCard = (props) => {
             display: { xs: "none", sm: "block" },
             float: "left",
           }}
-          image={book?.url === "" ? "./images/no-image-found.jpg" : book.url}
-          alt={book.title1}
+          image={
+            book["IMAGE URL"] === ""
+              ? "./images/no-image-found.jpg"
+              : book["IMAGE URL"]
+          }
+          alt={book.TITLE}
           onError={(event) => {
             event.target.onerror = null;
             event.target.src = "./images/no-image-found.jpg";
@@ -60,8 +63,8 @@ const BookCard = (props) => {
           <CardActionArea onClick={() => setOpenModal(true)}>
             <CardContent sx={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
-                {book.title1
-                  ? truncateString(book.title1, 40, true)
+                {book.TITLE
+                  ? truncateString(book.TITLE, 40, true)
                   : missingValuesText.title}
               </Typography>
               <Typography
@@ -69,8 +72,8 @@ const BookCard = (props) => {
                 variant="subtitle1"
                 color="text.secondary"
               >
-                {book.authorSn
-                  ? truncateString(book.authorSn, 25, true)
+                {book.AUTHOR
+                  ? truncateString(book.AUTHOR, 25, true)
                   : missingValuesText.author}
               </Typography>
             </CardContent>
@@ -86,18 +89,9 @@ const BookCard = (props) => {
               }}
             >
               <Typography variant="subtitle1">
-                {book.price1 ? (
-                  <CurrencyFormat
-                    value={book.price1}
-                    displayType={"text"}
-                    prefix={"$"}
-                    suffix={" AUD"}
-                    thousandSeparator={true}
-                    decimalScale={2}
-                  />
-                ) : (
-                  missingValuesText.price
-                )}
+                {book.PRICE
+                  ? formatAsCurrency(book.PRICE)
+                  : missingValuesText.price}
               </Typography>
             </Box>
             <CartIcon

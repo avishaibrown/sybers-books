@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import CurrencyFormat from "react-currency-format";
 import {
   removeFromCart,
   addToCart,
@@ -50,7 +49,7 @@ import {
   ABOUT,
   PAYMENT_ROUTES,
 } from "../utils/constants";
-import { truncateString } from "../utils/util";
+import { truncateString, formatAsCurrency } from "../utils/util";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -140,7 +139,7 @@ const Cart = () => {
 
   const onTransactionSuccess = async () => {
     try {
-      const cartBookIds = cart.map((book) => book.Serial);
+      const cartBookIds = cart.map((book) => book.SERIAL);
       await dispatch(markBooksAsSold(cartBookIds));
     } catch (error) {
       console.error(error);
@@ -243,8 +242,8 @@ const Cart = () => {
                               },
                             }}
                           >
-                            {book.title1
-                              ? truncateString(book.title1, 80, true)
+                            {book.TITLE
+                              ? truncateString(book.TITLE, 80, true)
                               : SHOP.missingValuesText.title}
                           </Link>
                           <Typography
@@ -252,8 +251,8 @@ const Cart = () => {
                             color="text.secondary"
                             sx={{ fontSize: { xs: "0.9rem", md: "1.25rem" } }}
                           >
-                            {book.authorSn
-                              ? truncateString(book.authorSn, 50, true)
+                            {book.AUTHOR
+                              ? truncateString(book.AUTHOR, 50, true)
                               : SHOP.missingValuesText.author}
                           </Typography>
                         </Box>
@@ -264,21 +263,13 @@ const Cart = () => {
                           onClickHandler={onClickHandler}
                           loading={cartLoading}
                           addToCart={cart.every(
-                            (obj) => obj.Serial !== book.Serial
+                            (obj) => obj.SERIAL !== book.SERIAL
                           )}
                           missingValuesText={SHOP.missingValuesText}
                           modalTabs={SHOP.modalTabs}
                         />
                       </TableCell>
-                      <TableCell>
-                        <CurrencyFormat
-                          value={book.price1}
-                          displayType={"text"}
-                          prefix={"$"}
-                          thousandSeparator={true}
-                          decimalScale={2}
-                        />
-                      </TableCell>
+                      <TableCell>{formatAsCurrency(book.PRICE)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ backgroundColor: "#F6F6F6" }}>
@@ -287,12 +278,7 @@ const Cart = () => {
                       {CART.subtotal}
                     </TableCell>
                     <TableCell align="left">
-                      <CurrencyFormat
-                        value={subtotal}
-                        displayType={"text"}
-                        prefix={"$"}
-                        thousandSeparator={true}
-                      />
+                      {formatAsCurrency(subtotal)}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -321,15 +307,7 @@ const Cart = () => {
                     <TableCell sx={{ fontWeight: "bold" }}>
                       {CART.subtotal}
                     </TableCell>
-                    <TableCell>
-                      <CurrencyFormat
-                        value={subtotal}
-                        displayType={"text"}
-                        prefix={"$"}
-                        suffix={" AUD"}
-                        thousandSeparator={true}
-                      />
-                    </TableCell>
+                    <TableCell>{formatAsCurrency(subtotal)}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontWeight: "bold" }}>
@@ -367,13 +345,7 @@ const Cart = () => {
                     <TableCell
                       sx={{ fontWeight: "bold", fontSize: "1.125rem" }}
                     >
-                      <CurrencyFormat
-                        value={total}
-                        displayType={"text"}
-                        prefix={"$"}
-                        suffix={" AUD"}
-                        thousandSeparator={true}
-                      />
+                      {formatAsCurrency(total)}
                     </TableCell>
                   </TableRow>
                 </TableBody>

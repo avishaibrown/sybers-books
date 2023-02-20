@@ -98,11 +98,10 @@ const BookModal = (props) => {
           >
             <Box maxWidth={{ xs: 400, sm: 600, md: "none" }}>
               <Typography variant="h5" gutterBottom>
-                {book.title1 ? book.title1 : missingValuesText.title}
+                {book.TITLE ? book.TITLE : missingValuesText.title}
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                {" "}
-                {book.authorSn ? book.authorSn : missingValuesText.author}
+                {book.AUTHOR ? book.AUTHOR : missingValuesText.author}
               </Typography>
             </Box>
             <IconButton
@@ -148,9 +147,11 @@ const BookModal = (props) => {
                   overflow: "hidden",
                 }}
                 src={
-                  book?.url === "" ? "./images/no-image-found.jpg" : book.url
+                  book["IMAGE URL"] === ""
+                    ? "./images/no-image-found.jpg"
+                    : book["IMAGE URL"]
                 }
-                alt={book.title1}
+                alt={book.TITLE}
                 onError={(event) => {
                   event.target.onerror = null;
                   event.target.src = "./images/no-image-found.jpg";
@@ -210,7 +211,7 @@ const BookModal = (props) => {
                     ref={descriptionElementRef}
                     tabIndex={-1}
                   >
-                    {book.description}
+                    {book.DESCRIPTION}
                   </DialogContentText>
                 </TabPanel>
               </Box>
@@ -234,7 +235,7 @@ const BookModal = (props) => {
               onClickHandler={onClickHandler}
               book={book}
               isIcon={false}
-              price={book.price1}
+              price={book.PRICE}
             />
           )}
         </DialogActions>

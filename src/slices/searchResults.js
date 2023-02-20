@@ -84,8 +84,8 @@ const searchResultsSlice = createSlice({
     sortResults: (state, action) => {
       state.sortedResults = state.searchResults.sort((a, b) =>
         action.payload === SHOP.sortByMenuItems[1].value
-          ? b.price1 - a.price1
-          : a.price1 - b.price1
+          ? b.PRICE - a.PRICE
+          : a.PRICE - b.PRICE
       );
     },
   },

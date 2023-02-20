@@ -15,8 +15,8 @@ const booksCollectionRef = collection(db, "Books");
 export const findByCategory = async (term) => {
   const q = query(
     booksCollectionRef,
-    where("category", ">=", term),
-    where("category", "<=", term + "\uf8ff")
+    where("CATEGORY", ">=", term),
+    where("CATEGORY", "<=", term + "\uf8ff")
   );
   return await getDocs(q);
 };
@@ -24,8 +24,8 @@ export const findByCategory = async (term) => {
 export const findByAuthor = async (term) => {
   const q = query(
     booksCollectionRef,
-    where("authorSn", ">=", term),
-    where("authorSn", "<=", term + "\uf8ff"),
+    where("AUTHOR", ">=", term),
+    where("AUTHOR", "<=", term + "\uf8ff"),
     limit(200)
   );
   return await getDocs(q);
@@ -34,8 +34,8 @@ export const findByAuthor = async (term) => {
 export const findByTitle = async (term) => {
   const q = query(
     booksCollectionRef,
-    where("title1", ">=", term),
-    where("title1", "<=", term + "\uf8ff"),
+    where("TITLE", ">=", term),
+    where("TITLE", "<=", term + "\uf8ff"),
     limit(200)
   );
   return await getDocs(q);
@@ -51,7 +51,7 @@ export const updateBookStatus = async (bookIds, status) => {
   bookIds.forEach(async (id) => {
     const bookSnapshot = await query(
       booksCollectionRef,
-      where("Serial", "==", id)
+      where("SERIAL", "==", id)
     );
     const retrievedDoc = await getDoc(bookSnapshot);
     console.log("retrievedDoc.docs[0].ref", retrievedDoc.docs[0].ref);
