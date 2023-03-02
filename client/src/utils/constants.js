@@ -6,7 +6,7 @@ import {
   Storefront,
 } from "@mui/icons-material";
 
-//HEADER
+//NAVIGATION BAR
 export const APP_TITLE = "Syber's Books";
 export const APP_TITLE_IMAGE_FILE_NAME = "./images/app-title.png";
 export const MENU_ITEMS = [
@@ -21,12 +21,7 @@ export const MENU_ITEMS = [
   { title: "Contact", link: "/contact", icon: <Email /> },
   { title: "Cart", link: "/cart", icon: <ShoppingCart /> },
 ];
-export const PAYMENT_ROUTES = [
-  { title: "Transaction Success", link: "/success" },
-  { title: "Transaction Error", link: "/error" },
-];
 
-//HOME PAGE
 export const HOME = {
   hero: {
     titles: ["Rare.", "Out of Print.", "Niche."],
@@ -37,9 +32,9 @@ export const HOME = {
     image: "./images/home-photo.jpg",
     button: "Start Browsing",
   },
+  categoriesHeading: "Browse by Categories",
 };
 
-//ABOUT PAGE
 export const ABOUT = {
   title: "About",
   description: [
@@ -60,7 +55,6 @@ export const ABOUT = {
   button: "Shop Now",
 };
 
-//SHOP PAGE
 export const SHOP = {
   searchBarLabel: "Search from our collection of over 100,000 books:",
   searchBarPlaceholder:
@@ -104,7 +98,6 @@ export const SHOP = {
   removedFromCartMessage: " removed from cart",
 };
 
-//CONTACT PAGE
 export const CONTACT = {
   title: "Contact Us",
   helpText:
@@ -157,37 +150,16 @@ export const CONTACT = {
   googleMapsMarkerDescription: "666 Glenhuntly Rd, Caulfield South, VIC 3162",
 };
 
-//CART
 export const CART = {
   title: "Cart",
+  buttonText: "Checkout",
   emptyCartMessage: ["Your cart is empty."],
   cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
-  shipping: "Shipping",
-  shippingErrorText: "Please select one of the shipping options.",
-  total: "Total",
-  transactionCancelled: "TRANSACTION CANCELLED",
+  checkoutErrorMessage:
+    "There was an error processing your order. Please try again later.",
 };
-
-//GOOGLE PAY
-export const UNSERVICEABLE_SHIPPING_COUNTRIES = [];
-export const SHIPPING_ADDRESS_UNSERVICEABLE_REASON =
-  "We cannot deliver to the shipping address you have provided.";
-export const SHIPPING_OPTIONS = [
-  {
-    id: "standard",
-    label: "Standard Shipping ($14.99 AUD)",
-    description: "Standard shipping arrives in 5-7 business days",
-    price: "14.99",
-  },
-  {
-    id: "express",
-    label: "Express Shipping ($29.99 AUD)",
-    description: "Express shipping delivered in 1-3 business days",
-    price: "29.99",
-  },
-];
 
 export const FOOTER = {
   imageAlt: "Syber's Books",
@@ -196,7 +168,51 @@ export const FOOTER = {
   link: "https://www.facebook.com/SybersBooks/",
 };
 
-export const CATEGORIES = "Browse By Categories";
+export const PRIVACY_POLICY = {
+  title: "Privacy Policy",
+  link: "/privacy-policy",
+  lastUpdatedDate: "12/02/2023",
+  email: "sybersbooks@gmail.com",
+};
+
+export const TERMS_AND_CONDITIONS = {
+  title: "Terms & Conditions",
+  link: "/terms-and-conditions",
+  lastUpdatedDate: "12/02/2023",
+  email: "sybersbooks@gmail.com",
+};
+
+export const SHIPPING_AND_RETURNS = {
+  title: "Shipping & Returns",
+  link: "/shipping-and-returns",
+  email: "sybersbooks@gmail.com",
+};
+
+export const SUCCESS = {
+  link: "/success",
+  title: "Congratulations!",
+  message: ["Your order has been placed successfully."],
+  redirectLink: "/",
+  redirectLinkText: "Return to Home",
+};
+
+export const AUTH = {
+  link: "/auth",
+  title: "Administrator Login",
+  email: "Email Address",
+  password: "Password",
+  buttonText: "Login",
+  invalidEmail: "Please enter a valid email address",
+  invalidPassword: "Please enter a password",
+};
+
+export const ADMIN = {
+  link: "/admin",
+  title: "Admin Dashboard",
+  importButtonText: "Import CSV File",
+  logoutButton: "Logout",
+};
+
 export const CATEGORIES_FROM_DB = [
   "Animals & Birds",
   "Anthropology",
@@ -277,37 +293,3 @@ export const CATEGORIES_FROM_DB = [
   "Travel & Places",
   "Women & Feminism",
 ];
-
-export const PRIVACY_POLICY = {
-  title: "Privacy Policy",
-  link: "/privacy-policy",
-  lastUpdatedDate: "12/02/2023",
-  email: "sybersbooks@gmail.com",
-};
-
-export const TERMS_AND_CONDITIONS = {
-  title: "Terms & Conditions",
-  link: "/terms-and-conditions",
-  lastUpdatedDate: "12/02/2023",
-  email: "sybersbooks@gmail.com",
-};
-
-export const SHIPPING_AND_RETURNS = {
-  title: "Shipping & Returns",
-  link: "/shipping-and-returns",
-  email: "sybersbooks@gmail.com",
-};
-
-export const SUCCESS = {
-  title: "Congratulations!",
-  message: ["Your order has been placed successfully."],
-  link: "/",
-  linkText: "Return to Home",
-};
-
-export const ERROR = {
-  title: "Uh Oh!",
-  message: ["There was an error processing your order."],
-  link: "/",
-  linkText: "Return to Home",
-};

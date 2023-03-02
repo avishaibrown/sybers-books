@@ -1,24 +1,22 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-// const {
-//   initializeAppCheck,
-//   ReCaptchaV3Provider,
-// } = require("firebase/app-check");
-
-const API_KEY = process.env.API_KEY;
 
 const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: "sybers-books.firebaseapp.com",
-  projectId: "sybers-books",
-  storageBucket: "sybers-books.appspot.com",
-  messagingSenderId: "706386815840",
-  appId: "1:706386815840:web:dc1ae6a53b34cb88ef4c05",
-  measurementId: "G-56S6BK0TZY",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "mock_key",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "mock_domain",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "mock_id",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "mock_bucket",
+  messagingSenderId:
+    process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "mock_sender_id",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || "mock_app_id",
+  measurementId:
+    process.env.REACT_APP_FIREBASE_MEASUREMENT_ID || "mock_measurement_id",
 };
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 // Get all unique categories in the Books collection
 // async function getUniqueCategories(db) {
@@ -34,14 +32,6 @@ export const db = getFirestore(app);
 // }
 
 // console.log(getUniqueCategories(db));
-
-// const appCheck = initializeAppCheck(app, {
-//   provider: new ReCaptchaV3Provider("6LdMOJcjAAAAANU2m3jcWbDF_DNmZbLK8OgIwswB"),
-
-//   // Optional argument. If true, the SDK automatically refreshes App Check
-//   // tokens as needed.
-//   isTokenAutoRefreshEnabled: true,
-// });
 
 //Deploy "firebase deploy --only hosting:sybersbooks"
 //To run app locally via firebase CLI: "firebase emulators:start --only hosting"

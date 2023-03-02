@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Stack, IconButton, Link, Divider } from "@mui/material";
 import Typography from "./Typography";
-import { Facebook } from "@mui/icons-material";
+import { Facebook, Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Footer = (props) => {
@@ -14,6 +14,7 @@ const Footer = (props) => {
     privacy,
     terms,
     shipping,
+    adminOnly,
   } = props;
 
   const navigate = useNavigate();
@@ -36,6 +37,9 @@ const Footer = (props) => {
         <Link href={shipping.link} p={1} underline="hover" color="#2c292c">
           {shipping.title}
         </Link>
+        <IconButton onClick={() => navigate(adminOnly.link)}>
+          <Person />
+        </IconButton>
       </Stack>
       <Stack
         direction="row"

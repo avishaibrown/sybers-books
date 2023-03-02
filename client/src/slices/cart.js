@@ -1,6 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { SHIPPING_OPTIONS } from "../utils/constants";
-import { updateBookStatus } from "../services/firestore";
+import { updateBookStatus } from "../firebase/firestore";
+
+const initialState = {
+  cart: [],
+  cartLoading: false,
+  cartError: false,
+  bookAddedToCart: "",
+  bookRemovedFromCart: "",
+  subtotal: "0.00",
+  transactionComplete: false,
+  checkoutLoading: false,
+  checkoutError: false,
+};
 
 export const markBooksAsSold = createAsyncThunk(
   "books/updateBookStatus",
@@ -20,27 +31,13 @@ export const markBooksAsSold = createAsyncThunk(
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    cart: [],
-    cartLoading: false,
-    cartError: false,
-    bookAddedToCart: "",
-    bookRemovedFromCart: "",
-    subtotal: "0.00",
-    shipping: "0.00",
-    shippingType: "",
-    total: "0.00",
-    transactionComplete: false,
-  },
+  initialState: initialState,
   reducers: {
     addToCart: (state, action) => {
       if (state.cart.every((book) => book.SERIAL !== action.payload.SERIAL)) {
         state.cart.push(action.payload);
         state.subtotal = (
           Number(state.subtotal) + Number(action.payload.PRICE)
-        ).toFixed(2);
-        state.total = (
-          Number(state.total) + Number(action.payload.PRICE)
         ).toFixed(2);
       }
     },
@@ -50,9 +47,6 @@ const cartSlice = createSlice({
       );
       state.subtotal = (
         Number(state.subtotal) - Number(action.payload.PRICE)
-      ).toFixed(2);
-      state.total = (
-        Number(state.total) - Number(action.payload.PRICE)
       ).toFixed(2);
     },
     cartActionStart: (state) => {
@@ -82,24 +76,18 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cart = [];
       state.subtotal = "0.00";
-      state.shipping = "0.00";
-      state.shippingType = "";
-      state.total = "0.00";
     },
-    updateShippingCost: (state, action) => {
-      //remove the previous shipping cost if present
-      state.total = (Number(state.total) - Number(state.shipping)).toFixed(2);
-      state.shipping = action.payload.toFixed(2);
-      state.total = (Number(state.subtotal) + Number(state.shipping)).toFixed(
-        2
-      );
-      const matchingShippingType = SHIPPING_OPTIONS.find(
-        (type) => Number(type.price).toFixed(2) === state.shipping
-      );
-
-      if (matchingShippingType) {
-        state.shippingType = matchingShippingType.id;
-      }
+    checkoutStart: (state) => {
+      state.checkoutLoading = true;
+      state.checkoutError = false;
+    },
+    checkoutReset: (state) => {
+      state.checkoutLoading = false;
+      state.checkoutError = false;
+    },
+    checkoutFailure: (state, action) => {
+      state.checkoutLoading = false;
+      state.checkoutError = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -127,7 +115,9 @@ export const {
   cartActionFailure,
   cartActionReset,
   clearCart,
-  updateShippingCost,
+  checkoutStart,
+  checkoutReset,
+  checkoutFailure,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

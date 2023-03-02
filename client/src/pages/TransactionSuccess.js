@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Container } from "@mui/material";
+import { SUCCESS } from "../utils/constants";
 import InfoActionBox from "../components/InfoActionBox";
-import { ERROR } from "../utils/constants";
 
-const TransactionError = () => {
+const TransactionSuccess = () => {
   //scroll to top when page is navigated to
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,13 +22,13 @@ const TransactionError = () => {
       maxWidth={false}
     >
       <InfoActionBox
-        title={ERROR.title}
-        infoText={ERROR.message}
-        buttonText={ERROR.linkText}
-        navigateTo={ERROR.link}
+        title={SUCCESS.title}
+        infoText={SUCCESS.message}
+        buttonText={SUCCESS.redirectLinkText}
+        navigateTo={SUCCESS.redirectLink}
       />
     </Container>
   );
 };
 
-export default TransactionError;
+export default TransactionSuccess;

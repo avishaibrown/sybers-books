@@ -11,16 +11,18 @@ import {
 import sessionStorage from "redux-persist/lib/storage/session";
 import SearchResultsReducer from "./slices/searchResults";
 import CartReducer from "./slices/cart";
+import AuthReducer from "./slices/auth";
 
 const persistConfig = {
   key: "root",
   storage: sessionStorage,
-  whitelist: ["searchResults", "cart"],
+  whitelist: ["searchResults", "cart", "auth"],
 };
 
 const reducers = combineReducers({
   searchResults: SearchResultsReducer,
   cart: CartReducer,
+  auth: AuthReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

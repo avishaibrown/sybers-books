@@ -4,7 +4,7 @@ import {
   findByTitle,
   findByIsbn,
   findByCategory,
-} from "../services/firestore";
+} from "../firebase/firestore";
 import { SHOP } from "../utils/constants";
 
 const initialState = {

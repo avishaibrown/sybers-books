@@ -6,7 +6,6 @@ import About from "./pages/About";
 import Shop from "./pages/Shop";
 import Contact from "./pages/Contact";
 import TransactionSuccess from "./pages/TransactionSuccess";
-import TransactionError from "./pages/TransactionError";
 import Cart from "./pages/Cart";
 import AppBar from "./components/AppBar";
 import Footer from "./components/Footer";
@@ -17,15 +16,19 @@ import {
   APP_TITLE,
   FOOTER,
   APP_TITLE_IMAGE_FILE_NAME,
-  PAYMENT_ROUTES,
+  SUCCESS,
   PRIVACY_POLICY,
   TERMS_AND_CONDITIONS,
   SHIPPING_AND_RETURNS,
+  AUTH,
+  ADMIN,
 } from "./utils/constants";
 import libreFranklin from "@fontsource/libre-franklin";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import ShippingReturns from "./pages/ShippingReturns";
+import Admin from "./pages/Admin";
+import Auth from "./pages/Auth";
 
 const theme = createTheme({
   palette: {
@@ -45,21 +48,38 @@ const theme = createTheme({
   },
 });
 
-//TODO: Add ability to write to database that item is no longer available
-// ------- batch update is not working atm, perhaps try individual updates?
-//TODO: Use Zapier to upload CSV from MS Excel and get it migrated to Stripe
-//TODO: Add PSP to Google Pay
-//TODO: Research how to send order confirmation email + store orders somewhere? Stripe?
+//TODO: Handle successful transaction flow:
+//--- Get email of buyer, display on success page
+//--- Clear cart
+//--- Write to Firestore that book has been sold, buyer email and order confirmation number
+//--- Work out where to store order details - Stripe?
+//--- Send buyer order confirmation email
 
-//TODO: Combine Success/Error pages into one Outcome page
-//TODO: If item is no longer available, do not return it in search results
-//TODO: Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
-//TODO: Fix all bugs when viewport height changes (e.g. Hero)
-//TODO: Work out colour palette and background
-//TODO: Finally, host website
-//TODO: Get Penny to review shipping information
+//TODO: Admin page for Firestore CRUD operations
+//--- Add CRUD page with Navigation Tabs for operations
+//--- Create new book in Firestore
+//--- Update existing book in Firestore
+//--- Delete book in Firestore
+//--- View orders
 
-//NOTE: Only returning books that have a title, author and price
+//TODO: Delete firestore data and perform a fresh import of all books
+
+//TODO: Enhance search functionality
+//--- Get categories by AllCategories column
+//--- If item is no longer available, do not return it in search results
+
+//TODO: A11y & responsiveness
+//--- Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
+//--- Fix all bugs when viewport height changes (e.g. Hero)
+
+//TODO: Styling
+//--- Work out colour palette and background (ask Simone?)
+
+//TODO: Talk to Penny
+//--- Review shipping capability, info and offerings
+//--- Confirm search functionality
+//--- Talk about CRUD process
+//--- Talk about Order process
 
 const App = () => {
   let routes = (
@@ -72,8 +92,9 @@ const App = () => {
       <Route path={PRIVACY_POLICY.link} element={<PrivacyPolicy />} />
       <Route path={TERMS_AND_CONDITIONS.link} element={<TermsConditions />} />
       <Route path={SHIPPING_AND_RETURNS.link} element={<ShippingReturns />} />
-      <Route path={PAYMENT_ROUTES[0].link} element={<TransactionSuccess />} />
-      <Route path={PAYMENT_ROUTES[1].link} element={<TransactionError />} />
+      <Route path={SUCCESS.link} element={<TransactionSuccess />} />
+      <Route path={AUTH.link} element={<Auth />} />
+      <Route path={ADMIN.link} element={<Admin />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
@@ -103,6 +124,7 @@ const App = () => {
             privacy={PRIVACY_POLICY}
             terms={TERMS_AND_CONDITIONS}
             shipping={SHIPPING_AND_RETURNS}
+            adminOnly={AUTH}
           />
         </Container>
       </ThemeProvider>

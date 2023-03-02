@@ -1,5 +1,5 @@
 import Hero from "../components/Hero";
-import { CATEGORIES_FROM_DB, HOME, CATEGORIES } from "../utils/constants";
+import { CATEGORIES_FROM_DB, HOME } from "../utils/constants";
 import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CategoriesList from "../components/CategoriesList";
@@ -27,7 +27,7 @@ const Home = () => {
       />
       <CategoriesList
         categories={CATEGORIES_FROM_DB}
-        title={CATEGORIES}
+        title={HOME.categoriesHeading}
         onCategorySearch={onCategorySearch}
       />
     </Container>
