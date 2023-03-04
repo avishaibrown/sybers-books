@@ -9,29 +9,6 @@ app.use(cors());
 app.use(express.static("client"));
 app.use(express.json());
 
-// Define a webhook endpoint
-app.post(
-  "/webhook",
-  bodyParser.raw({ type: "application/json" }),
-  async (req, res) => {
-    const event = req.body;
-
-    // Handle the event
-    switch (event.type) {
-      case "checkout.session.completed":
-        const session = event.data.object;
-        const customerEmail = session.customer_details.email;
-        // Do something with the customer email, such as save it to your database
-        console.log("Customer email:", customerEmail);
-        break;
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-
-    res.json({ received: true });
-  }
-);
-
 app.post("/checkout", async (req, res) => {
   try {
     const line_items = req.body.items.map((item) => {
@@ -73,6 +50,23 @@ app.post("/checkout", async (req, res) => {
     res.send(
       JSON.stringify({
         url: session.url,
+      })
+    );
+  } catch (error) {
+    res.status(500).json({ statusCode: 500, message: error.message });
+  }
+});
+
+app.post("/success", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);
+    const name = session.customer_details.name;
+    const email = session.customer_details.email;
+
+    res.send(
+      JSON.stringify({
+        customerName: name,
+        customerEmail: email,
       })
     );
   } catch (error) {
