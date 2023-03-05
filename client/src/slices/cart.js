@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateBookStatus } from "../firebase/firestore";
+import { SUCCESS } from "../utils/constants";
 
 const initialState = {
   cart: [],
@@ -8,19 +9,23 @@ const initialState = {
   bookAddedToCart: "",
   bookRemovedFromCart: "",
   subtotal: "0.00",
-  transactionComplete: false,
   checkoutLoading: false,
   checkoutError: false,
 };
 
 export const markBooksAsSold = createAsyncThunk(
   "books/updateBookStatus",
-  async (bookIds, { getState }) => {
+  async ({ bookIds, buyerEmail, orderNumber }, { getState }) => {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         try {
-          await updateBookStatus(bookIds, "Sold");
-          resolve({ transactionComplete: true });
+          await updateBookStatus(
+            bookIds,
+            buyerEmail,
+            orderNumber,
+            SUCCESS.soldStatus
+          );
+          resolve();
         } catch (error) {
           reject(error.message);
         }
@@ -98,7 +103,7 @@ const cartSlice = createSlice({
       })
       .addCase(markBooksAsSold.fulfilled, (state, action) => {
         state.cartLoading = false;
-        state.transactionComplete = action.payload.transactionComplete;
+        state.cartError = false;
       })
       .addCase(markBooksAsSold.rejected, (state, action) => {
         state.cartLoading = false;

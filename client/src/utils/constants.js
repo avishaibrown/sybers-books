@@ -194,6 +194,7 @@ export const SUCCESS = {
   message: ["Your order was successfully placed. A confirmation email has been sent to the email address you provided. Please allow up to 30 minutes for the email to arrive."],
   redirectLink: "/",
   redirectLinkText: "Return to Home",
+  soldStatus: "Sold"
 };
 
 export const AUTH = {

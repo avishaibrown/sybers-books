@@ -1,20 +1,44 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart, markBooksAsSold } from "../slices/cart";
 import { Container } from "@mui/material";
-import { SUCCESS } from "../utils/constants";
 import InfoActionBox from "../components/InfoActionBox";
+import { SUCCESS } from "../utils/constants";
 
 const TransactionSuccess = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
-  //scroll to top when page is navigated to
+  const cart = useSelector((state) => state.cart.cart);
+
+  const dispatch = useDispatch();
+
+  const onTransactionSuccess = useCallback(
+    async (bookIds, email, orderNo) => {
+      try {
+        dispatch(
+          markBooksAsSold({
+            bookIds: bookIds,
+            buyerEmail: email,
+            orderNumber: orderNo,
+          })
+        );
+        dispatch(clearCart());
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
+    //scroll to top when page is navigated to
     window.scrollTo(0, 0);
 
     const url = new URL(window.location.href);
-    const sessionId = url.searchParams.get('session_id');
+    const sessionId = url.searchParams.get("session_id");
 
-    fetch("http://localhoist:4000/success", {
+    fetch("http://localhost:4000/success", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,22 +51,32 @@ const TransactionSuccess = () => {
         if (res.ok) return res.json();
         return res.json().then((json) => Promise.reject(json));
       })
-      .then(data => {
+      .then((data) => {
         setTitle(`Congratulations ${data.customerName}!`);
-        setMessage([`Your order was successfully placed. A confirmation email has been sent to ${data.customerEmail}. Please allow up to 30 minutes for the email to arrive.`]);
+        setMessage([
+          `Your order was successfully placed. A confirmation email has been sent to ${data.customerEmail}. Please allow up to 30 minutes for the email to arrive.`,
+          `Your order number is ${data.customerOrderNumber}.`,
+        ]);
+
+        const cartBookIds = cart.map((book) => book.SERIAL);
+        onTransactionSuccess(
+          cartBookIds,
+          data.customerEmail,
+          data.customerOrderNumber
+        );
       })
       .catch((error) => {
         console.error(error.message);
         setTitle(SUCCESS.title);
         setMessage(SUCCESS.message);
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container
       component="section"
       sx={{
-        mt: { xs: 5, md: 10 },
+        mt: { xs: 2 },
         mb: { md: 10 },
         alignItems: "center",
         textAlign: "center",

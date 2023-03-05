@@ -2,11 +2,9 @@ import { db } from "./firebase-config";
 import {
   collection,
   getDocs,
-  getDoc,
   query,
   where,
   limit,
-  doc,
   writeBatch,
 } from "firebase/firestore";
 
@@ -46,26 +44,30 @@ export const findByIsbn = async (term) => {
   return await getDocs(q);
 };
 
-export const updateBookStatus = async (bookIds, status) => {
+export const updateBookStatus = async (
+  bookIds,
+  buyerEmail,
+  orderNumber,
+  status
+) => {
   const batch = writeBatch(db);
   bookIds.forEach(async (id) => {
-    const bookSnapshot = await query(
-      booksCollectionRef,
-      where("SERIAL", "==", id)
-    );
-    const retrievedDoc = await getDoc(bookSnapshot);
-    console.log("retrievedDoc.docs[0].ref", retrievedDoc.docs[0].ref);
-    console.log("doc(booksCollectionRef, id)", doc(booksCollectionRef, id));
+    const bookSnapshot = query(booksCollectionRef, where("SERIAL", "==", id));
+    const retrievedDoc = await getDocs(bookSnapshot);
     if (!retrievedDoc.empty) {
       const bookRef = retrievedDoc.docs[0].ref;
-      batch.update(bookRef, { status: status });
+      batch.update(bookRef, {
+        STATUS: status,
+        "BUYER EMAIL": buyerEmail,
+        "ORDER NUMBER": orderNumber,
+      });
+      try {
+        await batch.commit();
+      } catch (error) {
+        console.error(error.message);
+      }
     } else {
-      console.log(`No book with id ${id} was found.`);
+      console.error(`No book with id ${id} was found.`);
     }
   });
-  try {
-    await batch.commit();
-  } catch (error) {
-    console.log("UPDATE BOOK STATUS error", error);
-  }
 };

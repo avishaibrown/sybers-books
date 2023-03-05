@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
 import {
   removeFromCart,
   addToCart,
@@ -8,8 +7,6 @@ import {
   cartActionSuccess,
   cartActionFailure,
   cartActionReset,
-  markBooksAsSold,
-  clearCart,
   checkoutStart,
   checkoutReset,
   checkoutFailure,
@@ -37,12 +34,11 @@ import Button from "../components/Button";
 import BookModal from "../components/BookModal";
 import InfoActionBox from "../components/InfoActionBox";
 import MessageSnackbar from "../components/MessageSnackbar";
-import { CART, SHOP, ABOUT, SUCCESS } from "../utils/constants";
+import { CART, SHOP, ABOUT } from "../utils/constants";
 import { truncateString, formatAsCurrency } from "../utils/util";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart.cart);
   const cartLoading = useSelector((state) => state.cart.cartLoading);
@@ -52,9 +48,6 @@ const Cart = () => {
     (state) => state.cart.bookRemovedFromCart
   );
   const subtotal = useSelector((state) => state.cart.subtotal);
-  const transactionComplete = useSelector(
-    (state) => state.cart.transactionComplete
-  );
   const checkoutLoading = useSelector((state) => state.cart.checkoutLoading);
   const checkoutError = useSelector((state) => state.cart.checkoutError);
   const [openModal, setOpenModal] = useState(false);
@@ -74,14 +67,6 @@ const Cart = () => {
       setOpenSnackbar(true);
     }
   }, [bookAddedToCart, bookRemovedFromCart, cartError]);
-
-  useEffect(() => {
-    if (transactionComplete) {
-      dispatch(clearCart());
-      //TODO: Add logic to navigate to Success/Error based on outcome
-      navigate(SUCCESS.link);
-    }
-  }, [transactionComplete, navigate, dispatch]);
 
   const onClickHandler = (book, action) => {
     dispatch(cartActionReset());
@@ -120,7 +105,6 @@ const Cart = () => {
       }),
     })
       .then((res) => {
-        console.log("CART.JS onCheckout then res", res);
         if (res.ok) return res.json();
         return res.json().then((json) => Promise.reject(json));
       })
@@ -136,16 +120,6 @@ const Cart = () => {
   useEffect(() => {
     checkoutError && window.scrollTo(0, 0);
   }, [checkoutError]);
-
-  // const onTransactionSuccess = async () => {
-  //   try {
-  //     const cartBookIds = cart.map((book) => book.SERIAL);
-  //     await dispatch(markBooksAsSold(cartBookIds));
-  //   } catch (error) {
-  //     console.error(error);
-  //     navigate(SUCCESS.link);
-  //   }
-  // };
 
   return (
     <Container

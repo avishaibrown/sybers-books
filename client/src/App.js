@@ -49,11 +49,11 @@ const theme = createTheme({
 });
 
 //TODO: Handle successful transaction flow:
-//--- Get email of buyer, display on success page
-//--- Clear cart
-//--- Write to Firestore that book has been sold, buyer email and order confirmation number
-//--- Work out where to store order details - Stripe?
 //--- Send buyer order confirmation email
+
+//TODO: Enhance search functionality
+//--- Get categories by AllCategories column
+//--- If item is no longer available, do not return it in search results
 
 //TODO: Admin page for Firestore CRUD operations
 //--- Add CRUD page with Navigation Tabs for operations
@@ -63,10 +63,6 @@ const theme = createTheme({
 //--- View orders
 
 //TODO: Delete firestore data and perform a fresh import of all books
-
-//TODO: Enhance search functionality
-//--- Get categories by AllCategories column
-//--- If item is no longer available, do not return it in search results
 
 //TODO: A11y & responsiveness
 //--- Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
