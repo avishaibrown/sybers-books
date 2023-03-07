@@ -51,6 +51,8 @@ const theme = createTheme({
 //TODO: Handle successful transaction flow:
 //--- Send buyer order confirmation email
 
+//TODO: Reset all redux state after transaction completed
+
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
 //--- If item is no longer available, do not return it in search results

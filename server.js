@@ -69,7 +69,7 @@ app.post("/success", async (req, res) => {
       JSON.stringify({
         customerName: name,
         customerEmail: email,
-        customerOrderNumber: orderNumber
+        customerOrderNumber: orderNumber,
       })
     );
   } catch (error) {
