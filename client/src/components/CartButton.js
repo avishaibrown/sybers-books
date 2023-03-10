@@ -4,7 +4,7 @@ import Button from "./Button";
 import { SHOP } from "../utils/constants";
 import { formatAsCurrency } from "../utils/util";
 
-const CartIcon = (props) => {
+const CartButton = (props) => {
   const { addToCart, onClickHandler, book, isIcon, price } = props;
 
   const buttonToRender =
@@ -54,4 +54,4 @@ const CartIcon = (props) => {
   return buttonToRender;
 };
 
-export default CartIcon;
+export default CartButton;

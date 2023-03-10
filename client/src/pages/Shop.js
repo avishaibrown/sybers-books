@@ -25,7 +25,7 @@ import Typography from "../components/Typography";
 import SearchBar from "../components/SearchBar";
 import BookCard from "../components/BookCard";
 import SearchResultsSelect from "../components/SearchResultsSelect";
-import { SHOP } from "../utils/constants";
+import { SHOP, SUCCESS } from "../utils/constants";
 import { searchResultsCounter } from "../utils/util";
 
 const Shop = () => {
@@ -180,6 +180,7 @@ const Shop = () => {
                       )}
                       missingValuesText={SHOP.missingValuesText}
                       modalTabs={SHOP.modalTabs}
+                      disabled={book.STATUS === SUCCESS.soldStatus}
                     />
                   )
               )}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import CartIcon from "./CartIcon";
+import CartButton from "./CartButton";
 import {
   Dialog,
   DialogActions,
@@ -25,6 +25,7 @@ import { Close } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Typography from "./Typography";
 import { getBookDetailsData } from "../utils/util";
+import { SUCCESS } from "../utils/constants";
 
 const BookModal = (props) => {
   const {
@@ -36,6 +37,7 @@ const BookModal = (props) => {
     addToCart,
     missingValuesText,
     modalTabs,
+    disabled,
   } = props;
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -229,8 +231,22 @@ const BookModal = (props) => {
             >
               <CircularProgress size={30} />
             </Box>
+          ) : disabled ? (
+            <Box
+              sx={{
+                fontWeight: "bold",
+                color: "#fff",
+                backgroundColor: "#e57373",
+                py: 1,
+                px: 3,
+                borderRadius: "0.25rem",
+                float: "right",
+              }}
+            >
+              <Typography variant="subtitle1">{SUCCESS.soldText}</Typography>
+            </Box>
           ) : (
-            <CartIcon
+            <CartButton
               addToCart={addToCart}
               onClickHandler={onClickHandler}
               book={book}
