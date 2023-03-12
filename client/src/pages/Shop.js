@@ -57,6 +57,11 @@ const Shop = () => {
   const [cartActionMessage, setCartActionMessage] = useState("");
 
   useEffect(() => {
+    //reset openSnackbar state on each render to stop it popping up each time
+    setOpenSnackbar(false);
+  }, []);
+
+  useEffect(() => {
     if (!!bookAddedToCart) {
       setCartActionMessage(bookAddedToCart + SHOP.addedToCartMessage);
       setOpenSnackbar(true);
