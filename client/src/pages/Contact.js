@@ -127,7 +127,7 @@ const Contact = () => {
         markerTitle={CONTACT.googleMapsMarkerTitle}
         markerDescription={CONTACT.googleMapsMarkerDescription}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={{ md: 2 }}>
         <Grid item xs={12} md={6}>
           <Box justifyContent="center" p={7}>
             <Typography variant="h4" marked="left" gutterBottom>
@@ -161,14 +161,14 @@ const Contact = () => {
               backgroundColor: "white",
               borderRadius: "4px",
               px: 10,
-              py: 5,
+              py: { md: 5 },
             }}
           >
             {loading ? (
               <CircularProgress />
             ) : !success ? (
               <form onSubmit={onSubmit}>
-                <Grid container justifyContent="center" p={3}>
+                <Grid container justifyContent="center" p={{ md: 3 }}>
                   <Grid container spacing={3} mb={3} justifyContent="center">
                     {CONTACT.fields.map((field) => (
                       <Grid item xs={12} key={field.id}>

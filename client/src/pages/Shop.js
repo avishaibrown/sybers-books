@@ -176,7 +176,6 @@ const Shop = () => {
                       key={"book-card-" + index}
                       book={book}
                       onCartAction={onCartAction}
-                      onViewCart={() => navigate(MENU_ITEMS[4].link)}
                       loading={cartLoading}
                       addToCart={cart.every(
                         (obj) => obj.SERIAL !== book.SERIAL
@@ -241,6 +240,8 @@ const Shop = () => {
         onClose={onCloseSnackbar}
         onBlur={() => dispatch(cartActionReset())}
         message={cartActionMessage}
+        onNavigate={() => navigate(MENU_ITEMS[4].link)}
+        navigateToText={SHOP.viewCart}
       />
     </Container>
   );

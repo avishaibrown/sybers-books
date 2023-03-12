@@ -26,7 +26,6 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "./Typography";
 import { getBookDetailsData } from "../utils/util";
 import { SHOP } from "../utils/constants";
-import Button from "./Button";
 
 const BookModal = (props) => {
   const {
@@ -34,7 +33,6 @@ const BookModal = (props) => {
     setOpen,
     book,
     onCartAction,
-    onViewCart,
     loading,
     addToCart,
     missingValuesText,
@@ -248,20 +246,13 @@ const BookModal = (props) => {
               <Typography variant="subtitle1">{SHOP.soldText}</Typography>
             </Box>
           ) : (
-            <Stack direction="row" spacing={2}>
-              <CartButton
-                addToCart={addToCart}
-                onCartAction={onCartAction}
-                book={book}
-                isIcon={false}
-                price={book.PRICE}
-              />
-              {!!onViewCart && !addToCart && (
-                <Button variant="contained" onClick={onViewCart}>
-                  {SHOP.viewCart}
-                </Button>
-              )}
-            </Stack>
+            <CartButton
+              addToCart={addToCart}
+              onCartAction={onCartAction}
+              book={book}
+              isIcon={false}
+              price={book.PRICE}
+            />
           )}
         </DialogActions>
       </Dialog>

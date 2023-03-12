@@ -18,7 +18,6 @@ const BookCard = (props) => {
   const {
     book,
     onCartAction,
-    onViewCart,
     loading,
     addToCart,
     missingValuesText,
@@ -129,7 +128,6 @@ const BookCard = (props) => {
           setOpen={setOpenModal}
           book={book}
           onCartAction={onCartAction}
-          onViewCart={onViewCart}
           loading={loading}
           addToCart={addToCart}
           missingValuesText={missingValuesText}

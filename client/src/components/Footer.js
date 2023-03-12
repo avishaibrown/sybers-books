@@ -23,7 +23,7 @@ const Footer = (props) => {
     <Box component="footer" sx={{ py: 4, textAlign: "center" }}>
       <Stack
         direction="row"
-        spacing={{ xs: 1, sm: 2, md: 4 }}
+        spacing={{ xs: 0, sm: 2, md: 4 }}
         py={2}
         justifyContent="center"
         divider={<Divider orientation="vertical" flexItem />}
