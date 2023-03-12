@@ -11,6 +11,7 @@ const initialState = {
   subtotal: "0.00",
   checkoutLoading: false,
   checkoutError: false,
+  email: "",
 };
 
 export const markBooksAsSold = createAsyncThunk(
@@ -78,6 +79,9 @@ const cartSlice = createSlice({
       state.bookAddedToCart = "";
       state.bookRemovedFromCart = "";
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
     checkoutStart: (state) => {
       state.checkoutLoading = true;
       state.checkoutError = false;
@@ -118,6 +122,7 @@ export const {
   cartActionSuccess,
   cartActionFailure,
   cartActionReset,
+  setEmail,
   checkoutStart,
   checkoutReset,
   checkoutFailure,

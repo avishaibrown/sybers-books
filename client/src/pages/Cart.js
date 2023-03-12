@@ -7,6 +7,7 @@ import {
   cartActionSuccess,
   cartActionFailure,
   cartActionReset,
+  setEmail,
   checkoutStart,
   checkoutReset,
   checkoutFailure,
@@ -27,6 +28,7 @@ import {
   Backdrop,
   CircularProgress,
   Alert,
+  TextField,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import Typography from "../components/Typography";
@@ -35,7 +37,7 @@ import BookModal from "../components/BookModal";
 import InfoActionBox from "../components/InfoActionBox";
 import MessageSnackbar from "../components/MessageSnackbar";
 import { CART, SHOP, ABOUT } from "../utils/constants";
-import { truncateString, formatAsCurrency } from "../utils/util";
+import { truncateString, formatAsCurrency, checkValidity } from "../utils/util";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -48,12 +50,17 @@ const Cart = () => {
     (state) => state.cart.bookRemovedFromCart
   );
   const subtotal = useSelector((state) => state.cart.subtotal);
+  const email = useSelector((state) => state.cart.email);
   const checkoutLoading = useSelector((state) => state.cart.checkoutLoading);
   const checkoutError = useSelector((state) => state.cart.checkoutError);
   const [openModal, setOpenModal] = useState(false);
   const [bookToDisplay, setBookToDisplay] = useState({});
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [cartActionMessage, setCartActionMessage] = useState("");
+  const [emailField, setEmailField] = useState({
+    valid: false,
+    touched: false,
+  });
 
   useEffect(() => {
     //reset openSnackbar state on each render to stop it popping up each time
@@ -98,28 +105,43 @@ const Cart = () => {
     setOpenSnackbar(false);
   };
 
-  const onCheckout = async () => {
-    dispatch(checkoutStart());
-    fetch("http://localhost:4000/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: cart,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        return res.json().then((json) => Promise.reject(json));
+  const onEmailChange = (event) => {
+    dispatch(setEmail(event.target.value));
+    setEmailField({ touched: false });
+  };
+
+  const onEmailBlur = (event) => {
+    setEmailField({
+      valid: checkValidity(event.target.value, CART.emailField.validations),
+      touched: true,
+    });
+  };
+
+  const onCheckout = async (event) => {
+    event.preventDefault();
+    if (emailField.valid) {
+      dispatch(checkoutStart());
+      fetch("http://localhost:4000/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: cart,
+        }),
       })
-      .then(({ url }) => {
-        dispatch(checkoutReset());
-        window.location = url; // Forwarding to Stripe
-      })
-      .catch((error) => {
-        dispatch(checkoutFailure(error.message));
-      });
+        .then((res) => {
+          if (res.ok) return res.json();
+          return res.json().then((json) => Promise.reject(json));
+        })
+        .then(({ url }) => {
+          dispatch(checkoutReset());
+          window.location = url; // Forwarding to Stripe
+        })
+        .catch((error) => {
+          dispatch(checkoutFailure(error.message));
+        });
+    }
   };
 
   useEffect(() => {
@@ -172,7 +194,6 @@ const Cart = () => {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          spacing={5}
         >
           <Grid item xs={12} md={10}>
             <TableContainer component={Paper}>
@@ -265,16 +286,56 @@ const Cart = () => {
               </Table>
             </TableContainer>
           </Grid>
-          <Box m={5}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={onCheckout}
-            >
-              {CART.buttonText}
-            </Button>
-          </Box>
+          <Container
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "4px",
+              py: 5,
+              width: { xs: 450, sm: 600, md: 800, lg: 1000, xl: 1400 },
+            }}
+          >
+            <form onSubmit={onCheckout}>
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                spacing={3}
+              >
+                <Grid item xs={12} align="left">
+                  <TextField
+                    id={CART.emailField.id}
+                    label={CART.emailField.label}
+                    name={CART.emailField.name}
+                    required={true}
+                    variant="outlined"
+                    onBlur={onEmailBlur}
+                    onChange={onEmailChange}
+                    autoFocus={true}
+                    fullWidth
+                    value={email}
+                    disabled={checkoutLoading}
+                    error={!emailField.valid && emailField.touched}
+                    helperText={
+                      !emailField.valid &&
+                      emailField.touched &&
+                      CART.emailField.error
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    onClick={onCheckout}
+                  >
+                    {CART.buttonText}
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Container>
         </Grid>
       ) : (
         <InfoActionBox

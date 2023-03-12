@@ -160,6 +160,16 @@ export const CART = {
   cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
+  emailField: {
+    id: "email",
+    name: "email",
+    label: "Enter your email address to begin purchase:",
+    error: "Please enter a valid email address",
+    validations: {
+      required: true,
+      isEmail: true,
+    },
+  },
   checkoutErrorMessage:
     "There was an error processing your order. Please try again later.",
 };
