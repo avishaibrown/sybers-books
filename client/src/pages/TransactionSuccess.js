@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart, markBooksAsSold } from "../slices/cart";
+import { resetCartState, markBooksAsSold } from "../slices/cart";
+import { resetSearchResultsState } from "../slices/searchResults";
 import { Container } from "@mui/material";
 import InfoActionBox from "../components/InfoActionBox";
 import { SUCCESS } from "../utils/constants";
@@ -23,7 +24,8 @@ const TransactionSuccess = () => {
             orderNumber: orderNo,
           })
         );
-        dispatch(clearCart());
+        dispatch(resetCartState());
+        dispatch(resetSearchResultsState());
       } catch (error) {
         console.error(error);
       }
@@ -76,8 +78,7 @@ const TransactionSuccess = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 2 },
-        mb: { md: 10 },
+        mt: { xs: 8 },
         alignItems: "center",
         textAlign: "center",
       }}

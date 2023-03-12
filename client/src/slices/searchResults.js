@@ -88,6 +88,9 @@ const searchResultsSlice = createSlice({
           : a.PRICE - b.PRICE
       );
     },
+    resetSearchResultsState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -120,7 +123,8 @@ const searchResultsSlice = createSlice({
   },
 });
 
-export const { sortResults } = searchResultsSlice.actions;
+export const { sortResults, resetSearchResultsState } =
+  searchResultsSlice.actions;
 
 const { reducer } = searchResultsSlice;
 export default reducer;

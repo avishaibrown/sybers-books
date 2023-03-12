@@ -35,7 +35,7 @@ const Admin = () => {
     AlertRef.current && AlertRef.current.focus();
   };
 
-  const handleFileUpload = (event) => {
+  const onFileUpload = (event) => {
     const file = event.target.files[0];
     Papa.parse(file, {
       header: true,
@@ -45,7 +45,7 @@ const Admin = () => {
     });
   };
 
-  const handleImport = () => {
+  const onImportCSV = () => {
     const collectionRef = collection(db, "Books");
 
     csvData.forEach(async (row) => {
@@ -116,8 +116,8 @@ const Admin = () => {
         justifyContent="center"
         spacing={2}
       >
-        <TextField type="file" onChange={handleFileUpload} />
-        <Button variant="contained" onClick={handleImport}>
+        <TextField type="file" onChange={onFileUpload} />
+        <Button variant="contained" onClick={onImportCSV}>
           {ADMIN.importButtonText}
         </Button>
       </Stack>

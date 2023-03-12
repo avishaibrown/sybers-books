@@ -59,7 +59,7 @@ const Auth = () => {
     setIsFormValid(authForm.email.valid && authForm.password.valid);
   }, [authForm.email.valid, authForm.password.valid]);
 
-  const handleChange = (event) => {
+  const onChange = (event) => {
     const updatedControls = updateObject(authForm, {
       [event.target.name]: updateObject(authForm[event.target.name], {
         value: event.target.value,
@@ -69,7 +69,7 @@ const Auth = () => {
     setAuthForm(updatedControls);
   };
 
-  const handleBlur = (event) => {
+  const onBlur = (event) => {
     const updatedControls = updateObject(authForm, {
       [event.target.name]: updateObject(authForm[event.target.name], {
         valid: checkValidity(
@@ -82,7 +82,7 @@ const Auth = () => {
     setAuthForm(updatedControls);
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     isFormValid && login(authForm.email.value, authForm.password.value);
   };
@@ -145,7 +145,7 @@ const Auth = () => {
           width: "100%",
           marginTop: 16,
         }}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         <TextField
           variant="outlined"
@@ -157,8 +157,8 @@ const Auth = () => {
           name="email"
           autoComplete="email"
           autoFocus
-          onBlur={handleBlur}
-          onChange={handleChange}
+          onBlur={onBlur}
+          onChange={onChange}
           error={
             authForm.email.valid === false && authForm.email.touched === true
           }
@@ -179,8 +179,8 @@ const Auth = () => {
           type="password"
           id={stringToSlug(AUTH.password)}
           autoComplete="current-password"
-          onBlur={handleBlur}
-          onChange={handleChange}
+          onBlur={onBlur}
+          onChange={onChange}
           error={
             authForm.password.valid === false &&
             authForm.password.touched === true

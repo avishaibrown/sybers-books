@@ -78,10 +78,6 @@ const cartSlice = createSlice({
       state.bookAddedToCart = "";
       state.bookRemovedFromCart = "";
     },
-    clearCart: (state) => {
-      state.cart = [];
-      state.subtotal = "0.00";
-    },
     checkoutStart: (state) => {
       state.checkoutLoading = true;
       state.checkoutError = false;
@@ -93,6 +89,9 @@ const cartSlice = createSlice({
     checkoutFailure: (state, action) => {
       state.checkoutLoading = false;
       state.checkoutError = action.payload;
+    },
+    resetCartState: (state) => {
+      Object.assign(state, initialState);
     },
   },
   extraReducers: (builder) => {
@@ -119,10 +118,10 @@ export const {
   cartActionSuccess,
   cartActionFailure,
   cartActionReset,
-  clearCart,
   checkoutStart,
   checkoutReset,
   checkoutFailure,
+  resetCartState,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

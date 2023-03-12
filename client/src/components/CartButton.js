@@ -5,12 +5,12 @@ import { SHOP } from "../utils/constants";
 import { formatAsCurrency } from "../utils/util";
 
 const CartButton = (props) => {
-  const { addToCart, onClickHandler, book, isIcon, price } = props;
+  const { addToCart, onCartAction, book, isIcon, price } = props;
 
   const buttonToRender =
     addToCart && isIcon ? (
       <IconButton
-        onClick={() => onClickHandler(book, "add")}
+        onClick={() => onCartAction(book, "add")}
         aria-label={SHOP.modalButtons.add}
         sx={{ marginLeft: "auto" }}
       >
@@ -18,7 +18,7 @@ const CartButton = (props) => {
       </IconButton>
     ) : addToCart && !isIcon ? (
       <Button
-        onClick={() => onClickHandler(book, "add")}
+        onClick={() => onCartAction(book, "add")}
         aria-label={SHOP.modalButtons.add}
         variant="contained"
         endIcon={<ShoppingCart />}
@@ -30,7 +30,7 @@ const CartButton = (props) => {
       </Button>
     ) : !addToCart && isIcon ? (
       <IconButton
-        onClick={() => onClickHandler(book, "remove")}
+        onClick={() => onCartAction(book, "remove")}
         aria-label={SHOP.modalButtons.remove}
         sx={{ marginLeft: "auto" }}
       >
@@ -38,7 +38,7 @@ const CartButton = (props) => {
       </IconButton>
     ) : (
       <Button
-        onClick={() => onClickHandler(book, "remove")}
+        onClick={() => onCartAction(book, "remove")}
         aria-label={SHOP.modalButtons.remove}
         variant="contained"
         color="error"

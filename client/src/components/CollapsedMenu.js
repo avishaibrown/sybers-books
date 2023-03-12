@@ -8,7 +8,7 @@ const CollapsedMenu = (props) => {
   const { menuItems, cartItems } = props;
   const [open, setOpen] = useState(false);
 
-  const handleClick = () => {
+  const onClick = () => {
     setOpen(true);
   };
 
@@ -20,7 +20,7 @@ const CollapsedMenu = (props) => {
           color="secondary"
           aria-label="menu"
           sx={{ ml: "auto", transform: "scale(1.2)" }}
-          onClick={handleClick}
+          onClick={onClick}
           aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}

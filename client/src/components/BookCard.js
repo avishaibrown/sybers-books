@@ -17,7 +17,8 @@ import { SUCCESS } from "../utils/constants";
 const BookCard = (props) => {
   const {
     book,
-    onClickHandler,
+    onCartAction,
+    onViewCart,
     loading,
     addToCart,
     missingValuesText,
@@ -116,7 +117,7 @@ const BookCard = (props) => {
             ) : (
               <CartButton
                 addToCart={addToCart}
-                onClickHandler={onClickHandler}
+                onCartAction={onCartAction}
                 book={book}
                 isIcon={true}
               />
@@ -127,7 +128,8 @@ const BookCard = (props) => {
           open={openModal}
           setOpen={setOpenModal}
           book={book}
-          onClickHandler={onClickHandler}
+          onCartAction={onCartAction}
+          onViewCart={onViewCart}
           loading={loading}
           addToCart={addToCart}
           missingValuesText={missingValuesText}

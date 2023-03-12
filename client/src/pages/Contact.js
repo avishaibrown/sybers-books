@@ -73,7 +73,7 @@ const Contact = () => {
     contactForm.message.valid,
   ]);
 
-  const handleChange = (event) => {
+  const onChange = (event) => {
     const updatedControls = updateObject(contactForm, {
       [event.target.name]: updateObject(contactForm[event.target.name], {
         value: event.target.value,
@@ -83,7 +83,7 @@ const Contact = () => {
     setContactForm(updatedControls);
   };
 
-  const handleBlur = (event) => {
+  const onBlur = (event) => {
     const updatedControls = updateObject(contactForm, {
       [event.target.name]: updateObject(contactForm[event.target.name], {
         valid: checkValidity(
@@ -96,7 +96,7 @@ const Contact = () => {
     setContactForm(updatedControls);
   };
 
-  const handleSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     if (isFormValid) {
       setLoading(true);
@@ -167,7 +167,7 @@ const Contact = () => {
             {loading ? (
               <CircularProgress />
             ) : !success ? (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={onSubmit}>
                 <Grid container justifyContent="center" p={3}>
                   <Grid container spacing={3} mb={3} justifyContent="center">
                     {CONTACT.fields.map((field) => (
@@ -181,8 +181,8 @@ const Contact = () => {
                           rows={field.rows}
                           fullWidth
                           variant="outlined"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
+                          onBlur={onBlur}
+                          onChange={onChange}
                           autoFocus={field.autoFocus}
                           disabled={loading}
                           error={

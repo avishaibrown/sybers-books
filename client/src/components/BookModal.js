@@ -25,14 +25,16 @@ import { Close } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import Typography from "./Typography";
 import { getBookDetailsData } from "../utils/util";
-import { SUCCESS } from "../utils/constants";
+import { SHOP } from "../utils/constants";
+import Button from "./Button";
 
 const BookModal = (props) => {
   const {
     open,
     setOpen,
     book,
-    onClickHandler,
+    onCartAction,
+    onViewCart,
     loading,
     addToCart,
     missingValuesText,
@@ -46,11 +48,11 @@ const BookModal = (props) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const descriptionElementRef = useRef(null);
 
-  const handleClose = () => {
+  const onClose = () => {
     !loading && setOpen(false);
   };
 
-  const handleTabChange = (event, newIndex) => {
+  const onTabChange = (event, newIndex) => {
     setTabIndex(newIndex);
   };
 
@@ -83,7 +85,7 @@ const BookModal = (props) => {
     <div>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         scroll={"paper"}
         aria-labelledby="book-modal-dialog"
         aria-describedby="book-modal-description"
@@ -108,7 +110,7 @@ const BookModal = (props) => {
             </Box>
             <IconButton
               aria-label="close"
-              onClick={handleClose}
+              onClick={onClose}
               sx={{
                 display: "inline-block",
                 position: "absolute",
@@ -165,7 +167,7 @@ const BookModal = (props) => {
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <Tabs
                     value={tabIndex}
-                    onChange={handleTabChange}
+                    onChange={onTabChange}
                     aria-label="book modal tabs"
                   >
                     <Tab
@@ -243,16 +245,23 @@ const BookModal = (props) => {
                 float: "right",
               }}
             >
-              <Typography variant="subtitle1">{SUCCESS.soldText}</Typography>
+              <Typography variant="subtitle1">{SHOP.soldText}</Typography>
             </Box>
           ) : (
-            <CartButton
-              addToCart={addToCart}
-              onClickHandler={onClickHandler}
-              book={book}
-              isIcon={false}
-              price={book.PRICE}
-            />
+            <Stack direction="row" spacing={2}>
+              <CartButton
+                addToCart={addToCart}
+                onCartAction={onCartAction}
+                book={book}
+                isIcon={false}
+                price={book.PRICE}
+              />
+              {!!onViewCart && !addToCart && (
+                <Button variant="contained" onClick={onViewCart}>
+                  {SHOP.viewCart}
+                </Button>
+              )}
+            </Stack>
           )}
         </DialogActions>
       </Dialog>

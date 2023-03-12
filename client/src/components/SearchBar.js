@@ -21,14 +21,14 @@ const SearchBar = (props) => {
     setSearchValue(value);
   }, [value]);
 
-  const onClickHandler = () => {
+  const onClick = () => {
     searchValue.length >= 3 && onSearch(searchValue);
   };
 
-  const onKeyPressHandler = (event) => {
+  const onKeyPress = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      onClickHandler();
+      onClick();
     }
   };
 
@@ -66,7 +66,7 @@ const SearchBar = (props) => {
           }}
           placeholder={SHOP.searchBarPlaceholder}
           onChange={(event) => setSearchValue(event.target.value)}
-          onKeyDown={onKeyPressHandler}
+          onKeyDown={onKeyPress}
           autoFocus
           fullWidth
           value={searchValue}
@@ -87,7 +87,7 @@ const SearchBar = (props) => {
             transform: { xs: "scale(1)", md: "scale(2)" },
             display: "flex",
           }}
-          onClick={onClickHandler}
+          onClick={onClick}
           id={"search-icon"}
         >
           <SearchIcon />

@@ -94,8 +94,10 @@ export const SHOP = {
     add: "Add To Cart",
     remove: "Remove From Cart",
   },
+  soldText: "This book has been sold and is no longer available.",
   addedToCartMessage: " added to cart",
   removedFromCartMessage: " removed from cart",
+  viewCart: "View Cart",
 };
 
 export const CONTACT = {
@@ -153,6 +155,7 @@ export const CONTACT = {
 export const CART = {
   title: "Cart",
   buttonText: "Checkout",
+  proceedToCheckout: "Proceed To Checkout",
   emptyCartMessage: ["Your cart is empty."],
   cartTotals: "Cart Totals",
   columnHeaders: ["", "Book Title", "Price"],
@@ -191,11 +194,12 @@ export const SHIPPING_AND_RETURNS = {
 export const SUCCESS = {
   link: "/success",
   title: "Congratulations!",
-  message: ["Your order was successfully placed. A confirmation email has been sent to the email address you provided. Please allow up to 30 minutes for the email to arrive."],
+  message: [
+    "Your order was successfully placed. A confirmation email has been sent to the email address you provided. Please allow up to 30 minutes for the email to arrive.",
+  ],
   redirectLink: "/",
   redirectLinkText: "Return to Home",
   soldStatus: "Sold",
-  soldText: "This book has been sold and is no longer available."
 };
 
 export const AUTH = {

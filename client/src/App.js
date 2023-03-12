@@ -51,11 +51,7 @@ const theme = createTheme({
 //TODO: Handle successful transaction flow:
 //--- Send buyer order confirmation email
 
-//TODO: Reset all redux state after transaction completed
-
-//TODO: Enhance search functionality
-//--- Get categories by AllCategories column
-//--- If item is no longer available, do not return it in search results
+//TODO: Once new item is added to cart, offer option to checkout
 
 //TODO: Admin page for Firestore CRUD operations
 //--- Add CRUD page with Navigation Tabs for operations
@@ -63,6 +59,9 @@ const theme = createTheme({
 //--- Update existing book in Firestore
 //--- Delete book in Firestore
 //--- View orders
+
+//TODO: Enhance search functionality
+//--- Get categories by AllCategories column
 
 //TODO: Delete firestore data and perform a fresh import of all books
 

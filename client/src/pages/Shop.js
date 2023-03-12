@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { sortResults, searchResults } from "../slices/searchResults";
 import {
   addToCart,
@@ -25,7 +26,7 @@ import Typography from "../components/Typography";
 import SearchBar from "../components/SearchBar";
 import BookCard from "../components/BookCard";
 import SearchResultsSelect from "../components/SearchResultsSelect";
-import { SHOP, SUCCESS } from "../utils/constants";
+import { SHOP, SUCCESS, MENU_ITEMS } from "../utils/constants";
 import { searchResultsCounter } from "../utils/util";
 
 const Shop = () => {
@@ -45,6 +46,7 @@ const Shop = () => {
   );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
   const [booksPerPage, setBooksPerPage] = useState(
@@ -81,7 +83,7 @@ const Shop = () => {
     setBooksPerPage(event.target.value);
   };
 
-  const onCartClick = (book, action) => {
+  const onCartAction = (book, action) => {
     dispatch(cartActionReset());
     dispatch(cartActionStart());
     try {
@@ -173,7 +175,8 @@ const Shop = () => {
                     <BookCard
                       key={"book-card-" + index}
                       book={book}
-                      onClickHandler={onCartClick}
+                      onCartAction={onCartAction}
+                      onViewCart={() => navigate(MENU_ITEMS[4].link)}
                       loading={cartLoading}
                       addToCart={cart.every(
                         (obj) => obj.SERIAL !== book.SERIAL

@@ -68,7 +68,7 @@ const Cart = () => {
     }
   }, [bookAddedToCart, bookRemovedFromCart, cartError]);
 
-  const onClickHandler = (book, action) => {
+  const onCartAction = (book, action) => {
     dispatch(cartActionReset());
     dispatch(cartActionStart());
     setOpenModal(false);
@@ -198,7 +198,7 @@ const Cart = () => {
                       <TableCell align="center" padding="none">
                         <IconButton
                           aria-label="delete"
-                          onClick={() => onClickHandler(book, "remove")}
+                          onClick={() => onCartAction(book, "remove")}
                         >
                           <Delete />
                         </IconButton>
@@ -235,7 +235,7 @@ const Cart = () => {
                           open={openModal}
                           setOpen={setOpenModal}
                           book={bookToDisplay}
-                          onClickHandler={onClickHandler}
+                          onCartAction={onCartAction}
                           loading={cartLoading}
                           addToCart={cart.every(
                             (obj) => obj.SERIAL !== book.SERIAL
