@@ -128,6 +128,7 @@ const Cart = () => {
         },
         body: JSON.stringify({
           items: cart,
+          customerEmail: email,
         }),
       })
         .then((res) => {

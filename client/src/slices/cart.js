@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateBookStatus } from "../firebase/firestore";
 import { SUCCESS } from "../utils/constants";
+import { truncateString } from "../utils/util";
 
 const initialState = {
   cart: [],
@@ -64,9 +65,17 @@ const cartSlice = createSlice({
     cartActionSuccess: (state, action) => {
       state.cartLoading = false;
       if (action.payload.action === "add") {
-        state.bookAddedToCart = action.payload.book.TITLE;
+        state.bookAddedToCart = truncateString(
+          action.payload.book.TITLE,
+          40,
+          true
+        );
       } else if (action.payload.action === "remove") {
-        state.bookRemovedFromCart = action.payload.book.TITLE;
+        state.bookRemovedFromCart = truncateString(
+          action.payload.book.TITLE,
+          40,
+          true
+        );
       }
     },
     cartActionFailure: (state, action) => {

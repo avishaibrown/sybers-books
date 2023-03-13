@@ -48,9 +48,6 @@ const theme = createTheme({
   },
 });
 
-//TODO: Handle successful transaction flow:
-//--- Send buyer order confirmation email - ask for email before checkout!
-
 //TODO: Admin page for Firestore CRUD operations
 //--- Add CRUD page with Navigation Tabs for operations
 //--- Create new book in Firestore
@@ -76,6 +73,7 @@ const theme = createTheme({
 //--- Confirm search functionality
 //--- Talk about CRUD process
 //--- Talk about Order process
+//--- Need to confirm in live mode whether receipt number is being sent
 
 const App = () => {
   let routes = (

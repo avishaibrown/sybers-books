@@ -57,14 +57,14 @@ const TransactionSuccess = () => {
         setTitle(`Congratulations ${data.customerName}!`);
         setMessage([
           `Your order was successfully placed. A confirmation email has been sent to ${data.customerEmail}. Please allow up to 30 minutes for the email to arrive.`,
-          `Your order number is ${data.customerOrderNumber}.`,
+          `Your receipt number is ${data.customerReceiptNumber}.`,
         ]);
 
         const cartBookIds = cart.map((book) => book.SERIAL);
         onTransactionSuccess(
           cartBookIds,
           data.customerEmail,
-          data.customerOrderNumber
+          data.customerReceiptNumber
         );
       })
       .catch((error) => {
