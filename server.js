@@ -46,6 +46,10 @@ app.post("/checkout", async (req, res) => {
       success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
       client_reference_id: `ORD-${Date.now()}`,
+      customer_email: req.body.customerEmail,
+      payment_intent_data: {
+        receipt_email: req.body.customerEmail,
+      },
     });
 
     res.send(
@@ -60,16 +64,23 @@ app.post("/checkout", async (req, res) => {
 
 app.post("/success", async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.retrieve(req.body.sessionId);
+    const session = await stripe.checkout.sessions.retrieve(
+      req.body.sessionId,
+      {
+        expand: ["payment_intent"],
+      }
+    );
     const name = session.customer_details.name;
     const email = session.customer_details.email;
     const orderNumber = session.client_reference_id;
+    const receiptNumber = session.payment_intent.charges.data[0].receipt_number;
 
     res.send(
       JSON.stringify({
         customerName: name,
         customerEmail: email,
         customerOrderNumber: orderNumber,
+        customerReceiptNumber: receiptNumber,
       })
     );
   } catch (error) {
