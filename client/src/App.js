@@ -49,11 +49,7 @@ const theme = createTheme({
 });
 
 //TODO: Admin page for Firestore CRUD operations
-//--- Add CRUD page with Navigation Tabs for operations
-//--- Create new book in Firestore
 //--- Update existing book in Firestore
-//--- Delete book in Firestore
-//--- View orders
 
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
@@ -74,6 +70,7 @@ const theme = createTheme({
 //--- Talk about CRUD process
 //--- Talk about Order process
 //--- Need to confirm in live mode whether receipt number is being sent
+//--- Description should include Collated, Damage, Illustrator, Signed, Size, Weight
 
 const App = () => {
   let routes = (
