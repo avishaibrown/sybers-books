@@ -12,6 +12,7 @@ import sessionStorage from "redux-persist/lib/storage/session";
 import SearchResultsReducer from "./slices/searchResults";
 import CartReducer from "./slices/cart";
 import AuthReducer from "./slices/auth";
+import AdminReducer from "./slices/admin";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   searchResults: SearchResultsReducer,
   cart: CartReducer,
   auth: AuthReducer,
+  admin: AdminReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -361,6 +361,7 @@ export const ADMIN = {
   submitButton: "Submit",
   clearButton: "Clear",
   bookAddedMessage: "Book successfully added to Firestore. Book id is: ",
+  bookAddErrorMessage: "Error encountered: ",
 };
 
 export const CATEGORIES_FROM_DB = [

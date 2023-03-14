@@ -48,9 +48,6 @@ const theme = createTheme({
   },
 });
 
-//TODO: Admin page for Firestore CRUD operations
-//--- Update existing book in Firestore
-
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
 

@@ -5,7 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { db, auth } from "../firebase/firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
-import { logoutStart, logoutSuccess, logoutFailure } from "../slices/auth";
+import {
+  logoutStart,
+  logoutSuccess,
+  logoutFailure,
+  authReset,
+} from "../slices/auth";
+import {
+  addBookStart,
+  addBookSuccess,
+  addBookFailure,
+  addBookReset,
+} from "../slices/admin";
 import {
   Container,
   Backdrop,
@@ -206,17 +217,27 @@ const Admin = () => {
       touched: false,
     },
   });
-  const loading = useSelector((state) => state.auth.loading);
-  const error = useSelector((state) => state.auth.error);
+  const authLoading = useSelector((state) => state.auth.loading);
+  const authError = useSelector((state) => state.auth.error);
+  const addBookLoading = useSelector((state) => state.admin.loading);
+  const addBookError = useSelector((state) => state.admin.error);
+  const success = useSelector((state) => state.admin.success);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onActionCompleted = (message) => {
-    setAlertMessage(message);
-    window.scrollTo(0, 0);
-    AlertRef.current && AlertRef.current.focus();
-  };
+  useEffect(() => {
+    addBookError && setAlertMessage(addBookError);
+    success && setAlertMessage(success);
+    authError && setAlertMessage(authError);
+  }, [addBookError, success, authError]);
+
+  useEffect(() => {
+    if (alertMessage) {
+      window.scrollTo(0, 0);
+      AlertRef.current && AlertRef.current.focus();
+    }
+  });
 
   const onFileUpload = (event) => {
     const file = event.target.files[0];
@@ -272,9 +293,14 @@ const Admin = () => {
       for (const key in addBookForm) {
         bookData[key] = addBookForm[key].value;
       }
-      const docRef = await addDoc(collection(db, "Books"), bookData);
-      resetAddBookForm();
-      onActionCompleted(ADMIN.bookAddedMessage + docRef.id);
+      try {
+        dispatch(addBookStart());
+        const docRef = await addDoc(collection(db, "Books"), bookData);
+        dispatch(addBookSuccess(ADMIN.bookAddedMessage + docRef.id));
+        resetAddBookForm();
+      } catch (error) {
+        dispatch(addBookFailure(ADMIN.bookAddErrorMessage + error.message));
+      }
     }
   };
 
@@ -295,6 +321,12 @@ const Admin = () => {
       }
     }
     setAddBookForm(updatedForm);
+  };
+
+  const onAlertClose = () => {
+    setAlertMessage(null);
+    dispatch(addBookReset());
+    dispatch(authReset());
   };
 
   const onLogout = () => {
@@ -323,20 +355,15 @@ const Admin = () => {
     >
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
+        open={authLoading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {error && (
-        <Alert severity="error" sx={{ width: "100%", mb: 5 }}>
-          {error}
-        </Alert>
-      )}
       {alertMessage && (
         <Box m={3}>
           <Alert
-            onClose={() => setAlertMessage(null)}
-            severity="info"
+            onClose={onAlertClose}
+            severity={success ? "info" : "error"}
             variant="filled"
             ref={AlertRef}
             m={5}
@@ -371,7 +398,6 @@ const Admin = () => {
           >
             <Tab label="Import CSV to Firestore" />
             <Tab label="Add book to Firestore" />
-            <Tab label="Update book in Firestore" />
           </Tabs>
         </Box>
         <TabPanel value={tabValue} index={0}>
@@ -406,7 +432,7 @@ const Admin = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       autoFocus={field.autoFocus}
-                      disabled={false}
+                      disabled={addBookLoading}
                       value={addBookForm[field.name].value}
                       error={
                         !addBookForm[field.name].valid &&
@@ -426,7 +452,7 @@ const Admin = () => {
                   type="submit"
                   variant="contained"
                   sx={{ textTransform: "none" }}
-                  disabled={false}
+                  disabled={addBookLoading}
                 >
                   {ADMIN.submitButton}
                 </Button>
@@ -434,7 +460,7 @@ const Admin = () => {
                   variant="contained"
                   color="error"
                   sx={{ textTransform: "none" }}
-                  disabled={false}
+                  disabled={addBookLoading}
                   onClick={resetAddBookForm}
                 >
                   {ADMIN.clearButton}
@@ -442,9 +468,6 @@ const Admin = () => {
               </Stack>
             </Grid>
           </form>
-        </TabPanel>
-        <TabPanel value={tabValue} index={2}>
-          Item Three
         </TabPanel>
       </Box>
       <Button
