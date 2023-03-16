@@ -32,7 +32,7 @@ function HeroLayout(props) {
     <HeroLayoutRoot>
       <Container
         sx={{
-          my: 20,
+          my: { xs: 8, md: 20 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

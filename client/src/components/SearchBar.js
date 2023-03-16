@@ -46,7 +46,7 @@ const SearchBar = (props) => {
     <Paper
       component="form"
       sx={{
-        mt: 20,
+        mt: { md: 20 },
         py: { xs: 1, lg: 2 },
         px: 2,
         display: "flex",
@@ -72,7 +72,7 @@ const SearchBar = (props) => {
             ml: { xs: 0, md: 1 },
             flex: 1,
             fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
-            minWidth: { xs: 250, sm: 450, md: 600, lg: 800 },
+            minWidth: { xs: 200, sm: 450, md: 600, lg: 800 },
           }}
           placeholder={placeholderToDisplay}
           onChange={(event) => setSearchValue(event.target.value)}

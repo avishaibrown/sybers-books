@@ -11,7 +11,7 @@ const TermsConditions = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 15, md: 20 },
+        mt: { xs: 8, md: 20 },
         mb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
@@ -21,7 +21,10 @@ const TermsConditions = () => {
         variant="h2"
         gutterBottom
         marked="center"
-        sx={{ fontSize: { xs: "3rem", md: "3.75rem" }, mb: 10 }}
+        sx={{
+          fontSize: { xs: "2.5rem", md: "3.75rem" },
+          mb: { xs: 8, md: 10 },
+        }}
       >
         {TERMS_AND_CONDITIONS.title}
       </Typography>

@@ -376,7 +376,10 @@ const Admin = () => {
         variant="h2"
         gutterBottom
         marked="center"
-        sx={{ fontSize: { xs: "3rem", md: "3.75rem" }, mb: 10 }}
+        sx={{
+          fontSize: { xs: "2.5rem", md: "3.75rem" },
+          mb: { xs: 5, md: 10 },
+        }}
       >
         {ADMIN.title}
       </Typography>

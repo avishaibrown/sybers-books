@@ -126,7 +126,7 @@ const Shop = () => {
           alignItems: "center",
           justifyContent: "center",
           [theme.breakpoints.up("xs")]: {
-            height: "80vh",
+            height: { xs: "40vh", sm: "80vh" },
             minHeight: 50,
             maxHeight: 350,
           },

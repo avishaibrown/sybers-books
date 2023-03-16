@@ -78,7 +78,7 @@ const TransactionSuccess = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 8 },
+        mt: 8,
         alignItems: "center",
         textAlign: "center",
       }}
