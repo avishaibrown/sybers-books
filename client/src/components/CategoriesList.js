@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Container,
   Grid,
@@ -6,9 +7,16 @@ import {
   ListItemText,
 } from "@mui/material";
 import Typography from "./Typography";
+import Button from "./Button";
 
 const CategoriesList = (props) => {
-  const { categories, title, onCategorySearch } = props;
+  const { categories, title, buttonText, onCategorySearch } = props;
+
+  const [visibleCategories, setVisibleCategories] = useState(12);
+
+  const onShowMore = () => {
+    setVisibleCategories(visibleCategories + 12);
+  };
 
   return (
     <Container
@@ -31,7 +39,7 @@ const CategoriesList = (props) => {
         {title}
       </Typography>
       <Grid container spacing={2}>
-        {categories.map((category, index) => (
+        {categories.slice(0, visibleCategories).map((category, index) => (
           <Grid item xs={12} sm={6} md={4} xl={3} key={index}>
             <List component="nav">
               <ListItemButton
@@ -50,6 +58,16 @@ const CategoriesList = (props) => {
           </Grid>
         ))}
       </Grid>
+      {visibleCategories < categories.length && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onShowMore}
+          sx={{ mt: 3 }}
+        >
+          {buttonText}
+        </Button>
+      )}
     </Container>
   );
 };

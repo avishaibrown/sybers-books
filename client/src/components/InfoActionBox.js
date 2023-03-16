@@ -45,8 +45,8 @@ const InfoActionBox = (props) => {
               sx={{
                 typography: { xs: "body1", sm: "h6", xl: "h5" },
               }}
-              mb={{ xs: 3, sm: 5 }}
-              mt={{ xs: 5, sm: 5, lg: 0 }}
+              mb={{ xs: 1, sm: 5 }}
+              mt={{ xs: 3, sm: 5, lg: 0 }}
               key={"info-action-box-paragraph-" + index}
             >
               {paragraph}

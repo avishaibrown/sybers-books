@@ -28,6 +28,7 @@ const Home = () => {
       <CategoriesList
         categories={CATEGORIES_FROM_DB}
         title={HOME.categoriesHeading}
+        buttonText={HOME.categoriesShowMore}
         onCategorySearch={onCategorySearch}
       />
     </Container>

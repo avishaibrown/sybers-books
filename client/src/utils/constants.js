@@ -33,14 +33,19 @@ export const HOME = {
     button: "Start Browsing",
   },
   categoriesHeading: "Browse by Categories",
+  categoriesShowMore: "Show More",
 };
 
 export const ABOUT = {
   title: "About",
-  description: [
+  descriptionPanelOne: [
     "Welcome to Syber's Books, your destination for all things rare and unique!",
     "At Syber's Books, we are dedicated to bringing you the best in second-hand books, with a focus on those hard-to-find titles covering topics from ornithology to the occult. As a woman-owned bookstore, we have a personal touch and a passion for books that sets us apart. With over 200,000 books in our collection, you're sure to find something that piques your interest.",
+  ],
+  descriptionPanelTwo: [
     "In addition to our diverse selection of books, we also offer a one-of-a-kind shopping experience. Our physical bookstore is home to three feline residents who are always eager to meet new visitors. And of course, our owner, Penny, is always on hand to answer questions and help you find the perfect book.",
+  ],
+  descriptionPanelThree: [
     "At Syber's Books, we believe that books have the power to inspire, educate, and entertain, and we are committed to making sure you have access to the books you love. So come and explore our shelves today, and discover why Syber's Books is the ultimate destination for book lovers everywhere!",
   ],
   terms: [
@@ -49,16 +54,21 @@ export const ABOUT = {
   ],
   images: [
     "./images/about-store-front.png",
-    "./images/about-penny.png",
     "./images/about-cat-in-store.jpg",
+    "./images/about-penny.png",
   ],
   button: "Shop Now",
 };
 
 export const SHOP = {
-  searchBarLabel: "Search from our collection of over 100,000 books:",
-  searchBarPlaceholder:
-    "Type to search for a book by title, author, genre, or ISBN",
+  searchBarLabel: {
+    long: "Search from our collection of over 100,000 books:",
+    short: "Search from our collection:",
+  },
+  searchBarPlaceholder: {
+    long: "Type to search for a book by title, author, genre, or ISBN",
+    short: "Search by title, author, genre or ISBN",
+  },
   searchResultsTitle: "Search Results",
   searchTimeout: 1000,
   sortByMenuItems: [

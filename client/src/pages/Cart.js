@@ -29,6 +29,7 @@ import {
   CircularProgress,
   Alert,
   TextField,
+  useMediaQuery,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import Typography from "../components/Typography";
@@ -61,6 +62,7 @@ const Cart = () => {
     valid: false,
     touched: false,
   });
+  const fullScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   useEffect(() => {
     //reset openSnackbar state on each render to stop it popping up each time
@@ -245,7 +247,11 @@ const Cart = () => {
                             }}
                           >
                             {book.TITLE
-                              ? truncateString(book.TITLE, 80, true)
+                              ? truncateString(
+                                  book.TITLE,
+                                  fullScreen ? 80 : 100,
+                                  true
+                                )
                               : SHOP.missingValuesText.title}
                           </Link>
                           <Typography
@@ -254,7 +260,11 @@ const Cart = () => {
                             sx={{ fontSize: { xs: "0.9rem", md: "1.25rem" } }}
                           >
                             {book.AUTHOR
-                              ? truncateString(book.AUTHOR, 50, true)
+                              ? truncateString(
+                                  book.AUTHOR,
+                                  fullScreen ? 50 : 80,
+                                  true
+                                )
                               : SHOP.missingValuesText.author}
                           </Typography>
                         </Box>

@@ -33,7 +33,7 @@ const Hero = (props) => {
             marked={index === title.length - 1 ? "center" : "none"}
             variant="h2"
             sx={{
-              fontSize: { xs: "2rem", sm: "3rem", md: "4rem", lg: "5rem" },
+              fontSize: { xs: "3rem", md: "4rem", lg: "5rem" },
             }}
           >
             {line}

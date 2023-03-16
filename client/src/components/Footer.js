@@ -28,13 +28,13 @@ const Footer = (props) => {
         justifyContent="center"
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <Link href={privacy.link} p={1} underline="hover" color="#2c292c">
+        <Link href={privacy.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
           {privacy.title}
         </Link>
-        <Link href={terms.link} p={1} underline="hover" color="#2c292c">
+        <Link href={terms.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
           {terms.title}
         </Link>
-        <Link href={shipping.link} p={1} underline="hover" color="#2c292c">
+        <Link href={shipping.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
           {shipping.title}
         </Link>
         <IconButton onClick={() => navigate(adminOnly.link)}>

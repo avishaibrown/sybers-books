@@ -8,12 +8,12 @@ import {
   Box,
   FormControl,
   InputLabel,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { SHOP } from "../utils/constants";
 
 const SearchBar = (props) => {
-  const { label, onSearch, value } = props;
+  const { label, placeholder, onSearch, value } = props;
   const [searchValue, setSearchValue] = useState("");
   const loading = useSelector((state) => state.loading);
 
@@ -32,6 +32,16 @@ const SearchBar = (props) => {
     }
   };
 
+  const labelToDisplay = useMediaQuery((theme) => theme.breakpoints.down("md"))
+    ? label.short
+    : label.long;
+
+  const placeholderToDisplay = useMediaQuery((theme) =>
+    theme.breakpoints.down("md")
+  )
+    ? placeholder.short
+    : placeholder.long;
+
   return (
     <Paper
       component="form"
@@ -48,23 +58,23 @@ const SearchBar = (props) => {
             sx={{
               fontSize: { xs: 20, sm: 24 },
               marginTop: { xs: -3, sm: -4, lg: -5 },
-              marginLeft: { xs: -2, sm: -1, md: 0 },
-              minWidth: 800,
+              marginLeft: { xs: -3, sm: -1, md: 0 },
+              minWidth: 250,
               whiteSpace: "normal",
             }}
             shrink={true}
           >
-            {label}
+            {labelToDisplay}
           </InputLabel>
         )}
         <InputBase
           sx={{
-            ml: 1,
+            ml: { xs: 0, md: 1 },
             flex: 1,
             fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
-            minWidth: { xs: 300, sm: 450, md: 600, lg: 800 },
+            minWidth: { xs: 250, sm: 450, md: 600, lg: 800 },
           }}
-          placeholder={SHOP.searchBarPlaceholder}
+          placeholder={placeholderToDisplay}
           onChange={(event) => setSearchValue(event.target.value)}
           onKeyDown={onKeyPress}
           autoFocus

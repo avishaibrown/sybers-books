@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Container, Box, Grid, Stack } from "@mui/material";
+import { Container, Box, Grid, useMediaQuery } from "@mui/material";
 import Typography from "../components/Typography";
 import InfoActionBox from "../components/InfoActionBox";
 import { ABOUT } from "../utils/constants";
@@ -9,6 +9,51 @@ const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const imageToDisplay = (imageIndex, float) => {
+    return (
+      <Grid item xs={12} md={5}>
+        <Box
+          component="img"
+          key={`about-image-${imageIndex}`}
+          alt={`${ABOUT.title}-image-${imageIndex}`}
+          src={ABOUT.images[imageIndex]}
+          sx={{
+            maxWidth: { xs: 400, lg: 450, xl: 520 },
+            float: { xs: "none", md: float },
+          }}
+        />
+      </Grid>
+    );
+  };
+
+  const paragraphToDisplay = (panelParagraph, align, float) => {
+    return (
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          float: { xs: "none", md: float },
+          textAlign: { xs: "none", md: align },
+        }}
+        p={{ xs: 0, md: 3, xl: 6 }}
+        mx={{ xs: 3, sm: 5, md: 2, lg: 5 }}
+      >
+        {panelParagraph.map((paragraph, index) => (
+          <Typography
+            sx={{
+              typography: { xs: "body1", md: "h6", xl: "h5" },
+            }}
+            p={{ xs: 1, lg: 3 }}
+            key={"about-description-paragraph-" + index}
+          >
+            {paragraph}
+          </Typography>
+        ))}
+      </Grid>
+    );
+  };
 
   return (
     <Container
@@ -30,48 +75,28 @@ const About = () => {
       >
         {ABOUT.title}
       </Typography>
-      <Grid container mb={{ xs: 2, lg: 10 }}>
-        <Grid item xs={12} lg={5}>
-          <Stack
-            direction="column"
-            alignItems={{ xs: "center", lg: "right" }}
-            justifyContent="space-between"
-            spacing={2}
-          >
-            {ABOUT.images.map((image, index) => (
-              <Box
-                component="img"
-                key={"about-image-" + index}
-                alt={ABOUT.title}
-                src={image}
-                sx={{
-                  maxWidth: { xs: 400, sm: 450, xl: 600 },
-                  borderRadius: "3%",
-                }}
-              />
-            ))}
-          </Stack>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={6}
-          sx={{ float: { xs: "none", xl: "left" }, textAlign: "left" }}
-          mx={5}
-        >
-          {ABOUT.description.map((paragraph, index) => (
-            <Typography
-              sx={{
-                typography: { xs: "body1", sm: "h6", lg: "h6", xl: "h5" },
-              }}
-              mb={{ xs: 3, sm: 5 }}
-              mt={{ xs: 5, sm: 5, lg: 0 }}
-              key={"about-description-paragraph-" + index}
-            >
-              {paragraph}
-            </Typography>
-          ))}
-        </Grid>
+      <Grid container mb={{ xs: 5, lg: 10 }} spacing={{ xs: 2, md: 3, xl: 4 }}>
+        {/* First panel */}
+
+        {imageToDisplay(0, "right")}
+        {paragraphToDisplay(ABOUT.descriptionPanelOne, "left", "right")}
+
+        {/* Second panel */}
+        {useMediaQuery((theme) => theme.breakpoints.down("md")) ? (
+          <>
+            {imageToDisplay(1, "left")}
+            {paragraphToDisplay(ABOUT.descriptionPanelTwo, "right", "left")}
+          </>
+        ) : (
+          <>
+            {paragraphToDisplay(ABOUT.descriptionPanelTwo, "right", "left")}
+            {imageToDisplay(1, "left")}
+          </>
+        )}
+
+        {/* Third panel */}
+        {imageToDisplay(2, "right")}
+        {paragraphToDisplay(ABOUT.descriptionPanelThree, "left", "right")}
       </Grid>
       <InfoActionBox
         infoText={ABOUT.terms}

@@ -135,6 +135,7 @@ const Shop = () => {
       >
         <SearchBar
           label={SHOP.searchBarLabel}
+          placeholder={SHOP.searchBarPlaceholder}
           onSearch={(value) => onSearch(value)}
           value={searchTerm}
           id={"search-bar"}
@@ -204,7 +205,7 @@ const Shop = () => {
         </Container>
       ) : (
         <Box
-          m={10}
+          m={5}
           display="flex"
           sx={{
             flexDirection: "column",
