@@ -1,9 +1,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow admins to read and write all documents
+    // Allow anyone to read all documents
+    // Allow admins to write all documents
     match /{document=**} {
-      allow read, write: if hasAnyRole(["ADMIN", "OWNER"]);
+      allow read: if true;
+      allow write: if hasAnyRole(["ADMIN", "OWNER"]);
     }
   }
 }

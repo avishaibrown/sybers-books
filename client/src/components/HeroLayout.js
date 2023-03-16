@@ -6,12 +6,7 @@ const HeroLayoutRoot = styled("section")(({ theme }) => ({
   position: "relative",
   display: "flex",
   alignItems: "center",
-  minHeight: "100vh",
-  [theme.breakpoints.up("sm")]: {
-    height: "80vh",
-    minHeight: 500,
-    maxHeight: 1300,
-  },
+  minHeight: "90vh",
 }));
 
 const Background = styled(Box)({
@@ -32,7 +27,7 @@ function HeroLayout(props) {
     <HeroLayoutRoot>
       <Container
         sx={{
-          my: { xs: 8, md: 20 },
+          my: { md: 20 },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

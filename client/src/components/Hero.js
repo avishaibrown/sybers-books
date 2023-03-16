@@ -33,7 +33,7 @@ const Hero = (props) => {
             marked={index === title.length - 1 ? "center" : "none"}
             variant="h2"
             sx={{
-              fontSize: { xs: "3rem", md: "4rem", lg: "5rem" },
+              fontSize: { xs: "3rem", sm: "4rem", md: "5rem" },
             }}
           >
             {line}
@@ -61,7 +61,7 @@ const Hero = (props) => {
               color="inherit"
               align="center"
               sx={{
-                typography: { xs: "body1", md: "h5", lg: "h4" },
+                typography: { xs: "body1", sm: "h5", md: "h4" },
                 mx: 2,
               }}
             >
