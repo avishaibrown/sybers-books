@@ -53,11 +53,6 @@ const theme = createTheme({
 
 //TODO: Delete firestore data and perform a fresh import of all books
 
-//TODO: A11y & responsiveness
-//--- Try use with keyboard and make sure all interactive elements can be tabbed to, and initial focus should go to headers
-//--- Fix all bugs when viewport height changes (e.g. Hero)
-//--- Fix Shop page in Mobile view re width!
-
 //TODO: Styling
 //--- Work out colour palette and background (ask Simone?)
 

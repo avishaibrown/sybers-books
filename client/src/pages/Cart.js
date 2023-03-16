@@ -205,7 +205,7 @@ const Cart = () => {
             <TableContainer component={Paper}>
               <Table
                 sx={{
-                  width: { xs: 450, sm: 600, md: 800, lg: 1000, xl: 1400 },
+                  minWidth: { xs: 200, sm: 400, md: 600, lg: 800, xl: 1400 },
                 }}
                 aria-label="shopping cart books table"
               >
@@ -305,7 +305,7 @@ const Cart = () => {
               backgroundColor: "white",
               borderRadius: "4px",
               py: 5,
-              width: { xs: 450, sm: 600, md: 800, lg: 1000, xl: 1400 },
+              minWidth: { xs: 200, sm: 400, md: 600, lg: 800, xl: 1400 },
             }}
           >
             <form onSubmit={onCheckout}>
@@ -315,7 +315,7 @@ const Cart = () => {
                 alignItems="center"
                 spacing={3}
               >
-                <Grid item xs={12} align="left">
+                <Grid item xs={12} md={10}>
                   <TextField
                     id={CART.emailField.id}
                     label={CART.emailField.label}
