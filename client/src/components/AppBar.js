@@ -53,7 +53,13 @@ const AppBar = (props) => {
           >
             {item.title}
             {item.showIconInAppBar && (
-              <IconButton edge="end">{item.icon}</IconButton>
+              <IconButton
+                edge="end"
+                tabIndex={-1}
+                aria-label={`${item.title}-icon`}
+              >
+                {item.icon}
+              </IconButton>
             )}
           </Link>
         )

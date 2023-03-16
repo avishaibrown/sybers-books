@@ -98,7 +98,8 @@ const SearchBar = (props) => {
             display: "flex",
           }}
           onClick={onClick}
-          id={"search-icon"}
+          id={"search-button"}
+          aria-label={"search-button"}
         >
           <SearchIcon />
         </IconButton>

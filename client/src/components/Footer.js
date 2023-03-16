@@ -3,6 +3,7 @@ import { Box, Stack, IconButton, Link, Divider } from "@mui/material";
 import Typography from "./Typography";
 import { Facebook, Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { stringToSlug } from "../utils/util";
 
 const Footer = (props) => {
   const {
@@ -28,16 +29,37 @@ const Footer = (props) => {
         justifyContent="center"
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <Link href={privacy.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
+        <Link
+          href={privacy.link}
+          p={1}
+          underline="hover"
+          color="#2c292c"
+          sx={{ fontSize: { xs: 14, md: 16 } }}
+        >
           {privacy.title}
         </Link>
-        <Link href={terms.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
+        <Link
+          href={terms.link}
+          p={1}
+          underline="hover"
+          color="#2c292c"
+          sx={{ fontSize: { xs: 14, md: 16 } }}
+        >
           {terms.title}
         </Link>
-        <Link href={shipping.link} p={1} underline="hover" color="#2c292c" sx={{fontSize: {xs: 14, md: 16}}}>
+        <Link
+          href={shipping.link}
+          p={1}
+          underline="hover"
+          color="#2c292c"
+          sx={{ fontSize: { xs: 14, md: 16 } }}
+        >
           {shipping.title}
         </Link>
-        <IconButton onClick={() => navigate(adminOnly.link)}>
+        <IconButton
+          onClick={() => navigate(adminOnly.link)}
+          aria-label={stringToSlug(adminOnly.title)}
+        >
           <Person />
         </IconButton>
       </Stack>
@@ -59,7 +81,12 @@ const Footer = (props) => {
           }}
           onClick={() => navigate(navigateTo)}
         />
-        <IconButton href={socialLink} target="_blank" rel="noopener noreferrer">
+        <IconButton
+          href={socialLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={"social media"}
+        >
           <Facebook />
         </IconButton>
       </Stack>

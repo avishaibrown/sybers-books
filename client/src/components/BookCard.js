@@ -66,13 +66,13 @@ const BookCard = (props) => {
         >
           <CardActionArea onClick={() => setOpenModal(true)}>
             <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography component="div" variant="h5">
+              <Typography component="h2" variant="h5">
                 {book.TITLE
                   ? truncateString(book.TITLE, 40, true)
                   : missingValuesText.title}
               </Typography>
               <Typography
-                component="div"
+                component="h3"
                 variant="subtitle1"
                 color="text.secondary"
               >
@@ -87,7 +87,7 @@ const BookCard = (props) => {
               sx={{
                 fontWeight: "bold",
                 color: "#fff",
-                backgroundColor: "#4caf50",
+                backgroundColor: "#2B5F2B",
                 p: 1,
                 borderRadius: "0.25rem",
               }}
