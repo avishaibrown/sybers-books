@@ -123,7 +123,7 @@ const Cart = () => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
-      fetch(process.env.REACT_APP_CHECKOUT_URL, {
+      fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

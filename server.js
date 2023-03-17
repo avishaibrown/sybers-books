@@ -43,8 +43,8 @@ app.post("/checkout", async (req, res) => {
       ],
       line_items: line_items,
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.CLIENT_URL}/cart`,
+      success_url: `${process.env.CLIENT_PROD_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_PROD_URL}/cart`,
       client_reference_id: `ORD-${Date.now()}`,
       customer_email: req.body.customerEmail,
       payment_intent_data: {
