@@ -40,7 +40,7 @@ const TransactionSuccess = () => {
     const url = new URL(window.location.href);
     const sessionId = url.searchParams.get("session_id");
 
-    fetch("http://localhost:4000/success", {
+    fetch(process.env.REACT_APP_SUCCESS_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
