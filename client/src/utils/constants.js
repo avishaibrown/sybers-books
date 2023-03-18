@@ -180,8 +180,9 @@ export const CART = {
       isEmail: true,
     },
   },
-  checkoutErrorMessage:
-    "There was an error processing your order. Please try again later.",
+  checkoutErrorMessageLine1:
+    "The following error was encountered while trying to process your order: ",
+  checkoutErrorMessageLine2: ". Please try again later.",
 };
 
 export const FOOTER = {

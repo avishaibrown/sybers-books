@@ -142,6 +142,7 @@ const Cart = () => {
           window.location = url; // Forwarding to Stripe
         })
         .catch((error) => {
+          console.error(error);
           dispatch(checkoutFailure(error.message));
         });
     }
@@ -180,7 +181,9 @@ const Cart = () => {
           }}
           onClose={() => dispatch(checkoutReset())}
         >
-          {CART.checkoutErrorMessage}
+          {CART.checkoutErrorMessageLine1}
+          <b>{checkoutError}</b>
+          {CART.checkoutErrorMessageLine2}
         </Alert>
       )}
       <Typography
