@@ -123,9 +123,11 @@ const Cart = () => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
-      fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
+      let resClone;
+      fetch(`${process.env.REACT_APP_DEV_URL}/checkout`, {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -133,16 +135,27 @@ const Cart = () => {
           customerEmail: email,
         }),
       })
-        .then((res) => {
+        .then(async (res) => {
+          resClone = res.clone();
+          console.log("resClone", resClone);
           if (res.ok) return res.json();
-          return res.json().then((json) => Promise.reject(json));
+          const json = await res.json();
+          return await Promise.reject(json);
         })
         .then(({ url }) => {
+          console.log("2nd then function fired, url = ", url);
           dispatch(checkoutReset());
           window.location = url; // Forwarding to Stripe
         })
         .catch((error) => {
           console.error(error);
+          console.log("Error Response Clone: ", resClone);
+          resClone.text().then(function (bodyText) {
+            console.log(
+              "Received the following instead of valid JSON:",
+              bodyText
+            );
+          });
           dispatch(checkoutFailure(error.message));
         });
     }
@@ -156,8 +169,8 @@ const Cart = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 5, md: 10 },
-        mb: { md: 10 },
+        pt: { xs: 5, md: 10 },
+        pb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
       }}

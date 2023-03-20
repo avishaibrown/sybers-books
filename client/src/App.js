@@ -51,6 +51,8 @@ const theme = createTheme({
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
 
+//TODO: Add SearchBar to homepage
+
 //TODO: Delete firestore data and perform a fresh import of all books
 
 //TODO: Talk to Penny
