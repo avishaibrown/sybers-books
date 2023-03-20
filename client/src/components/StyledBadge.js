@@ -8,6 +8,7 @@ const StyledBadge = styled(Badge)(({ tight }) => ({
     border: `2px solid`,
     padding: "0 4px",
     fontFamily: "auto",
+    backgroundColor: "#40826D"
   },
 }));
 

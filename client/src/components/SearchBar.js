@@ -59,7 +59,7 @@ const SearchBar = (props) => {
               fontSize: { xs: 20, sm: 24 },
               marginTop: { xs: -3, sm: -4, lg: -5 },
               marginLeft: { xs: -3, sm: -1, md: 0 },
-              minWidth: 250,
+              minWidth: { xs: 350, md: 750 },
               whiteSpace: "normal",
             }}
             shrink={true}

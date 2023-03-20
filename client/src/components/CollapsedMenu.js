@@ -17,7 +17,7 @@ const CollapsedMenu = (props) => {
       <Box sx={{ display: "flex", ml: "auto", mr: 2 }}>
         <IconButton
           edge="end"
-          color="secondary"
+          color="#40826D"
           aria-label="menu"
           sx={{ ml: "auto", transform: "scale(1.2)" }}
           onClick={onClick}
