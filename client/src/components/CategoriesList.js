@@ -45,6 +45,7 @@ const CategoriesList = (props) => {
               <ListItemButton
                 selected={true}
                 onClick={() => onCategorySearch(category)}
+                sx={{ backgroundColor: "#F3D8A0 !important" }}
               >
                 <ListItemText
                   primary={category}
@@ -59,12 +60,7 @@ const CategoriesList = (props) => {
         ))}
       </Grid>
       {visibleCategories < categories.length && (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={onShowMore}
-          sx={{ mt: 3 }}
-        >
+        <Button variant="contained" onClick={onShowMore} sx={{ mt: 3 }}>
           {buttonText}
         </Button>
       )}
