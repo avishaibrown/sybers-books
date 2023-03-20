@@ -1,8 +1,9 @@
-require("dotenv").config();
+const dotenv = require("dotenv");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY_TEST);
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -88,6 +89,8 @@ app.post("/success", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 4000, () =>
-  console.log("Backend server is running!")
-);
+// app.listen(process.env.PORT || 4000, () =>
+//   console.log("Backend server is running!")
+// );
+
+module.exports = app;

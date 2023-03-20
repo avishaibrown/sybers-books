@@ -48,6 +48,11 @@ const theme = createTheme({
   },
 });
 
+fetch("https://us-central1-sybers-books.cloudfunctions.net/checkServer")
+  .then((response) => response.text())
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
+
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
 
