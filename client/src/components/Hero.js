@@ -57,11 +57,11 @@ const Hero = (props) => {
         >
           {description.map((item, index) => (
             <Typography
-              key={"hero-description-text-" + index}
+              key={"hero-description-text-" + index} 
               color="inherit"
               align="center"
               sx={{
-                typography: { xs: "body1", sm: "h5", md: "h4" },
+                typography: { xs: "body1", sm: "h5" },
                 mx: 2,
               }}
             >
@@ -71,7 +71,6 @@ const Hero = (props) => {
         </MovingText>
       </Box>
       <Button
-        color="secondary"
         variant="contained"
         size="large"
         onClick={onButtonClick}

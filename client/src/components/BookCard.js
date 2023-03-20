@@ -35,7 +35,7 @@ const BookCard = (props) => {
           height: { xs: "250px", md: "300px" },
           background: disabled
             ? "linear-gradient(to bottom, #D9DBDB 0%, #FFFFFF 100%)"
-            : "linear-gradient(to bottom, #D2F7FE 0%, #FFFFFF 100%)",
+            : "#FFFFFF",
         }}
       >
         <CardMedia

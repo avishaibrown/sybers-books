@@ -345,10 +345,11 @@ const Admin = () => {
     <Container
       component="section"
       sx={{
-        mt: alertMessage ? 0 : { xs: 5, md: 10 },
-        mb: { md: 10 },
+        pt: { xs: 5, md: 10 },
+        pb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
+        background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
       }}
       disableGutters
       maxWidth={false}
@@ -360,13 +361,12 @@ const Admin = () => {
         <CircularProgress color="inherit" />
       </Backdrop>
       {alertMessage && (
-        <Box m={3}>
+        <Box p={5}>
           <Alert
             onClose={onAlertClose}
             severity={success ? "info" : "error"}
             variant="filled"
             ref={AlertRef}
-            m={5}
           >
             {alertMessage}
           </Alert>
@@ -386,9 +386,7 @@ const Admin = () => {
       <Box
         sx={{
           flexGrow: 1,
-          bgcolor: "background.paper",
           display: "flex",
-          backgroundColor: "#D2F7FE",
           py: 3,
         }}
       >

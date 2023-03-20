@@ -125,7 +125,7 @@ const BookModal = (props) => {
         <DialogContent
           dividers
           sx={{
-            background: "linear-gradient(to bottom, #D2F7FE 0%, #FFFFFF 100%)",
+            background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
           }}
         >
           <Grid container spacing={2}>

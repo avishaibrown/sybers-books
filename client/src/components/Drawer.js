@@ -36,7 +36,7 @@ const Drawer = (props) => {
           onKeyDown={toggleDrawer(false)}
           sx={{
             width: 250,
-            background: "linear-gradient(to bottom, #D2F7FE 0%, #FFFFFF 100%)",
+            background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
           }}
         >
           {menuItems.map((item, index) => (
@@ -44,7 +44,7 @@ const Drawer = (props) => {
               key={"drawer-list-item-" + index}
               sx={{
                 "&:hover": {
-                  backgroundColor: "#D2F7FE",
+                  backgroundColor: "#F3D8A0",
                 },
               }}
               href={item.link}

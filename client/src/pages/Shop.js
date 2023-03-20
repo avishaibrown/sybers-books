@@ -130,7 +130,7 @@ const Shop = () => {
             minHeight: 50,
             maxHeight: 350,
           },
-          backgroundColor: "#D2F7FE",
+          background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
         })}
       >
         <SearchBar
@@ -199,7 +199,7 @@ const Shop = () => {
               page={page + 1}
               onChange={(event, value) => onChangePage(value - 1)}
               size="large"
-              color="secondary"
+              color="standard"
             />
           </Box>
         </Container>

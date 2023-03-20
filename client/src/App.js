@@ -23,7 +23,7 @@ import {
   AUTH,
   ADMIN,
 } from "./utils/constants";
-import libreFranklin from "@fontsource/libre-franklin";
+import robotoMono from "@fontsource/roboto-mono";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import ShippingReturns from "./pages/ShippingReturns";
@@ -37,12 +37,12 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Libre Franklin", cursive',
+    fontFamily: '"Roboto Mono", cursive',
   },
   overrides: {
     CssBaseline: {
       "@global": {
-        "@font-face": [libreFranklin],
+        "@font-face": [robotoMono],
       },
     },
   },
@@ -52,9 +52,6 @@ const theme = createTheme({
 //--- Get categories by AllCategories column
 
 //TODO: Delete firestore data and perform a fresh import of all books
-
-//TODO: Styling
-//--- Work out colour palette and background (ask Simone?)
 
 //TODO: Talk to Penny
 //--- Review shipping capability, info and offerings

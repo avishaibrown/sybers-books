@@ -59,8 +59,8 @@ const About = () => {
     <Container
       component="section"
       sx={{
-        mt: { xs: 5, md: 10 },
-        mb: { md: 10 },
+        pt: { xs: 5, md: 10 },
+        pb: { md: 10 },
         alignItems: "center",
         textAlign: "center",
       }}
