@@ -3,17 +3,104 @@ const dotenv = require("dotenv");
 const stripe = require("stripe")(functions.config().stripe.secret_key);
 const express = require("express");
 const cors = require("cors");
-const serverApp = require("../server");
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.static("client"));
 app.use(express.json());
 
-exports.checkServer = functions.https.onRequest((_, res) => {
-  res.status(200).send("Server is running!");
-});
+// Refactored checkout endpoint
+const checkout = async (req, res) => {
+  cors(req, res, async () => {
+    try {
+      const line_items = req.body.items.map((item) => {
+        return {
+          price_data: {
+            unit_amount: item["STRIPE PRICE"],
+            currency: "aud",
+            product_data: {
+              name: item.TITLE,
+              description: item.AUTHOR,
+              images: [item["IMAGE URL"]],
+            },
+          },
+          quantity: 1,
+        };
+      });
 
-exports.api = functions.https.onRequest(serverApp);
+      const session = await stripe.checkout.sessions.create({
+        shipping_address_collection: { allowed_countries: ["AU", "NZ"] },
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              type: "fixed_amount",
+              fixed_amount: { amount: 0, currency: "aud" },
+              display_name: "Free shipping",
+              delivery_estimate: {
+                minimum: { unit: "business_day", value: 5 },
+                maximum: { unit: "business_day", value: 7 },
+              },
+            },
+          },
+        ],
+        line_items: line_items,
+        mode: "payment",
+        success_url: `${
+          functions.config().stripe.success_url
+        }/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${functions.config().stripe.cancel_url}/cart`,
+        client_reference_id: `ORD-${Date.now()}`,
+        customer_email: req.body.customerEmail,
+        payment_intent_data: {
+          receipt_email: req.body.customerEmail,
+        },
+      });
+
+      res.send(
+        JSON.stringify({
+          url: session.url,
+        })
+      );
+    } catch (error) {
+      res.status(500).json({ statusCode: 500, message: error.message });
+    }
+  });
+};
+
+// Refactored success endpoint
+const success = async (req, res) => {
+  cors(req, res, async () => {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(
+        req.body.sessionId,
+        {
+          expand: ["payment_intent"],
+        }
+      );
+      const name = session.customer_details.name;
+      const email = session.customer_details.email;
+      const orderNumber = session.client_reference_id;
+      const receiptNumber =
+        session.payment_intent.charges.data[0].receipt_number;
+
+      res.send(
+        JSON.stringify({
+          customerName: name,
+          customerEmail: email,
+          customerOrderNumber: orderNumber,
+          customerReceiptNumber: receiptNumber,
+        })
+      );
+    } catch (error) {
+      res.status(500).json({ statusCode: 500, message: error.message });
+    }
+  });
+};
+
+// Exports the checkout and success calls individually
+exports.checkout = functions.https.onRequest(checkout);
+exports.success = functions.https.onRequest(success);
+
+exports.api = functions.https.onRequest(app);
