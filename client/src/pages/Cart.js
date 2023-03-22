@@ -124,7 +124,7 @@ const Cart = () => {
     if (emailField.valid) {
       dispatch(checkoutStart());
       let resClone;
-      fetch(`${process.env.REACT_APP_DEV_URL}/checkout`, {
+      fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
         method: "POST",
         headers: {
           Accept: "application/json",
