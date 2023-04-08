@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { functions } from "../firebase/firebase-config";
+import { httpsCallable } from "firebase/functions";
 import {
   removeFromCart,
   addToCart,
@@ -119,22 +121,19 @@ const Cart = () => {
     });
   };
 
+  const checkoutFunction = httpsCallable(functions, "checkout");
+
   const onCheckout = async (event) => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
       let resClone;
-      fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      checkoutFunction(
+        JSON.stringify({
           items: cart,
           customerEmail: email,
-        }),
-      })
+        })
+      )
         .then(async (res) => {
           resClone = res.clone();
           console.log("resClone", resClone);

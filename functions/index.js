@@ -11,8 +11,36 @@ app.use(cors({ origin: true }));
 app.use(express.static("client"));
 app.use(express.json());
 
-// Refactored checkout endpoint
-const checkout = async (req, res) => {
+app.use((req, res, next) => {
+  console.log("middleware executed");
+  next();
+});
+
+exports.bigben = functions.https.onRequest((_, res) => {
+  const hours = (new Date().getHours() % 12) + 1; // London is UTC + 1hr;
+  res.status(200).send(`<!doctype html>
+      <head>
+        <title>Time</title>
+      </head>
+      <body>
+        ${"BONG ".repeat(hours)}
+      </body>
+    </html>`);
+});
+
+exports.checkout = functions.https.onRequest(async (req, res) => {
+  if (req.method === "PUT") {
+    res.status(403).send("Forbidden!");
+    return;
+  }
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set("Access-Control-Max-Age", "3600");
+    res.status(200).send();
+    return;
+  }
   cors(req, res, async () => {
     try {
       const line_items = req.body.items.map((item) => {
@@ -58,7 +86,9 @@ const checkout = async (req, res) => {
         },
       });
 
-      res.send(
+      functions.logger.log("Checkout response object:", res);
+
+      res.status(200).send(
         JSON.stringify({
           url: session.url,
         })
@@ -67,10 +97,13 @@ const checkout = async (req, res) => {
       res.status(500).json({ statusCode: 500, message: error.message });
     }
   });
-};
+});
 
-// Refactored success endpoint
-const success = async (req, res) => {
+exports.success = functions.https.onRequest(async (req, res) => {
+  if (req.method === "PUT") {
+    res.status(403).send("Forbidden!");
+    return;
+  }
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -85,7 +118,9 @@ const success = async (req, res) => {
       const receiptNumber =
         session.payment_intent.charges.data[0].receipt_number;
 
-      res.send(
+      functions.logger.log("Success response object:", res);
+
+      res.status(200).send(
         JSON.stringify({
           customerName: name,
           customerEmail: email,
@@ -97,10 +132,4 @@ const success = async (req, res) => {
       res.status(500).json({ statusCode: 500, message: error.message });
     }
   });
-};
-
-// Exports the checkout and success calls individually
-exports.checkout = functions.https.onRequest(checkout);
-exports.success = functions.https.onRequest(success);
-
-exports.api = functions.https.onRequest(app);
+});
