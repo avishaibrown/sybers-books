@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "build": "npm run build:client && npm start",
+    "build": "npm run build:client",
     "build:client": "cd client && npm run build"
   },
   "repository": {
@@ -29,5 +29,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "engines": {
+    "node": ">=16.14.1"
   }
 }
