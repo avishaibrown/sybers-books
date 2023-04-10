@@ -127,7 +127,6 @@ const Cart = () => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
-      let resClone;
       checkoutFunction(
         JSON.stringify({
           items: cart,
@@ -135,26 +134,16 @@ const Cart = () => {
         })
       )
         .then(async (res) => {
-          resClone = res.clone();
-          console.log("resClone", resClone);
           if (res.ok) return res.json();
           const json = await res.json();
           return await Promise.reject(json);
         })
         .then(({ url }) => {
-          console.log("2nd then function fired, url = ", url);
           dispatch(checkoutReset());
           window.location = url; // Forwarding to Stripe
         })
         .catch((error) => {
           console.error(error);
-          console.log("Error Response Clone: ", resClone);
-          resClone.text().then(function (bodyText) {
-            console.log(
-              "Received the following instead of valid JSON:",
-              bodyText
-            );
-          });
           dispatch(checkoutFailure(error.message));
         });
     }

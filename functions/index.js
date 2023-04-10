@@ -2,45 +2,16 @@ const functions = require("firebase-functions");
 const dotenv = require("dotenv");
 const stripe = require("stripe")(functions.config().stripe.secret_key);
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors")({ origin: true });
 
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: true }));
+app.use(cors);
 app.use(express.static("client"));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log("middleware executed");
-  next();
-});
-
-exports.bigben = functions.https.onRequest((_, res) => {
-  const hours = (new Date().getHours() % 12) + 1; // London is UTC + 1hr;
-  res.status(200).send(`<!doctype html>
-      <head>
-        <title>Time</title>
-      </head>
-      <body>
-        ${"BONG ".repeat(hours)}
-      </body>
-    </html>`);
-});
-
-exports.checkout = functions.https.onRequest(async (req, res) => {
-  if (req.method === "PUT") {
-    res.status(403).send("Forbidden!");
-    return;
-  }
-  if (req.method === "OPTIONS") {
-    res.set("Access-Control-Allow-Origin", "*");
-    res.set("Access-Control-Allow-Methods", "GET");
-    res.set("Access-Control-Allow-Headers", "Content-Type");
-    res.set("Access-Control-Max-Age", "3600");
-    res.status(200).send();
-    return;
-  }
+app.post("/checkout", async (req, res) => {
   cors(req, res, async () => {
     try {
       const line_items = req.body.items.map((item) => {
@@ -99,11 +70,7 @@ exports.checkout = functions.https.onRequest(async (req, res) => {
   });
 });
 
-exports.success = functions.https.onRequest(async (req, res) => {
-  if (req.method === "PUT") {
-    res.status(403).send("Forbidden!");
-    return;
-  }
+app.post("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -133,3 +100,5 @@ exports.success = functions.https.onRequest(async (req, res) => {
     }
   });
 });
+
+exports.api = functions.https.onRequest(app);
