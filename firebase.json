@@ -14,11 +14,11 @@
       },
       {
         "source": "/checkout",
-        "function": "api"
+        "function": "app"
       },
       {
         "source": "/success",
-        "function": "api"
+        "function": "app"
       }
     ]
   },

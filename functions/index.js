@@ -2,7 +2,10 @@ const functions = require("firebase-functions");
 const dotenv = require("dotenv");
 const stripe = require("stripe")(functions.config().stripe.secret_key);
 const express = require("express");
-const cors = require("cors")({ origin: true });
+const cors = require("cors")({
+  origin: "https://sybersbooks.web.app",
+  optionsSuccessStatus: 200,
+});
 
 dotenv.config();
 
@@ -70,7 +73,7 @@ app.post("/checkout", async (req, res) => {
   });
 });
 
-app.post("/success", async (req, res) => {
+app.get("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -101,4 +104,4 @@ app.post("/success", async (req, res) => {
   });
 });
 
-exports.api = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app);
