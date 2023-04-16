@@ -40,6 +40,8 @@ const TransactionSuccess = () => {
     const url = new URL(window.location.href);
     const sessionId = url.searchParams.get("session_id");
 
+    console.log("[TransactionSuccess.js] sessionId", sessionId);
+
     fetch(`${process.env.REACT_APP_PROD_URL}/success`, {
       method: "POST",
       headers: {
