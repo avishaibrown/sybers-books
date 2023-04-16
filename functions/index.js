@@ -77,6 +77,7 @@ app.post("/checkout", async (req, res) => {
 });
 
 app.get("/success", async (req, res) => {
+app.get("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -107,4 +108,5 @@ app.get("/success", async (req, res) => {
   });
 });
 
+exports.app = functions.https.onRequest(app);
 exports.app = functions.https.onRequest(app);
