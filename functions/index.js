@@ -1,8 +1,6 @@
 const functions = require("firebase-functions");
 const dotenv = require("dotenv");
-const stripe = require("stripe")(
-  "sk_test_51MNtp5JYTumMA9r1y302KTu6DVkMVZelPKmAN1ZgdNjkzy0WBDIZCdkMnFnMMbteNg39mitbuWEARevmGwnOAb5J00q1RME0OO"
-);
+const stripe = require("stripe")(functions.config().stripe.secret_key_live);
 const express = require("express");
 const cors = require("cors")({ origin: "https://sybersbooks.web.app" });
 
