@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { functions } from "../firebase/firebase-config";
-import { httpsCallable } from "firebase/functions";
 import {
   removeFromCart,
   addToCart,
@@ -121,31 +119,32 @@ const Cart = () => {
     });
   };
 
-  const checkoutFunction = httpsCallable(functions, "checkout");
-
   const onCheckout = async (event) => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
-      checkoutFunction(
-        JSON.stringify({
-          items: cart,
-          customerEmail: email,
-        })
-      )
-        .then(async (res) => {
-          if (res.ok) return res.json();
-          const json = await res.json();
-          return await Promise.reject(json);
-        })
-        .then(({ url }) => {
-          dispatch(checkoutReset());
-          window.location = url; // Forwarding to Stripe
-        })
-        .catch((error) => {
-          console.error(error);
-          dispatch(checkoutFailure(error.message));
-        });
+      const response = await fetch(
+        "https://us-central1-sybers-books.cloudfunctions.net/app/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            items: cart,
+            customerEmail: email,
+          }),
+        }
+      );
+      console.log("[Cart.js] response", response);
+      const json = await response.json();
+      if (response.ok) {
+        dispatch(checkoutReset());
+        window.location = json.url; // Forwarding to Stripe
+      } else {
+        console.error(json);
+        dispatch(checkoutFailure(json.message));
+      }
     }
   };
 

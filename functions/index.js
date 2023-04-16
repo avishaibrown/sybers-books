@@ -1,8 +1,10 @@
 const functions = require("firebase-functions");
 const dotenv = require("dotenv");
-const stripe = require("stripe")(functions.config().stripe.secret_key);
+const stripe = require("stripe")(
+  "sk_test_51MNtp5JYTumMA9r1y302KTu6DVkMVZelPKmAN1ZgdNjkzy0WBDIZCdkMnFnMMbteNg39mitbuWEARevmGwnOAb5J00q1RME0OO"
+);
 const express = require("express");
-const cors = require("cors")({ origin: true });
+const cors = require("cors")({ origin: "https://sybersbooks.web.app/" });
 
 dotenv.config();
 
@@ -10,6 +12,10 @@ const app = express();
 app.use(cors);
 app.use(express.static("client"));
 app.use(express.json());
+
+app.get("/test", (req, res) => {
+  res.send("Firebase Functions connection test successful!");
+});
 
 app.post("/checkout", async (req, res) => {
   cors(req, res, async () => {
@@ -70,7 +76,7 @@ app.post("/checkout", async (req, res) => {
   });
 });
 
-app.post("/success", async (req, res) => {
+app.get("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -101,4 +107,4 @@ app.post("/success", async (req, res) => {
   });
 });
 
-exports.api = functions.https.onRequest(app);
+exports.app = functions.https.onRequest(app);
