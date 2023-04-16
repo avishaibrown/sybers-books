@@ -124,7 +124,7 @@ const Cart = () => {
     if (emailField.valid) {
       dispatch(checkoutStart());
       const response = await fetch(
-        "https://us-central1-sybers-books.cloudfunctions.net/app/checkout",
+        `${process.env.REACT_APP_PROD_URL}/checkout`,
         {
           method: "POST",
           headers: {
@@ -136,7 +136,6 @@ const Cart = () => {
           }),
         }
       );
-      console.log("[Cart.js] response", response);
       const json = await response.json();
       if (response.ok) {
         dispatch(checkoutReset());

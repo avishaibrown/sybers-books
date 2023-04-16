@@ -48,6 +48,8 @@ const theme = createTheme({
   },
 });
 
+//TODO: Debug secrets for firebase functions
+
 //TODO: Enhance search functionality
 //--- Get categories by AllCategories column
 

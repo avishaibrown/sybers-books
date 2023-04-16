@@ -4,7 +4,7 @@ const stripe = require("stripe")(
   "sk_test_51MNtp5JYTumMA9r1y302KTu6DVkMVZelPKmAN1ZgdNjkzy0WBDIZCdkMnFnMMbteNg39mitbuWEARevmGwnOAb5J00q1RME0OO"
 );
 const express = require("express");
-const cors = require("cors")({ origin: "https://sybersbooks.web.app/" });
+const cors = require("cors")({ origin: "https://sybersbooks.web.app" });
 
 dotenv.config();
 
@@ -12,10 +12,6 @@ const app = express();
 app.use(cors);
 app.use(express.static("client"));
 app.use(express.json());
-
-app.get("/test", (req, res) => {
-  res.send("Firebase Functions connection test successful!");
-});
 
 app.post("/checkout", async (req, res) => {
   cors(req, res, async () => {
@@ -52,18 +48,14 @@ app.post("/checkout", async (req, res) => {
         ],
         line_items: line_items,
         mode: "payment",
-        success_url: `${
-          functions.config().stripe.success_url
-        }/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${functions.config().stripe.cancel_url}/cart`,
+        success_url: `https://sybersbooks.web.app/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `https://sybersbooks.web.app/cart`,
         client_reference_id: `ORD-${Date.now()}`,
         customer_email: req.body.customerEmail,
         payment_intent_data: {
           receipt_email: req.body.customerEmail,
         },
       });
-
-      functions.logger.log("Checkout response object:", res);
 
       res.status(200).send(
         JSON.stringify({
@@ -76,8 +68,7 @@ app.post("/checkout", async (req, res) => {
   });
 });
 
-app.get("/success", async (req, res) => {
-app.get("/success", async (req, res) => {
+app.post("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
@@ -91,8 +82,6 @@ app.get("/success", async (req, res) => {
       const orderNumber = session.client_reference_id;
       const receiptNumber =
         session.payment_intent.charges.data[0].receipt_number;
-
-      functions.logger.log("Success response object:", res);
 
       res.status(200).send(
         JSON.stringify({
@@ -108,5 +97,4 @@ app.get("/success", async (req, res) => {
   });
 });
 
-exports.app = functions.https.onRequest(app);
 exports.app = functions.https.onRequest(app);
