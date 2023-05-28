@@ -94,8 +94,8 @@ app.post("/success", async (req, res) => {
   });
 });
 
-// app.listen(process.env.PORT || 4000, () =>
-//   console.log("Backend server is running!")
-// );
+app.listen(process.env.PORT || 4000, () =>
+  console.log("Backend server is running!")
+);
 
 module.exports = app;

@@ -48,22 +48,19 @@ const theme = createTheme({
   },
 });
 
-//TODO: Debug secrets for firebase functions
-
-//TODO: Enhance search functionality
-//--- Get categories by AllCategories column
-
-//TODO: Add SearchBar to homepage
+//TODO: Add correct shipping information into Stripe
 
 //TODO: Delete firestore data and perform a fresh import of all books
 
-//TODO: Talk to Penny
-//--- Review shipping capability, info and offerings
-//--- Confirm search functionality
-//--- Talk about CRUD process
-//--- Talk about Order process
-//--- Need to confirm in live mode whether receipt number is being sent
-//--- Description should include Collated, Damage, Illustrator, Signed, Size, Weight
+//TODO: Change stripe keys from test to live
+
+//TODO: Un-comment emailjs code
+
+//TODO: Debug secrets for firebase functions
+
+//LATER
+//TODO: Enhance search functionality (Get categories by AllCategories column)
+//TODO: Add SearchBar to homepage
 
 const App = () => {
   let routes = (

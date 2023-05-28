@@ -66,20 +66,23 @@ app.post("/checkout", async (req, res) => {
   });
 });
 
-app.post("/success", async (req, res) => {
+app.get("/success", async (req, res) => {
   cors(req, res, async () => {
     try {
+      const sessionId = req.query.session_id;
+
       const session = await stripe.checkout.sessions.retrieve(
-        req.body.sessionId,
-        {
-          expand: ["payment_intent"],
-        }
+        sessionId
+        // sessionId,
+        // {
+        //   expand: ["payment_intent"],
+        // }
       );
       const name = session.customer_details.name;
       const email = session.customer_details.email;
       const orderNumber = session.client_reference_id;
       const receiptNumber =
-        session.payment_intent.charges.data[0].receipt_number;
+        session.payment_intent?.charges?.data[0]?.receipt_number;
 
       res.status(200).send(
         JSON.stringify({

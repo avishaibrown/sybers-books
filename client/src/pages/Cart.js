@@ -123,26 +123,35 @@ const Cart = () => {
     event.preventDefault();
     if (emailField.valid) {
       dispatch(checkoutStart());
-      const response = await fetch(
-        `${process.env.REACT_APP_PROD_URL}/checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            items: cart,
-            customerEmail: email,
+      try {
+        const response = await Promise.race([
+          fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              items: cart,
+              customerEmail: email,
+            }),
           }),
+          new Promise((_, reject) => {
+            setTimeout(() => {
+              reject(new Error("Request timeout"));
+            }, CART.timeout);
+          }),
+        ]);
+        const json = await response.json();
+        if (response.ok) {
+          dispatch(checkoutReset());
+          window.location = json.url; // Forwarding to Stripe
+        } else {
+          console.error(json);
+          dispatch(checkoutFailure(json.message));
         }
-      );
-      const json = await response.json();
-      if (response.ok) {
-        dispatch(checkoutReset());
-        window.location = json.url; // Forwarding to Stripe
-      } else {
-        console.error(json);
-        dispatch(checkoutFailure(json.message));
+      } catch (error) {
+        console.error(error);
+        dispatch(checkoutFailure(error.message));
       }
     }
   };

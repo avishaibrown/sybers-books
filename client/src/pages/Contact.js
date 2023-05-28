@@ -15,8 +15,6 @@ import ContactLink from "../components/ContactLink";
 import { updateObject, checkValidity } from "../utils/util";
 // import emailjs from "emailjs-com";
 
-//TODO: Connect form to emailjs
-
 const Contact = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [loading, setLoading] = useState(false);

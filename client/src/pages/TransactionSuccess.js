@@ -40,42 +40,40 @@ const TransactionSuccess = () => {
     const url = new URL(window.location.href);
     const sessionId = url.searchParams.get("session_id");
 
-    console.log("[TransactionSuccess.js] sessionId", sessionId);
-
-    fetch(`${process.env.REACT_APP_PROD_URL}/success`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sessionId: sessionId,
-      }),
-    })
-      .then(async (res) => {
-        console.log("[TransactionSuccess.js] res", res);
-        if (res.ok) return res.json();
-        const json = await res.json();
-        return await Promise.reject(json);
-      })
-      .then((data) => {
-        setTitle(`Congratulations ${data.customerName}!`);
+    const fetchData = async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_PROD_URL}/success?session_id=${sessionId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const json = await response.json();
+      if (response.ok) {
+        setTitle(`Congratulations ${json.customerName}!`);
         setMessage([
-          `Your order was successfully placed. A confirmation email has been sent to ${data.customerEmail}. Please allow up to 30 minutes for the email to arrive.`,
-          `Your receipt number is ${data.customerReceiptNumber}.`,
+          `Your order was successfully placed. A confirmation email has been sent to ${json.customerEmail}. Please allow up to 30 minutes for the email to arrive.`,
+          `Your receipt number is ${
+            json.customerReceiptNumber ?? json.customerOrderNumber
+          }.`,
         ]);
 
         const cartBookIds = cart.map((book) => book.SERIAL);
         onTransactionSuccess(
           cartBookIds,
-          data.customerEmail,
-          data.customerReceiptNumber
+          json.customerEmail,
+          json.customerReceiptNumber ?? json.customerOrderNumber
         );
-      })
-      .catch((error) => {
-        console.error(error.message);
+      } else {
+        console.error(json.message);
         setTitle(SUCCESS.title);
         setMessage(SUCCESS.message);
-      });
+      }
+    };
+
+    fetchData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

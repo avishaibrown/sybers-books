@@ -183,6 +183,7 @@ export const CART = {
   checkoutErrorMessageLine1:
     "The following error was encountered while trying to process your order: ",
   checkoutErrorMessageLine2: ". Please try again later.",
+  timeout: 30000,
 };
 
 export const FOOTER = {
