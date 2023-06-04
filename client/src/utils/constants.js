@@ -171,7 +171,6 @@ export const CART = {
   columnHeaders: ["", "Book Title", "Price"],
   subtotal: "Subtotal",
   emailField: {
-    id: "email",
     name: "email",
     label: "Enter your email address to begin purchase:",
     error: "Please enter a valid email address",
@@ -179,6 +178,14 @@ export const CART = {
       required: true,
       isEmail: true,
     },
+  },
+  shippingField: {
+    label: "Shipping Location:",
+    name: "shipping",
+    options: [
+      { value: "Australia", label: "Australia" },
+      { value: "International", label: "International" },
+    ],
   },
   checkoutErrorMessageLine1:
     "The following error was encountered while trying to process your order: ",

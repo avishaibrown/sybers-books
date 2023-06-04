@@ -33,18 +33,13 @@ const ShippingReturns = () => {
       >
         <Typography paragraph>
           <b>SHIPPING INFORMATION:</b> Syber's Books ships books anywhere inside
-          Australia at a rate of $4 (handling) plus $4 per book, or free
-          shipping for orders over $99. We generally ship sendle.com which is
-          tracked, or via standard Auspost, without tracking, particularly for
-          small orders under $20. If you would like your parcel to be tracked
-          via post, we can provide Auspost tracking at a rate of $10 (handling +
-          tracking costs) plus $4 per book. For countries outside of Australia,
-          a flat-rate shipping fee of $40AUD applies, plus $10AUD per book. Your
-          shipping address, added during the checkout process, will
-          automatically determine shipping costs. Shipping times will vary,
-          however you can usually rely on your order to arrive anywhere in metro
-          Victoria within 2-4 business days. For elsewhere in Australia, please
-          allow up to two weeks.
+          Australia at a flat rate of $9.99 for standard postage and $15.99 for
+          express postage. For countries outside of Australia, a flat-rate
+          shipping fee of $39.99AUD applies. Shipping times will vary, however
+          you can usually rely on your order to arrive anywhere in Australia
+          within 6-11 business days for standard shipping and 1-5 days for
+          express shipping. For international orders, please allow 7-21 business
+          days.
         </Typography>
         <Typography paragraph>
           <b>PRODUCT RETURNS:</b> Please choose your books carefully; most of

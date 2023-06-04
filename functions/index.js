@@ -14,6 +14,52 @@ app.use(express.json());
 app.post("/checkout", async (req, res) => {
   cors(req, res, async () => {
     try {
+      const shippingLocation = req.body.shippingLocation;
+      let allowedCountries = [];
+      let shippingOptions = [];
+
+      if (shippingLocation === "Australia") {
+        allowedCountries = ["AU"];
+        shippingOptions = [
+          {
+            shipping_rate_data: {
+              type: "fixed_amount",
+              fixed_amount: { amount: 999, currency: "aud" },
+              display_name: "Standard Shipping",
+              delivery_estimate: {
+                minimum: { unit: "business_day", value: 6 },
+                maximum: { unit: "business_day", value: 11 },
+              },
+            },
+          },
+          {
+            shipping_rate_data: {
+              type: "fixed_amount",
+              fixed_amount: { amount: 1599, currency: "aud" },
+              display_name: "Express Shipping",
+              delivery_estimate: {
+                minimum: { unit: "business_day", value: 1 },
+                maximum: { unit: "business_day", value: 5 },
+              },
+            },
+          },
+        ];
+      } else {
+        shippingOptions = [
+          {
+            shipping_rate_data: {
+              type: "fixed_amount",
+              fixed_amount: { amount: 3999, currency: "aud" },
+              display_name: "International Shipping",
+              delivery_estimate: {
+                minimum: { unit: "business_day", value: 7 },
+                maximum: { unit: "business_day", value: 21 },
+              },
+            },
+          },
+        ];
+      }
+
       const line_items = req.body.items.map((item) => {
         return {
           price_data: {
@@ -30,20 +76,8 @@ app.post("/checkout", async (req, res) => {
       });
 
       const session = await stripe.checkout.sessions.create({
-        shipping_address_collection: { allowed_countries: ["AU", "NZ"] },
-        shipping_options: [
-          {
-            shipping_rate_data: {
-              type: "fixed_amount",
-              fixed_amount: { amount: 0, currency: "aud" },
-              display_name: "Free shipping",
-              delivery_estimate: {
-                minimum: { unit: "business_day", value: 5 },
-                maximum: { unit: "business_day", value: 7 },
-              },
-            },
-          },
-        ],
+        shipping_address_collection: { allowed_countries: allowedCountries },
+        shipping_options: shippingOptions,
         line_items: line_items,
         mode: "payment",
         success_url: `https://sybersbooks.web.app/success?session_id={CHECKOUT_SESSION_ID}`,

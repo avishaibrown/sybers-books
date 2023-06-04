@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { updateBookStatus } from "../firebase/firestore";
-import { SUCCESS } from "../utils/constants";
+import { CART, SUCCESS } from "../utils/constants";
 import { truncateString } from "../utils/util";
 
 const initialState = {
@@ -13,6 +13,7 @@ const initialState = {
   checkoutLoading: false,
   checkoutError: false,
   email: "",
+  shippingLocation: CART.shippingField.options[0].value,
 };
 
 export const markBooksAsSold = createAsyncThunk(
@@ -91,6 +92,9 @@ const cartSlice = createSlice({
     setEmail: (state, action) => {
       state.email = action.payload;
     },
+    setShippingLocation: (state, action) => {
+      state.shippingLocation = action.payload;
+    },
     checkoutStart: (state) => {
       state.checkoutLoading = true;
       state.checkoutError = false;
@@ -132,6 +136,7 @@ export const {
   cartActionFailure,
   cartActionReset,
   setEmail,
+  setShippingLocation,
   checkoutStart,
   checkoutReset,
   checkoutFailure,

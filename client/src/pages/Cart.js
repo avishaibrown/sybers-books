@@ -8,6 +8,7 @@ import {
   cartActionFailure,
   cartActionReset,
   setEmail,
+  setShippingLocation,
   checkoutStart,
   checkoutReset,
   checkoutFailure,
@@ -30,6 +31,9 @@ import {
   Alert,
   TextField,
   useMediaQuery,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import Typography from "../components/Typography";
@@ -52,6 +56,7 @@ const Cart = () => {
   );
   const subtotal = useSelector((state) => state.cart.subtotal);
   const email = useSelector((state) => state.cart.email);
+  const shippingLocation = useSelector((state) => state.cart.shippingLocation);
   const checkoutLoading = useSelector((state) => state.cart.checkoutLoading);
   const checkoutError = useSelector((state) => state.cart.checkoutError);
   const [openModal, setOpenModal] = useState(false);
@@ -119,6 +124,10 @@ const Cart = () => {
     });
   };
 
+  const onShippingChange = (event) => {
+    dispatch(setShippingLocation(event.target.value));
+  };
+
   const onCheckout = async (event) => {
     event.preventDefault();
     if (emailField.valid) {
@@ -133,6 +142,7 @@ const Cart = () => {
             body: JSON.stringify({
               items: cart,
               customerEmail: email,
+              shippingLocation: shippingLocation,
             }),
           }),
           new Promise((_, reject) => {
@@ -328,7 +338,7 @@ const Cart = () => {
               >
                 <Grid item xs={12} md={10}>
                   <TextField
-                    id={CART.emailField.id}
+                    id={CART.emailField.name}
                     label={CART.emailField.label}
                     name={CART.emailField.name}
                     required={true}
@@ -346,6 +356,33 @@ const Cart = () => {
                       CART.emailField.error
                     }
                   />
+                </Grid>
+                <Grid item xs={12} md={10}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ textAlign: "left", fontWeight: "bold" }}
+                  >
+                    {CART.shippingField.label}
+                  </Typography>
+                  <RadioGroup
+                    id={CART.shippingField.name}
+                    name={CART.shippingField.name}
+                    value={shippingLocation}
+                    defaultValue={CART.shippingField.options[0].value}
+                    onChange={onShippingChange}
+                    row
+                    required
+                    disabled={checkoutLoading}
+                  >
+                    {CART.shippingField.options.map((option, index) => (
+                      <FormControlLabel
+                        key={"shipping-option-" + index}
+                        value={option.value}
+                        control={<Radio size="medium" />}
+                        label={option.label}
+                      />
+                    ))}
+                  </RadioGroup>
                 </Grid>
                 <Grid item xs={12}>
                   <Button
