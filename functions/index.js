@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const stripe = require("stripe")(functions.config().stripe.secret_key_test);
 const express = require("express");
 const cors = require("cors")({ origin: "https://sybersbooks.web.app" });
+const { countries } = require("./iso-countries");
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ app.post("/checkout", async (req, res) => {
       let shippingOptions = [];
 
       if (shippingLocation === "Australia") {
-        allowedCountries = ["AU"];
+        allowedCountries = countries.filter((country) => country === "AU");
         shippingOptions = [
           {
             shipping_rate_data: {
@@ -45,6 +46,7 @@ app.post("/checkout", async (req, res) => {
           },
         ];
       } else {
+        allowedCountries = countries.filter((country) => country !== "AU");
         shippingOptions = [
           {
             shipping_rate_data: {

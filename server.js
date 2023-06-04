@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY_TEST);
 const express = require("express");
 const cors = require("cors");
+const { countries } = require("./iso-countries");
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.post("/checkout", async (req, res) => {
       let shippingOptions = [];
 
       if (shippingLocation === "Australia") {
-        allowedCountries = ["AU"];
+        allowedCountries = countries.filter((country) => country === "AU");
         shippingOptions = [
           {
             shipping_rate_data: {
@@ -44,6 +45,7 @@ app.post("/checkout", async (req, res) => {
           },
         ];
       } else {
+        allowedCountries = countries.filter((country) => country !== "AU");
         shippingOptions = [
           {
             shipping_rate_data: {

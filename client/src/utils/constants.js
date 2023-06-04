@@ -183,8 +183,8 @@ export const CART = {
     label: "Shipping Location:",
     name: "shipping",
     options: [
-      { value: "Australia", label: "Australia" },
-      { value: "International", label: "International" },
+      { value: "Australia", label: "Australia ($9.99 - $15.99)" },
+      { value: "International", label: "International ($39.99)" },
     ],
   },
   checkoutErrorMessageLine1:
