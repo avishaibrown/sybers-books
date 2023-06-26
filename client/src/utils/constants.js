@@ -180,7 +180,7 @@ export const CART = {
     },
   },
   shippingField: {
-    label: "Shipping Location:",
+    label: "Shipping:",
     name: "shipping",
     options: [
       { value: "Australia", label: "Australia ($9.99 - $15.99)" },

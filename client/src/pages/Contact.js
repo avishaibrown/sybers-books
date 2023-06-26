@@ -13,7 +13,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import MapContainer from "../components/MapContainer";
 import ContactLink from "../components/ContactLink";
 import { updateObject, checkValidity } from "../utils/util";
-// import emailjs from "emailjs-com";
+import emailjs from "emailjs-com";
 
 const Contact = () => {
   const [isFormValid, setIsFormValid] = useState(false);
@@ -98,22 +98,22 @@ const Contact = () => {
     event.preventDefault();
     if (isFormValid) {
       setLoading(true);
-      // emailjs
-      //   .sendForm(
-      //     "service_9v1cetq",
-      //     "template_rccj6bw",
-      //     event.target,
-      //     "ngKY7FCIOfcf7-ulR"
-      //   )
-      //   .then(
-      //     () => {
-      //       setLoading(false);
-      //       setSuccess(true);
-      //     },
-      //     (error) => {
-      //       console.log(error.text);
-      //     }
-      //   );
+      emailjs
+        .sendForm(
+          "service_3ak3yjc",
+          "template_lsuwglk",
+          event.target,
+          "RMoHfk1bnq71IJCqI"
+        )
+        .then(
+          () => {
+            setLoading(false);
+            setSuccess(true);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
     }
   };
 

@@ -48,14 +48,6 @@ const theme = createTheme({
   },
 });
 
-//TODO: Add correct shipping information into Stripe
-
-//TODO: Delete firestore data and perform a fresh import of all books
-
-//TODO: Change stripe keys from test to live
-
-//TODO: Un-comment emailjs code
-
 //TODO: Debug secrets for firebase functions
 
 //LATER
