@@ -6,9 +6,9 @@ import MuiTypography from "@mui/material/Typography";
 const markClassesMapping = {
   center: {
     h1: "",
-    h2: "OnePirateTypography-markedH2Center",
-    h3: "OnePirateTypography-markedH3Center",
-    h4: "OnePirateTypography-markedH4Center",
+    h2: "SybersBooksTypography-markedH2Center",
+    h3: "SybersBooksTypography-markedH3Center",
+    h4: "SybersBooksTypography-markedH4Center",
     h5: "",
     h6: "",
   },
@@ -18,7 +18,7 @@ const markClassesMapping = {
     h3: "",
     h4: "",
     h5: "",
-    h6: "OnePirateTypography-markedH6Left",
+    h6: "SybersBooksTypography-markedH6Left",
   },
   none: {
     h1: "",
@@ -32,47 +32,41 @@ const markClassesMapping = {
 
 const styles = ({ theme }) => ({
   [`& .${markClassesMapping.center.h2}`]: {
-    height: 4,
-    width: 73,
+    height: 3,
+    width: 60,
     display: "block",
-    margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: "#40826D",
+    margin: `${theme.spacing(1.5)} auto 0`,
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: 2,
   },
   [`& .${markClassesMapping.center.h3}`]: {
-    height: 4,
-    width: 55,
+    height: 3,
+    width: 48,
     display: "block",
-    margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: "#40826D",
+    margin: `${theme.spacing(1.5)} auto 0`,
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: 2,
   },
   [`& .${markClassesMapping.center.h4}`]: {
-    height: 4,
-    width: 55,
+    height: 3,
+    width: 48,
     display: "block",
-    margin: `${theme.spacing(1)} auto 0`,
-    backgroundColor: "#40826D",
+    margin: `${theme.spacing(1.5)} auto 0`,
+    backgroundColor: theme.palette.secondary.main,
+    borderRadius: 2,
   },
   [`& .${markClassesMapping.left.h6}`]: {
     height: 2,
-    width: 28,
+    width: 24,
     display: "block",
     marginTop: theme.spacing(0.5),
-    background: "currentColor",
+    background: theme.palette.secondary.main,
+    borderRadius: 1,
   },
 });
 
-const variantMapping = {
-  h1: "h1",
-  h2: "h1",
-  h3: "h1",
-  h4: "h1",
-  h5: "h3",
-  h6: "h2",
-  subtitle1: "h3",
-};
-
 function Typography(props) {
-  const { children, variant, marked = "none", ...other } = props;
+  const { children, variant = "body1", marked = "none", ...other } = props;
 
   let markedClassName = "";
   if (variant && variant in markClassesMapping[marked]) {
@@ -80,7 +74,7 @@ function Typography(props) {
   }
 
   return (
-    <MuiTypography variantMapping={variantMapping} variant={variant} {...other}>
+    <MuiTypography variant={variant} {...other}>
       {children}
       {markedClassName ? <span className={markedClassName} /> : null}
     </MuiTypography>
@@ -88,31 +82,9 @@ function Typography(props) {
 }
 
 Typography.propTypes = {
-  /**
-   * The content of the component.
-   */
   children: PropTypes.node,
   marked: PropTypes.oneOf(["center", "left", "none"]),
-  /**
-   * Applies the theme typography styles.
-   * @default 'body1'
-   */
-  variant: PropTypes.oneOf([
-    "body1",
-    "body2",
-    "button",
-    "caption",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "inherit",
-    "overline",
-    "subtitle1",
-    "subtitle2",
-  ]),
+  variant: PropTypes.string,
 };
 
 export default styled(Typography)(styles);

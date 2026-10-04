@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { sortResults, searchResults } from "../slices/searchResults";
+import { useNavigate } from "react-router-dom";
+import {
+  sortResults,
+  searchResults,
+  resetSearchResultsState,
+  searchForCategory,
+} from "../slices/searchResults";
 import {
   addToCart,
   removeFromCart,
@@ -13,27 +18,40 @@ import {
 import {
   Container,
   Grid,
-  Backdrop,
-  CircularProgress,
   Pagination,
   Box,
   Stack,
-  List,
-  ListItem,
+  Typography,
+  Chip,
+  Skeleton,
+  Button as MuiButton,
+  Paper,
 } from "@mui/material";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
+import { useTheme, alpha } from "@mui/material/styles";
+
 import MessageSnackbar from "../components/MessageSnackbar";
-import Typography from "../components/Typography";
 import SearchBar from "../components/SearchBar";
 import BookCard from "../components/BookCard";
 import SearchResultsSelect from "../components/SearchResultsSelect";
 import { SHOP, SUCCESS, MENU_ITEMS } from "../utils/constants";
 import { searchResultsCounter } from "../utils/util";
 
+const POPULAR_SEARCH_SUGGESTIONS = [
+  "Literature",
+  "History",
+  "Art",
+  "Philosophy",
+  "Antiquarian",
+  "Science Fiction",
+  "Poetry",
+  "Travel & Places",
+];
+
 const Shop = () => {
   const results = useSelector((state) => state.searchResults.searchResults);
-  const sortedResults = useSelector(
-    (state) => state.searchResults.sortedResults
-  );
+  const sortedResults = useSelector((state) => state.searchResults.sortedResults);
   const loading = useSelector((state) => state.searchResults.loading);
   const error = useSelector((state) => state.searchResults.error);
   const searchTerm = useSelector((state) => state.searchResults.searchTerm);
@@ -41,28 +59,24 @@ const Shop = () => {
   const cartLoading = useSelector((state) => state.cart.cartLoading);
   const cartError = useSelector((state) => state.cart.cartError);
   const bookAddedToCart = useSelector((state) => state.cart.bookAddedToCart);
-  const bookRemovedFromCart = useSelector(
-    (state) => state.cart.bookRemovedFromCart
-  );
+  const bookRemovedFromCart = useSelector((state) => state.cart.bookRemovedFromCart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const [page, setPage] = useState(0);
-  const [booksPerPage, setBooksPerPage] = useState(
-    SHOP.booksPerPageMenuItems[0].label
-  );
+  const [booksPerPage, setBooksPerPage] = useState(SHOP.booksPerPageMenuItems[0].value);
   const [sortBy, setSortBy] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [cartActionMessage, setCartActionMessage] = useState("");
 
   useEffect(() => {
-    //reset openSnackbar state on each render to stop it popping up each time
     setOpenSnackbar(false);
   }, []);
 
   useEffect(() => {
-    if (!!bookAddedToCart) {
+    if (bookAddedToCart) {
       setCartActionMessage(bookAddedToCart + SHOP.addedToCartMessage);
       setOpenSnackbar(true);
     } else if (bookRemovedFromCart) {
@@ -72,11 +86,28 @@ const Shop = () => {
       setCartActionMessage(cartError);
       setOpenSnackbar(true);
     }
-  }, [bookAddedToCart, bookRemovedFromCart, cartError]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [bookAddedToCart, bookRemovedFromCart, cartError]);
 
   const onSearch = (term) => {
-    dispatch(searchResults(term));
+    if (term) {
+      dispatch(searchResults(term));
+    } else {
+      dispatch(resetSearchResultsState());
+    }
     setSortBy("");
+    setPage(0);
+  };
+
+  const onCategoryClick = (category) => {
+    dispatch(searchForCategory(category));
+    setSortBy("");
+    setPage(0);
+  };
+
+  const onClearSearch = () => {
+    dispatch(resetSearchResultsState());
+    setSortBy("");
+    setPage(0);
   };
 
   const onChangeSortBy = (event) => {
@@ -86,6 +117,7 @@ const Shop = () => {
 
   const onChangeBooksPerPage = (event) => {
     setBooksPerPage(event.target.value);
+    setPage(0);
   };
 
   const onCartAction = (book, action) => {
@@ -98,149 +130,321 @@ const Shop = () => {
         dispatch(removeFromCart(book));
       }
       dispatch(cartActionSuccess({ book, action }));
-    } catch (error) {
-      dispatch(cartActionFailure(error.message));
+    } catch (err) {
+      dispatch(cartActionFailure(err.message));
     }
   };
 
-  const onChangePage = (page) => {
-    setPage(page);
+  const onChangePage = (newPage) => {
+    setPage(newPage);
+    window.scrollTo({ top: 260, behavior: "smooth" });
   };
 
   const onCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
+  const hasResults = sortedResults && sortedResults.length > 0;
+
   return (
-    <Container component="section" maxWidth={false} disableGutters>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading || cartLoading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+    <Box component="section" sx={{ pb: 10 }}>
+      {/* 1. Header Banner & Search Bar */}
       <Box
-        sx={(theme) => ({
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          [theme.breakpoints.up("xs")]: {
-            height: { xs: "40vh", sm: "80vh" },
-            minHeight: 50,
-            maxHeight: 350,
-          },
-          background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
-        })}
+        sx={{
+          backgroundColor: "#FCFAF6",
+          borderBottom: `1px solid rgba(24, 65, 50, 0.12)`,
+          py: { xs: 5, md: 7 },
+          px: 2,
+        }}
       >
-        <SearchBar
-          label={SHOP.searchBarLabel}
-          placeholder={SHOP.searchBarPlaceholder}
-          onSearch={(value) => onSearch(value)}
-          value={searchTerm}
-          id={"search-bar"}
-        />
-      </Box>
-      {sortedResults?.length > 0 ? (
-        <Container maxWidth={false}>
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            sx={{ py: 5, px: 1 }}
-            alignItems={{ xs: "flex-start", md: "center" }}
-            justifyContent="space-between"
-            spacing={{ xs: 2, md: 0 }}
-          >
-            <Typography variant="h4">{SHOP.searchResultsTitle}</Typography>
-            <Typography variant="body1">
-              {searchResultsCounter(booksPerPage, results.length, page)}
-            </Typography>
-            <Box>
-              <SearchResultsSelect
-                label={SHOP.sortByLabel}
-                value={sortBy}
-                onChange={onChangeSortBy}
-                menuItems={SHOP.sortByMenuItems}
-              />
-              <SearchResultsSelect
-                label={SHOP.booksPerPageLabel}
-                value={booksPerPage}
-                onChange={onChangeBooksPerPage}
-                menuItems={SHOP.booksPerPageMenuItems}
-              />
-            </Box>
-          </Stack>
-          <Grid container spacing={4}>
-            {sortedResults
-              .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
-              .map(
-                (book, index) =>
-                  book.TITLE &&
-                  book.AUTHOR &&
-                  book.PRICE &&
-                  book.SERIAL && (
-                    <BookCard
-                      key={"book-card-" + index}
-                      book={book}
-                      onCartAction={onCartAction}
-                      loading={cartLoading}
-                      addToCart={cart.every(
-                        (obj) => obj.SERIAL !== book.SERIAL
-                      )}
-                      missingValuesText={SHOP.missingValuesText}
-                      modalTabs={SHOP.modalTabs}
-                      disabled={book.STATUS === SUCCESS.soldStatus}
-                    />
-                  )
-              )}
-          </Grid>
-          <Box sx={{ display: "flex", my: 5, justifyContent: "center" }}>
-            <Pagination
-              count={Math.ceil(results.length / booksPerPage)}
-              page={page + 1}
-              onChange={(event, value) => onChangePage(value - 1)}
-              size="large"
-              color="standard"
-            />
-          </Box>
-        </Container>
-      ) : (
-        <Box
-          m={5}
-          display="flex"
-          sx={{
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <Container maxWidth="md" sx={{ textAlign: "center" }}>
           <Typography
-            variant="h5"
+            variant="caption"
             sx={{
-              fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
+              color: "secondary.main",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              display: "block",
+              mb: 1,
             }}
           >
-            {error ? SHOP.searchResultsErrorLine1 : SHOP.noResults}
-            <List
+            Online Rare Book Catalog
+          </Typography>
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: "2rem", md: "2.8rem" },
+              fontWeight: 700,
+              color: "primary.main",
+              mb: 3,
+            }}
+          >
+            Find Your Next Literary Treasure
+          </Typography>
+
+          <SearchBar
+            placeholder={SHOP.searchBarPlaceholder}
+            onSearch={onSearch}
+            value={searchTerm}
+          />
+
+          {/* Active Search / Category Indicator */}
+          {searchTerm && (
+            <Box sx={{ mt: 2.5, display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                Active filter:
+              </Typography>
+              <Chip
+                label={searchTerm}
+                onDelete={onClearSearch}
+                color="primary"
+                sx={{
+                  fontWeight: 600,
+                  fontSize: "0.85rem",
+                  borderRadius: "6px",
+                }}
+              />
+            </Box>
+          )}
+        </Container>
+      </Box>
+
+      {/* 2. Main Catalog Body */}
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        {/* Loading Skeletons */}
+        {loading && (
+          <Box sx={{ py: 4 }}>
+            <Stack direction="row" justifyContent="space-between" sx={{ mb: 3 }}>
+              <Skeleton variant="text" width={220} height={32} />
+              <Skeleton variant="rectangular" width={200} height={36} sx={{ borderRadius: "8px" }} />
+            </Stack>
+            <Grid container spacing={3}>
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <Grid item xs={12} sm={6} lg={4} key={`skeleton-${item}`}>
+                  <Skeleton
+                    variant="rectangular"
+                    height={230}
+                    sx={{ borderRadius: "14px" }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
+
+        {/* Search Results Display */}
+        {!loading && hasResults && (
+          <>
+            {/* Toolbar: Counter & Sort Dropdowns */}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
               sx={{
-                listStyleType: "disc",
-                pl: { xs: 4, md: 8 },
-                "& .MuiListItem-root": {
-                  display: "list-item",
-                },
+                py: 2.5,
+                mb: 3,
+                borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+              }}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              justifyContent="space-between"
+              spacing={2}
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontFamily: '"Playfair Display", Georgia, serif',
+                    fontWeight: 700,
+                    color: "primary.main",
+                  }}
+                >
+                  {SHOP.searchResultsTitle}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {searchResultsCounter(booksPerPage, results.length, page)}
+                </Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                <SearchResultsSelect
+                  label={SHOP.sortByLabel}
+                  value={sortBy}
+                  onChange={onChangeSortBy}
+                  menuItems={SHOP.sortByMenuItems}
+                />
+                <SearchResultsSelect
+                  label={SHOP.booksPerPageLabel}
+                  value={booksPerPage}
+                  onChange={onChangeBooksPerPage}
+                  menuItems={SHOP.booksPerPageMenuItems}
+                />
+              </Box>
+            </Stack>
+
+            {/* Product Cards Grid */}
+            <Grid container spacing={3}>
+              {sortedResults
+                .slice(page * booksPerPage, page * booksPerPage + booksPerPage)
+                .map(
+                  (book, index) =>
+                    book.TITLE &&
+                    book.AUTHOR &&
+                    book.PRICE &&
+                    book.SERIAL && (
+                      <BookCard
+                        key={`book-card-${book.SERIAL}-${index}`}
+                        book={book}
+                        onCartAction={onCartAction}
+                        loading={cartLoading}
+                        addToCart={cart.every((obj) => obj.SERIAL !== book.SERIAL)}
+                        missingValuesText={SHOP.missingValuesText}
+                        modalTabs={SHOP.modalTabs}
+                        disabled={book.STATUS === SUCCESS.soldStatus}
+                      />
+                    )
+                )}
+            </Grid>
+
+            {/* Pagination Controls */}
+            {results.length > booksPerPage && (
+              <Box sx={{ display: "flex", my: 6, justifyContent: "center" }}>
+                <Pagination
+                  count={Math.ceil(results.length / booksPerPage)}
+                  page={page + 1}
+                  onChange={(event, value) => onChangePage(value - 1)}
+                  size="large"
+                  color="primary"
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      borderRadius: "8px",
+                      fontWeight: 600,
+                    },
+                  }}
+                />
+              </Box>
+            )}
+          </>
+        )}
+
+        {/* Empty / Initial State */}
+        {!loading && !hasResults && (
+          <Paper
+            elevation={0}
+            sx={{
+              textAlign: "center",
+              py: { xs: 8, md: 10 },
+              px: 3,
+              my: 4,
+              borderRadius: "16px",
+              backgroundColor: "#FFFFFF",
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+              boxShadow: "0 4px 20px rgba(28, 53, 45, 0.04)",
+            }}
+          >
+            <Box
+              sx={{
+                width: 64,
+                height: 64,
+                borderRadius: "50%",
+                backgroundColor: alpha(theme.palette.secondary.main, 0.1),
+                color: "secondary.main",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mx: "auto",
+                mb: 2.5,
               }}
             >
-              {error ? (
-                <ListItem>{error}</ListItem>
-              ) : (
-                SHOP.noResultsSuggestions.map((item, index) => (
-                  <ListItem key={index}>{item}</ListItem>
-                ))
-              )}
-            </List>
-            {error && SHOP.searchResultsErrorLine2}
-          </Typography>
-        </Box>
-      )}
+              <AutoStoriesOutlinedIcon sx={{ fontSize: 32 }} />
+            </Box>
+
+            <Typography
+              variant="h4"
+              sx={{
+                fontFamily: '"Playfair Display", Georgia, serif',
+                fontWeight: 700,
+                color: "primary.main",
+                mb: 1.5,
+              }}
+            >
+              {searchTerm ? "No Matching Volumes Found" : "Search Our Rare Collection"}
+            </Typography>
+
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ maxWidth: 540, mx: "auto", mb: 4, lineHeight: 1.6 }}
+            >
+              {error
+                ? `Error retrieving catalog: ${error}. Please try again.`
+                : searchTerm
+                ? `We couldn't find any books matching "${searchTerm}". Try a broader term, or explore one of our popular departments below.`
+                : "Type an author, book title, or genre into the search bar above to browse over 100,000 unique second-hand volumes."}
+            </Typography>
+
+            {/* Popular Department Suggestions */}
+            <Box sx={{ maxWidth: 640, mx: "auto", mb: 4 }}>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: 700,
+                  mb: 1.5,
+                  fontSize: "0.85rem",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                Recommended Departments:
+              </Typography>
+              <Stack
+                direction="row"
+                spacing={1}
+                flexWrap="wrap"
+                justifyContent="center"
+                useFlexGap
+              >
+                {POPULAR_SEARCH_SUGGESTIONS.map((category) => (
+                  <Chip
+                    key={`suggested-${category}`}
+                    label={category}
+                    onClick={() => onCategoryClick(category)}
+                    sx={{
+                      backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                      color: "primary.main",
+                      fontWeight: 500,
+                      borderRadius: "6px",
+                      cursor: "pointer",
+                      "&:hover": {
+                        backgroundColor: "secondary.main",
+                        color: "#FFFFFF",
+                      },
+                    }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+
+            {searchTerm && (
+              <MuiButton
+                variant="outlined"
+                startIcon={<RestartAltRoundedIcon />}
+                onClick={onClearSearch}
+                sx={{
+                  borderRadius: "30px",
+                  px: 3,
+                  py: 1,
+                  borderColor: alpha(theme.palette.primary.main, 0.25),
+                  color: "primary.main",
+                  fontWeight: 600,
+                }}
+              >
+                Reset Search
+              </MuiButton>
+            )}
+          </Paper>
+        )}
+      </Container>
+
+      {/* Cart Feedback Toast */}
       <MessageSnackbar
         open={openSnackbar}
         onClose={onCloseSnackbar}
@@ -249,7 +453,7 @@ const Shop = () => {
         onNavigate={() => navigate(MENU_ITEMS[4].link)}
         navigateToText={SHOP.viewCart}
       />
-    </Container>
+    </Box>
   );
 };
 

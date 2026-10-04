@@ -1,74 +1,189 @@
-import { Container, Box } from "@mui/material";
-import Typography from "../components/Typography";
+import React, { useEffect } from "react";
+import { Container, Box, Typography, Paper, Stack, Chip } from "@mui/material";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import AssignmentReturnOutlinedIcon from "@mui/icons-material/AssignmentReturnOutlined";
+import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
+import { useTheme, alpha } from "@mui/material/styles";
 import { SHIPPING_AND_RETURNS } from "../utils/constants";
 
 const ShippingReturns = () => {
+  const theme = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Container
-      component="section"
-      sx={{
-        mt: { xs: 8, md: 20 },
-        mb: { md: 10 },
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Typography
-        variant="h2"
-        gutterBottom
-        marked="center"
-        sx={{
-          fontSize: { xs: "2.5rem", md: "3.75rem" },
-          mb: { xs: 8, md: 10 },
-        }}
-      >
-        {SHIPPING_AND_RETURNS.title}
-      </Typography>
+    <Box component="section" sx={{ pb: 10 }}>
+      {/* Header */}
       <Box
         sx={{
-          alignItems: "center",
-          textAlign: "left",
+          backgroundColor: "#FFFFFF",
+          borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+          py: { xs: 5, md: 7 },
+          px: 2,
+          textAlign: "center",
         }}
-        spacing={2}
       >
-        <Typography paragraph>
-          <b>SHIPPING INFORMATION:</b> Syber's Books ships books anywhere inside
-          Australia at a flat rate of $9.99 for standard postage and $15.99 for
-          express postage. For countries outside of Australia, a flat-rate
-          shipping fee of $39.99AUD applies. Shipping times will vary, however
-          you can usually rely on your order to arrive anywhere in Australia
-          within 6-11 business days for standard shipping and 1-5 days for
-          express shipping. For international orders, please allow 7-21 business
-          days.
-        </Typography>
-        <Typography paragraph>
-          <b>PRODUCT RETURNS:</b> Please choose your books carefully; most of
-          our books are in as-new condition, but as this is a 2nd-hand book
-          store, obviously wear and tear may sometimes be present on your books.
-          When this is present we will make our best efforts to ensure a note is
-          added to the listing on our website. You are welcome to email us at
-          {SHIPPING_AND_RETURNS.email} if you have any doubts about the quality
-          of a book prior to purchasing. If you believe the books you’ve
-          received are defective, or ask for a refund based as the condition
-          isn’t as you expected, please contact {SHIPPING_AND_RETURNS.email}
-          and provide a photo and your Order number, which is available in your
-          purchase email. We will do everything in our power to come up with a
-          solution. If you have received the wrong product in your order, please
-          contact us at {SHIPPING_AND_RETURNS.email} with your Order number, and
-          we’ll be happy to refund straight away, or exchange for another book
-          of equal value.
-        </Typography>
-        <Typography paragraph>
-          <b>RETURN TO SENDER:</b> We will put the delivery address on the
-          parcel exactly as it was put on the order form. Please ensure your
-          delivery details are correct as our couriers and Auspost won’t
-          second-guess it – they’ll just return to us if there’s an error. If
-          the parcel returns to us, you can choose to either: a) refund the cost
-          of the book minus the freight charge we incurred, or b) pay the
-          replacement postage and we will resend the book.
-        </Typography>
+        <Container maxWidth="md">
+          <Typography
+            variant="caption"
+            sx={{
+              color: "secondary.main",
+              fontWeight: 700,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              display: "block",
+              mb: 1.5,
+            }}
+          >
+            Customer Care & Store Policies
+          </Typography>
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: '"Playfair Display", Georgia, serif',
+              fontSize: { xs: "2.2rem", sm: "3rem" },
+              fontWeight: 700,
+              color: "primary.main",
+              mb: 1.5,
+            }}
+          >
+            {SHIPPING_AND_RETURNS.title}
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Clear guidelines on postage rates, delivery timeframes, and book return procedures.
+          </Typography>
+        </Container>
       </Box>
-    </Container>
+
+      {/* Content */}
+      <Container maxWidth="md" sx={{ mt: { xs: 4, md: 6 } }}>
+        <Stack spacing={3}>
+          {/* Shipping Info Card */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 3, md: 4 },
+              borderRadius: "16px",
+              backgroundColor: "#FFFFFF",
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+              <Box
+                sx={{
+                  p: 1,
+                  borderRadius: "8px",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.06),
+                  color: "primary.main",
+                  display: "flex",
+                }}
+              >
+                <LocalShippingOutlinedIcon />
+              </Box>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontWeight: 700,
+                  color: "primary.main",
+                }}
+              >
+                Shipping & Delivery Rates
+              </Typography>
+            </Box>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
+              Syber's Books ships books anywhere across Australia at flat rates: <strong>$9.99</strong> for standard postage and <strong>$15.99</strong> for express postage. For international destinations, a flat-rate shipping fee of <strong>$39.99 AUD</strong> applies.
+            </Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              <Chip label="Australia Standard: 6-11 days" size="small" sx={{ borderRadius: "6px" }} />
+              <Chip label="Australia Express: 1-5 days" size="small" sx={{ borderRadius: "6px" }} />
+              <Chip label="International: 7-21 days" size="small" sx={{ borderRadius: "6px" }} />
+            </Stack>
+          </Paper>
+
+          {/* Product Returns Card */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 3, md: 4 },
+              borderRadius: "16px",
+              backgroundColor: "#FFFFFF",
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+              <Box
+                sx={{
+                  p: 1,
+                  borderRadius: "8px",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.06),
+                  color: "primary.main",
+                  display: "flex",
+                }}
+              >
+                <AssignmentReturnOutlinedIcon />
+              </Box>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontWeight: 700,
+                  color: "primary.main",
+                }}
+              >
+                Product Returns & Condition Inquiries
+              </Typography>
+            </Box>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 1.5 }}>
+              Most of our volumes are in as-new condition, but as a specialist 2nd-hand bookshop, gentle wear and tear may sometimes be present. When notable, details are included on each book's description.
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+              If you have any doubts about the condition of a volume prior to purchase, or if an item received is defective or incorrect, please email us at <strong>{SHIPPING_AND_RETURNS.email}</strong> with your order number and photos. We are happy to issue an immediate refund or exchange.
+            </Typography>
+          </Paper>
+
+          {/* Return to Sender Card */}
+          <Paper
+            elevation={0}
+            sx={{
+              p: { xs: 3, md: 4 },
+              borderRadius: "16px",
+              backgroundColor: "#FFFFFF",
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+              <Box
+                sx={{
+                  p: 1,
+                  borderRadius: "8px",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.06),
+                  color: "primary.main",
+                  display: "flex",
+                }}
+              >
+                <UndoOutlinedIcon />
+              </Box>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: '"Playfair Display", Georgia, serif',
+                  fontWeight: 700,
+                  color: "primary.main",
+                }}
+              >
+                Delivery Address Accuracy
+              </Typography>
+            </Box>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+              Please ensure your delivery details are accurate upon ordering. In the event a parcel is returned to us due to an address error, you can choose either a refund (minus courier freight incurred) or pay replacement postage to have the book redelivered.
+            </Typography>
+          </Paper>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
 

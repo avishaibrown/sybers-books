@@ -1,31 +1,27 @@
-import { useEffect, useRef, useState } from "react";
-import CartButton from "./CartButton";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   useMediaQuery,
   IconButton,
   Tabs,
   Tab,
   Box,
-  Stack,
   Grid,
-  Paper,
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
+  Typography,
+  Chip,
+  Divider,
   CircularProgress,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
-import { useTheme } from "@mui/material/styles";
-import Typography from "./Typography";
-import { getBookDetailsData } from "../utils/util";
-import { SHOP } from "../utils/constants";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import { useTheme, alpha } from "@mui/material/styles";
+import CartButton from "./CartButton";
+import { getBookDetailsData, formatAsCurrency } from "../utils/util";
+import { SHOP, SUCCESS } from "../utils/constants";
 
 const BookModal = (props) => {
   const {
@@ -41,13 +37,12 @@ const BookModal = (props) => {
   } = props;
 
   const [tabIndex, setTabIndex] = useState(0);
-
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const descriptionElementRef = useRef(null);
 
   const onClose = () => {
-    !loading && setOpen(false);
+    if (!loading) setOpen(false);
   };
 
   const onTabChange = (event, newIndex) => {
@@ -55,196 +50,280 @@ const BookModal = (props) => {
   };
 
   useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
+    if (open && descriptionElementRef.current !== null) {
+      descriptionElementRef.current.focus();
     }
   }, [open]);
 
-  const TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-      </div>
-    );
-  };
+  const isSold = disabled || book.STATUS === SUCCESS.soldStatus;
+  const imageSrc =
+    book["IMAGE URL"] && book["IMAGE URL"].trim() !== ""
+      ? book["IMAGE URL"]
+      : "./images/no-image-found.jpg";
 
   return (
-    <div>
-      <Dialog
-        open={open}
-        onClose={onClose}
-        scroll={"paper"}
-        aria-labelledby="book-modal-dialog"
-        aria-describedby="book-modal-description"
-        fullWidth={true}
-        maxWidth="lg"
-        fullScreen={fullScreen}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      scroll="paper"
+      aria-labelledby="book-modal-dialog"
+      fullWidth
+      maxWidth="md"
+      fullScreen={fullScreen}
+      PaperProps={{
+        sx: {
+          borderRadius: { xs: 0, sm: "16px" },
+          backgroundColor: "#FAF7F2",
+          overflow: "hidden",
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+          boxShadow: "0 24px 48px rgba(28, 53, 45, 0.2)",
+        },
+      }}
+    >
+      {/* Modal Header */}
+      <DialogTitle
+        sx={{
+          p: { xs: 2.5, md: 3 },
+          backgroundColor: "#FFFFFF",
+          borderBottom: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "space-between",
+          gap: 2,
+        }}
       >
-        <DialogTitle id="book-modal-title">
-          <Stack
-            direction="row"
-            alignItems="stretch"
-            justifyContent="space-between"
-            spacing={1}
-          >
-            <Box maxWidth={{ xs: 400, sm: 600, md: "none" }}>
-              <Typography variant="h5" gutterBottom>
-                {book.TITLE ? book.TITLE : missingValuesText.title}
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                {book.AUTHOR ? book.AUTHOR : missingValuesText.author}
-              </Typography>
-            </Box>
-            <IconButton
-              aria-label="close"
-              onClick={onClose}
+        <Box sx={{ minWidth: 0, flex: 1 }}>
+          {book.CATEGORY && (
+            <Chip
+              label={book.CATEGORY}
+              size="small"
               sx={{
-                display: "inline-block",
-                position: "absolute",
-                right: 8,
-                top: 8,
-                color: (theme) => theme.palette.grey[500],
+                backgroundColor: alpha(theme.palette.secondary.main, 0.1),
+                color: "secondary.main",
+                fontWeight: 600,
+                fontSize: "0.72rem",
+                mb: 1,
+                borderRadius: "4px",
               }}
-              size="large"
-            >
-              <Close />
-            </IconButton>
-          </Stack>
-        </DialogTitle>
-        <DialogContent
-          dividers
+            />
+          )}
+          <Typography
+            variant="h5"
+            sx={{
+              fontFamily: '"Playfair Display", Georgia, serif',
+              fontWeight: 700,
+              fontSize: { xs: "1.3rem", md: "1.6rem" },
+              color: "primary.main",
+              lineHeight: 1.25,
+              mb: 0.5,
+            }}
+          >
+            {book.TITLE ? book.TITLE : missingValuesText?.title || "Untitled"}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: "0.95rem" }}>
+            by {book.AUTHOR ? book.AUTHOR : missingValuesText?.author || "Unknown Author"}
+          </Typography>
+        </Box>
+
+        <IconButton
+          aria-label="close modal"
+          onClick={onClose}
+          size="small"
           sx={{
-            background: "linear-gradient(to bottom, #F3D8A0 0%, #FFFFFF 100%)",
+            color: "text.secondary",
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+            borderRadius: "8px",
+            "&:hover": {
+              color: "primary.main",
+              backgroundColor: alpha(theme.palette.primary.main, 0.05),
+            },
           }}
         >
-          <Grid container spacing={2}>
-            <Grid
-              item
-              xs={12}
-              md={4}
+          <CloseRoundedIcon fontSize="small" />
+        </IconButton>
+      </DialogTitle>
+
+      {/* Modal Content */}
+      <DialogContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
+        <Grid container spacing={{ xs: 3, md: 4 }}>
+          {/* Left Column: Book Preview Image */}
+          <Grid item xs={12} sm={4} md={4.5}>
+            <Box
               sx={{
-                float: "center",
-                display: "flex",
-                margin: "auto",
-                justifyContent: "center",
+                textAlign: "center",
+                p: 2,
+                backgroundColor: "#FFFFFF",
+                borderRadius: "12px",
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
               }}
             >
               <Box
                 component="img"
-                sx={{
-                  width: 300,
-                  border: `1px solid ${theme.palette.primary.main}`,
-                  borderRadius: "0.25rem",
-                  overflow: "hidden",
-                }}
-                src={
-                  book["IMAGE URL"] === ""
-                    ? "./images/no-image-found.jpg"
-                    : book["IMAGE URL"]
-                }
+                src={imageSrc}
                 alt={book.TITLE}
                 onError={(event) => {
                   event.target.onerror = null;
                   event.target.src = "./images/no-image-found.jpg";
                 }}
+                sx={{
+                  maxWidth: "100%",
+                  maxHeight: 320,
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                  borderRadius: "6px",
+                  boxShadow: "0 10px 25px rgba(28, 53, 45, 0.15)",
+                }}
               />
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Box sx={{ width: "100%" }}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <Tabs
-                    value={tabIndex}
-                    onChange={onTabChange}
-                    aria-label="book modal tabs"
-                  >
-                    <Tab
-                      label={modalTabs[0]}
-                      id={"tab-0"}
-                      aria-controls={"tabpanel-0"}
-                    />
-                    <Tab
-                      label={modalTabs[1]}
-                      id={"tab-1"}
-                      aria-controls={"tabpanel-1"}
-                    />
-                  </Tabs>
-                </Box>
-                <TabPanel value={tabIndex} index={0}>
-                  <TableContainer component={Paper}>
-                    <Table size="small" aria-label="book details table">
-                      <TableBody>
-                        {getBookDetailsData(book).map((row, index) => (
-                          <TableRow
-                            key={"modal-book-attribute-" + index}
-                            sx={{
-                              "&:last-child td, &:last-child th": {
-                                border: 0,
-                              },
-                            }}
-                          >
-                            <TableCell
-                              component="th"
-                              scope="row"
-                              sx={{ fontWeight: 700 }}
-                            >
-                              {row.attribute}
-                            </TableCell>
-                            <TableCell align="right">{row.value}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </TabPanel>
-                <TabPanel value={tabIndex} index={1}>
-                  <DialogContentText
-                    id="book-modal-description-tab1"
-                    ref={descriptionElementRef}
-                    tabIndex={-1}
-                  >
-                    {book.DESCRIPTION}
-                  </DialogContentText>
-                </TabPanel>
+              <Box sx={{ mt: 2, pt: 1.5, borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.06)}` }}>
+                <Typography variant="caption" color="text.secondary" sx={{ display: "block" }}>
+                  Item Serial: {book.SERIAL || "N/A"}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 700,
+                    color: "primary.main",
+                    fontSize: "1.3rem",
+                    mt: 0.5,
+                  }}
+                >
+                  {book.PRICE ? formatAsCurrency(book.PRICE) : missingValuesText?.price}
+                </Typography>
               </Box>
-            </Grid>
+            </Box>
           </Grid>
-        </DialogContent>
-        <DialogActions sx={{ mx: "auto", my: 1 }}>
+
+          {/* Right Column: Tabs (Details & Description) */}
+          <Grid item xs={12} sm={8} md={7.5}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}>
+              <Tabs
+                value={tabIndex}
+                onChange={onTabChange}
+                aria-label="book details tabs"
+                textColor="primary"
+                indicatorColor="secondary"
+              >
+                <Tab
+                  icon={<AutoStoriesOutlinedIcon fontSize="small" />}
+                  iconPosition="start"
+                  label={modalTabs?.[0] || "Details"}
+                  id="tab-0"
+                  sx={{ textTransform: "none", fontWeight: 600, fontSize: "0.9rem" }}
+                />
+                <Tab
+                  icon={<DescriptionOutlinedIcon fontSize="small" />}
+                  iconPosition="start"
+                  label={modalTabs?.[1] || "Description"}
+                  id="tab-1"
+                  sx={{ textTransform: "none", fontWeight: 600, fontSize: "0.9rem" }}
+                />
+              </Tabs>
+            </Box>
+
+            {/* Tab 0: Attribute Details Table */}
+            {tabIndex === 0 && (
+              <Box
+                sx={{
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "10px",
+                  border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+                  overflow: "hidden",
+                }}
+              >
+                {getBookDetailsData(book).map((row, index) => (
+                  <Box
+                    key={`modal-book-attr-${index}`}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      py: 1.2,
+                      px: 2,
+                      borderBottom:
+                        index !== getBookDetailsData(book).length - 1
+                          ? `1px solid ${alpha(theme.palette.primary.main, 0.05)}`
+                          : "none",
+                      backgroundColor:
+                        index % 2 === 0
+                          ? alpha(theme.palette.primary.main, 0.015)
+                          : "#FFFFFF",
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{ fontWeight: 600, color: "text.primary" }}
+                    >
+                      {row.attribute}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ textAlign: "right", maxWidth: "60%" }}
+                    >
+                      {row.value || "—"}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            )}
+
+            {/* Tab 1: Full Description */}
+            {tabIndex === 1 && (
+              <Box
+                ref={descriptionElementRef}
+                tabIndex={-1}
+                sx={{
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "10px",
+                  border: `1px solid ${alpha(theme.palette.primary.main, 0.08)}`,
+                  p: 2.5,
+                  minHeight: 180,
+                  maxHeight: 280,
+                  overflowY: "auto",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  sx={{ lineHeight: 1.8, fontSize: "0.95rem", whiteSpace: "pre-line" }}
+                >
+                  {book.DESCRIPTION || "No detailed description provided for this volume."}
+                </Typography>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+      </DialogContent>
+
+      <Divider sx={{ borderColor: alpha(theme.palette.primary.main, 0.08) }} />
+
+      {/* Modal Actions */}
+      <DialogActions
+        sx={{
+          p: { xs: 2, md: 2.5 },
+          backgroundColor: "#FFFFFF",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="body2" color="text.secondary" sx={{ display: { xs: "none", sm: "block" } }}>
+          Free pickup in Caulfield South • Worldwide tracked shipping
+        </Typography>
+
+        <Box sx={{ ml: "auto" }}>
           {loading ? (
-            <Box
+            <CircularProgress size={28} color="secondary" />
+          ) : isSold ? (
+            <Chip
+              label={SHOP.soldText || "Sold / Out of Print"}
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                backgroundColor: alpha("#d32f2f", 0.1),
+                color: "#d32f2f",
+                fontWeight: 700,
+                py: 2,
+                px: 1,
+                fontSize: "0.9rem",
               }}
-            >
-              <CircularProgress size={30} />
-            </Box>
-          ) : disabled ? (
-            <Box
-              sx={{
-                fontWeight: "bold",
-                color: "#fff",
-                backgroundColor: "#e57373",
-                py: 1,
-                px: 3,
-                borderRadius: "0.25rem",
-                float: "right",
-              }}
-            >
-              <Typography variant="subtitle1">{SHOP.soldText}</Typography>
-            </Box>
+            />
           ) : (
             <CartButton
               addToCart={addToCart}
@@ -254,9 +333,9 @@ const BookModal = (props) => {
               price={book.PRICE}
             />
           )}
-        </DialogActions>
-      </Dialog>
-    </div>
+        </Box>
+      </DialogActions>
+    </Dialog>
   );
 };
 

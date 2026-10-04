@@ -14,7 +14,8 @@ export const findByCategory = async (term) => {
   const q = query(
     booksCollectionRef,
     where("CATEGORY", ">=", term),
-    where("CATEGORY", "<=", term + "\uf8ff")
+    where("CATEGORY", "<=", term + "\uf8ff"),
+    limit(150)
   );
   return await getDocs(q);
 };
@@ -24,7 +25,7 @@ export const findByAuthor = async (term) => {
     booksCollectionRef,
     where("AUTHOR", ">=", term),
     where("AUTHOR", "<=", term + "\uf8ff"),
-    limit(200)
+    limit(150)
   );
   return await getDocs(q);
 };
@@ -34,14 +35,19 @@ export const findByTitle = async (term) => {
     booksCollectionRef,
     where("TITLE", ">=", term),
     where("TITLE", "<=", term + "\uf8ff"),
-    limit(200)
+    limit(150)
   );
   return await getDocs(q);
 };
 
 export const findByIsbn = async (term) => {
-  const q = query(booksCollectionRef, where("isbn", "==", term), limit(200));
-  return await getDocs(q);
+  // Check uppercase ISBN and lowercase isbn
+  const qUpper = query(booksCollectionRef, where("ISBN", "==", term), limit(50));
+  const resUpper = await getDocs(qUpper);
+  if (!resUpper.empty) return resUpper;
+
+  const qLower = query(booksCollectionRef, where("isbn", "==", term), limit(50));
+  return await getDocs(qLower);
 };
 
 export const updateBookStatus = async (
@@ -50,24 +56,26 @@ export const updateBookStatus = async (
   orderNumber,
   status
 ) => {
+  if (!bookIds || bookIds.length === 0) return;
   const batch = writeBatch(db);
-  bookIds.forEach(async (id) => {
-    const bookSnapshot = query(booksCollectionRef, where("SERIAL", "==", id));
-    const retrievedDoc = await getDocs(bookSnapshot);
-    if (!retrievedDoc.empty) {
-      const bookRef = retrievedDoc.docs[0].ref;
-      batch.update(bookRef, {
-        STATUS: status,
-        "BUYER EMAIL": buyerEmail,
-        "ORDER NUMBER": orderNumber,
-      });
-      try {
-        await batch.commit();
-      } catch (error) {
-        console.error(error.message);
+
+  try {
+    for (const id of bookIds) {
+      const bookSnapshot = query(booksCollectionRef, where("SERIAL", "==", id), limit(1));
+      const retrievedDoc = await getDocs(bookSnapshot);
+      if (!retrievedDoc.empty) {
+        const bookRef = retrievedDoc.docs[0].ref;
+        batch.update(bookRef, {
+          STATUS: status,
+          "BUYER EMAIL": buyerEmail,
+          "ORDER NUMBER": orderNumber,
+        });
+      } else {
+        console.warn(`No book with serial ${id} found in Firestore.`);
       }
-    } else {
-      console.error(`No book with id ${id} was found.`);
     }
-  });
+    await batch.commit();
+  } catch (error) {
+    console.error("Failed to commit batch update for sold books:", error.message);
+  }
 };

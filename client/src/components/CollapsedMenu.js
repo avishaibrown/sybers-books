@@ -1,36 +1,39 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import StyledBadge from "./StyledBadge";
 import { Box, IconButton } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import { useTheme, alpha } from "@mui/material/styles";
 import Drawer from "./Drawer";
 
 const CollapsedMenu = (props) => {
   const { menuItems, cartItems } = props;
   const [open, setOpen] = useState(false);
-
-  const onClick = () => {
-    setOpen(true);
-  };
+  const theme = useTheme();
 
   return (
     <>
-      <Box sx={{ display: "flex", ml: "auto", mr: 2 }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <IconButton
           edge="end"
-          color="#40826D"
-          aria-label="menu"
-          sx={{ ml: "auto", transform: "scale(1.2)" }}
-          onClick={onClick}
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+          aria-label="open navigation menu"
+          onClick={() => setOpen(true)}
+          sx={{
+            p: 1.2,
+            color: "primary.main",
+            backgroundColor: alpha(theme.palette.primary.main, 0.05),
+            borderRadius: "8px",
+            border: `1px solid ${alpha(theme.palette.primary.main, 0.12)}`,
+            "&:hover": {
+              backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            },
+          }}
         >
           <StyledBadge
             badgeContent={cartItems}
             color="secondary"
-            tight={"true"}
+            tight="true"
           >
-            <MenuRoundedIcon fontSize="large" />
+            <MenuRoundedIcon fontSize="medium" />
           </StyledBadge>
         </IconButton>
       </Box>

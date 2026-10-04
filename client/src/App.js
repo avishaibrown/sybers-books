@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -9,8 +9,9 @@ import TransactionSuccess from "./pages/TransactionSuccess";
 import Cart from "./pages/Cart";
 import AppBar from "./components/AppBar";
 import Footer from "./components/Footer";
-import { CssBaseline, Container, LinearProgress } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, Box, LinearProgress } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
 import {
   MENU_ITEMS,
   APP_TITLE,
@@ -23,62 +24,45 @@ import {
   AUTH,
   ADMIN,
 } from "./utils/constants";
-import robotoMono from "@fontsource/roboto-mono";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import ShippingReturns from "./pages/ShippingReturns";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: "#ffffff",
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto Mono", cursive',
-  },
-  overrides: {
-    CssBaseline: {
-      "@global": {
-        "@font-face": [robotoMono],
-      },
-    },
-  },
-});
+// Automatically scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
 
-//TODO: Debug secrets for firebase functions
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-//LATER
-//TODO: Enhance search functionality (Get categories by AllCategories column)
-//TODO: Add SearchBar to homepage
+  return null;
+};
 
 const App = () => {
-  let routes = (
-    <Routes>
-      <Route path={MENU_ITEMS[0].link} exact element={<Home />} />
-      <Route path={MENU_ITEMS[1].link} element={<Shop />} />
-      <Route path={MENU_ITEMS[2].link} element={<About />} />
-      <Route path={MENU_ITEMS[3].link} element={<Contact />} />
-      <Route path={MENU_ITEMS[4].link} element={<Cart />} />
-      <Route path={PRIVACY_POLICY.link} element={<PrivacyPolicy />} />
-      <Route path={TERMS_AND_CONDITIONS.link} element={<TermsConditions />} />
-      <Route path={SHIPPING_AND_RETURNS.link} element={<ShippingReturns />} />
-      <Route path={SUCCESS.link} element={<TransactionSuccess />} />
-      <Route path={AUTH.link} element={<Auth />} />
-      <Route path={ADMIN.link} element={<Admin />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
-
   const cart = useSelector((state) => state.cart.cart);
 
   return (
-    <Suspense fallback={<LinearProgress color="secondary" />}>
+    <Suspense
+      fallback={
+        <Box sx={{ width: "100%", position: "fixed", top: 0, left: 0, zIndex: 9999 }}>
+          <LinearProgress color="secondary" />
+        </Box>
+      }
+    >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container disableGutters maxWidth={false}>
+        <ScrollToTop />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            backgroundColor: "background.default",
+          }}
+        >
           <AppBar
             title={APP_TITLE}
             image={APP_TITLE_IMAGE_FILE_NAME}
@@ -86,7 +70,24 @@ const App = () => {
             navigateTo={MENU_ITEMS[0].link}
             cartItems={cart.length}
           />
-          {routes}
+
+          <Box component="main" sx={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path={MENU_ITEMS[0].link} exact element={<Home />} />
+              <Route path={MENU_ITEMS[1].link} element={<Shop />} />
+              <Route path={MENU_ITEMS[2].link} element={<About />} />
+              <Route path={MENU_ITEMS[3].link} element={<Contact />} />
+              <Route path={MENU_ITEMS[4].link} element={<Cart />} />
+              <Route path={PRIVACY_POLICY.link} element={<PrivacyPolicy />} />
+              <Route path={TERMS_AND_CONDITIONS.link} element={<TermsConditions />} />
+              <Route path={SHIPPING_AND_RETURNS.link} element={<ShippingReturns />} />
+              <Route path={SUCCESS.link} element={<TransactionSuccess />} />
+              <Route path={AUTH.link} element={<Auth />} />
+              <Route path={ADMIN.link} element={<Admin />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </Box>
+
           <Footer
             image={FOOTER.image}
             imageAlt={FOOTER.imageAlt}
@@ -99,7 +100,7 @@ const App = () => {
             shipping={SHIPPING_AND_RETURNS}
             adminOnly={AUTH}
           />
-        </Container>
+        </Box>
       </ThemeProvider>
     </Suspense>
   );

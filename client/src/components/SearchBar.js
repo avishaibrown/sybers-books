@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Paper,
@@ -6,102 +6,125 @@ import {
   IconButton,
   CircularProgress,
   Box,
-  FormControl,
-  InputLabel,
-  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { useTheme, alpha } from "@mui/material/styles";
 
 const SearchBar = (props) => {
-  const { label, placeholder, onSearch, value } = props;
+  const { placeholder, onSearch, value } = props;
   const [searchValue, setSearchValue] = useState("");
-  const loading = useSelector((state) => state.loading);
+  const loading = useSelector((state) => state.searchResults.loading);
+  const theme = useTheme();
 
   useEffect(() => {
-    setSearchValue(value);
+    setSearchValue(value || "");
   }, [value]);
 
-  const onClick = () => {
-    searchValue.length >= 3 && onSearch(searchValue);
-  };
-
-  const onKeyPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      onClick();
+  const handleSearch = () => {
+    if (searchValue.trim().length >= 2) {
+      onSearch(searchValue.trim());
     }
   };
 
-  const labelToDisplay = useMediaQuery((theme) => theme.breakpoints.down("md"))
-    ? label.short
-    : label.long;
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSearch();
+    }
+  };
 
-  const placeholderToDisplay = useMediaQuery((theme) =>
-    theme.breakpoints.down("md")
-  )
-    ? placeholder.short
-    : placeholder.long;
+  const handleClear = () => {
+    setSearchValue("");
+    onSearch("");
+  };
+
+  const placeholderText =
+    typeof placeholder === "object"
+      ? placeholder.long || placeholder.short
+      : placeholder || "Search by title, author, genre, or ISBN...";
 
   return (
     <Paper
       component="form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSearch();
+      }}
+      elevation={0}
       sx={{
-        mt: { md: 20 },
-        py: { xs: 1, lg: 2 },
-        px: 2,
         display: "flex",
+        alignItems: "center",
+        width: "100%",
+        maxWidth: 720,
+        mx: "auto",
+        p: { xs: "6px 10px", md: "8px 14px" },
+        borderRadius: "14px",
+        backgroundColor: "#FFFFFF",
+        border: `1.5px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+        boxShadow: "0 4px 20px rgba(28, 53, 45, 0.06)",
+        transition: "all 0.25s ease",
+        "&:hover": {
+          borderColor: theme.palette.secondary.main,
+          boxShadow: "0 6px 24px rgba(28, 53, 45, 0.1)",
+        },
+        "&:focus-within": {
+          borderColor: theme.palette.secondary.main,
+          boxShadow: `0 0 0 3px ${alpha(theme.palette.secondary.main, 0.15)}`,
+        },
       }}
     >
-      <FormControl>
-        {label && (
-          <InputLabel
-            sx={{
-              fontSize: { xs: 20, sm: 24 },
-              marginTop: { xs: -3, sm: -4, lg: -5 },
-              marginLeft: { xs: -3, sm: -1, md: 0 },
-              minWidth: { xs: 350, md: 750 },
-              whiteSpace: "normal",
-            }}
-            shrink={true}
-          >
-            {labelToDisplay}
-          </InputLabel>
-        )}
-        <InputBase
-          sx={{
-            ml: { xs: 0, md: 1 },
-            flex: 1,
-            fontSize: { xs: "1rem", md: "1.25rem", lg: "1.5rem" },
-            minWidth: { xs: 200, sm: 450, md: 600, lg: 800 },
-          }}
-          placeholder={placeholderToDisplay}
-          onChange={(event) => setSearchValue(event.target.value)}
-          onKeyDown={onKeyPress}
-          autoFocus
-          fullWidth
-          value={searchValue}
-          disabled={loading}
-          id={"search-bar"}
-          inputProps={{ "aria-label": "search-bar" }}
-        />
-      </FormControl>
+      <SearchIcon
+        sx={{
+          color: "text.secondary",
+          mr: 1.5,
+          fontSize: { xs: 22, md: 26 },
+        }}
+      />
+      <InputBase
+        sx={{
+          flex: 1,
+          fontSize: { xs: "0.95rem", md: "1.1rem" },
+          fontFamily: '"Plus Jakarta Sans", sans-serif',
+          color: "text.primary",
+        }}
+        placeholder={placeholderText}
+        value={searchValue}
+        onChange={(event) => setSearchValue(event.target.value)}
+        onKeyDown={handleKeyDown}
+        disabled={loading}
+        id="shop-search-bar"
+        inputProps={{ "aria-label": "search books" }}
+      />
+      {searchValue && (
+        <IconButton
+          size="small"
+          onClick={handleClear}
+          aria-label="clear search"
+          sx={{ mr: 0.5, color: "text.secondary" }}
+        >
+          <ClearRoundedIcon fontSize="small" />
+        </IconButton>
+      )}
       {loading ? (
-        <Box sx={{ display: "flex", p: 1 }}>
-          <CircularProgress size={25} />
+        <Box sx={{ display: "flex", p: 0.8 }}>
+          <CircularProgress size={22} color="secondary" />
         </Box>
       ) : (
         <IconButton
-          type="button"
+          type="submit"
+          aria-label="search"
           sx={{
-            p: 1,
-            transform: { xs: "scale(1)", md: "scale(2)" },
-            display: "flex",
+            backgroundColor: "primary.main",
+            color: "#FFFFFF",
+            p: { xs: 1, md: 1.2 },
+            borderRadius: "10px",
+            "&:hover": {
+              backgroundColor: "primary.light",
+            },
           }}
-          onClick={onClick}
-          id={"search-button"}
-          aria-label={"search-button"}
         >
-          <SearchIcon />
+          <SearchIcon fontSize="small" />
         </IconButton>
       )}
     </Paper>
