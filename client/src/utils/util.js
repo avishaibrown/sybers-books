@@ -1,5 +1,21 @@
 import CurrencyFormat from "react-currency-format";
 
+export const getBookImageUrl = (imageUrl) => {
+  if (!imageUrl || imageUrl.trim() === "") return "./images/no-image-found.jpg";
+
+  return imageUrl.replace(/^http:\/\/bookzangle\.com\//i, "https://bookzangle.com/");
+};
+
+export const getApiUrl = (path) => {
+  const baseUrl =
+    process.env.REACT_APP_PROD_URL ||
+    (window.location.hostname === "localhost"
+      ? "https://sybersbooks.web.app"
+      : window.location.origin);
+
+  return new URL(path, baseUrl).toString();
+};
+
 export const truncateString = (str, n, useWordBoundary) => {
   if (str.length <= n) {
     return str;

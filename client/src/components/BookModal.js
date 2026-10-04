@@ -20,7 +20,7 @@ import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { useTheme, alpha } from "@mui/material/styles";
 import CartButton from "./CartButton";
-import { getBookDetailsData, formatAsCurrency } from "../utils/util";
+import { getBookDetailsData, formatAsCurrency, getBookImageUrl } from "../utils/util";
 import { SHOP, SUCCESS } from "../utils/constants";
 
 const BookModal = (props) => {
@@ -56,10 +56,7 @@ const BookModal = (props) => {
   }, [open]);
 
   const isSold = disabled || book.STATUS === SUCCESS.soldStatus;
-  const imageSrc =
-    book["IMAGE URL"] && book["IMAGE URL"].trim() !== ""
-      ? book["IMAGE URL"]
-      : "./images/no-image-found.jpg";
+  const imageSrc = getBookImageUrl(book["IMAGE URL"]);
 
   return (
     <Dialog

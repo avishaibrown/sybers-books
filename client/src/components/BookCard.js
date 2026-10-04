@@ -10,7 +10,7 @@ import {
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import BookModal from "./BookModal";
 import CartButton from "./CartButton";
-import { truncateString, formatAsCurrency } from "../utils/util";
+import { truncateString, formatAsCurrency, getBookImageUrl } from "../utils/util";
 import { SUCCESS } from "../utils/constants";
 import { useTheme, alpha } from "@mui/material/styles";
 
@@ -29,10 +29,7 @@ const BookCard = (props) => {
   const theme = useTheme();
 
   const isSold = disabled || book.STATUS === SUCCESS.soldStatus;
-  const imageSrc =
-    book["IMAGE URL"] && book["IMAGE URL"].trim() !== ""
-      ? book["IMAGE URL"]
-      : "./images/no-image-found.jpg";
+  const imageSrc = getBookImageUrl(book["IMAGE URL"]);
 
   return (
     <Grid item xs={12} sm={6} lg={4}>

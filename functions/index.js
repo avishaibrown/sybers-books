@@ -2,7 +2,9 @@ const functions = require("firebase-functions");
 const dotenv = require("dotenv");
 const stripe = require("stripe")(functions.config().stripe.secret_key_live);
 const express = require("express");
-const cors = require("cors")({ origin: "https://sybersbooks.web.app" });
+const cors = require("cors")({
+  origin: ["https://sybersbooks.web.app", /^http:\/\/localhost:\d+$/],
+});
 const { countries } = require("./iso-countries");
 
 dotenv.config();
@@ -70,7 +72,7 @@ app.post("/checkout", async (req, res) => {
             product_data: {
               name: item.TITLE,
               description: item.AUTHOR,
-              images: [item["IMAGE URL"]],
+              images: [item["IMAGE URL"]?.replace(/^http:\/\/bookzangle\.com\//i, "https://bookzangle.com/")],
             },
           },
           quantity: 1,

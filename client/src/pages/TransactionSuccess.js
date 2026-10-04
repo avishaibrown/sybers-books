@@ -18,6 +18,7 @@ import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { useTheme, alpha } from "@mui/material/styles";
 import { SUCCESS } from "../utils/constants";
+import { getApiUrl } from "../utils/util";
 
 const TransactionSuccess = () => {
   const [customerName, setCustomerName] = useState("");
@@ -60,7 +61,7 @@ const TransactionSuccess = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_PROD_URL}/success?session_id=${sessionId}`,
+          `${getApiUrl("/success")}?session_id=${sessionId}`,
           {
             method: "GET",
             headers: {

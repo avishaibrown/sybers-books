@@ -14,6 +14,7 @@ import {
   checkoutReset,
   checkoutFailure,
 } from "../slices/cart";
+import { getApiUrl, getBookImageUrl } from "../utils/util";
 import {
   Container,
   Paper,
@@ -151,7 +152,7 @@ const Cart = () => {
     dispatch(checkoutStart());
     try {
       const response = await Promise.race([
-        fetch(`${process.env.REACT_APP_PROD_URL}/checkout`, {
+        fetch(getApiUrl("/checkout"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -226,10 +227,7 @@ const Cart = () => {
           <Grid item xs={12} lg={7.5}>
             <Stack spacing={2.5}>
               {cart.map((book, index) => {
-                const imageSrc =
-                  book["IMAGE URL"] && book["IMAGE URL"].trim() !== ""
-                    ? book["IMAGE URL"]
-                    : "./images/no-image-found.jpg";
+                const imageSrc = getBookImageUrl(book["IMAGE URL"]);
 
                 return (
                   <Paper
